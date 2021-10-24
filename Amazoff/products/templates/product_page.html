@@ -1,0 +1,13 @@
+{% extends "layout.html" %} {% block title %}{{ product.name}}{% endblock %} 
+
+{%block content %}
+<h1>{{ product.name }}</h1>
+<ul>
+    <li><strong>ID</strong> : {{ product.id }}</li>
+    <li><strong>Name</strong> : {{ product.site_title }}</li>
+    <li><strong>Price</strong> : {{ product.price }}</li>
+    <li><strong>Description</strong> : {{ product.description }}</li>
+    <li><strong>Tags</strong> : {{ product.tags }}</li>
+    <li><strong>Popularity</strong> : {{ product.popularity }}</li> 
+</ul>
+{% endblock %}
