@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from products.models import Product
+from products.models import Product, ReviewsRatings
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -18,6 +18,7 @@ def products(request):
     products = Product.objects.all()
     prods = []
     # parsing through returned product objects and creating nested lists with required values
+
     for product in products:
         prods.append([product.id, product.name, product.site_title, product.price,
                       product.description, product.tags, product.popularity])

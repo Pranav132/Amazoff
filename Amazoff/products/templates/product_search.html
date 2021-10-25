@@ -1,29 +1,29 @@
-{% extends "layout.html" %} 
-
-{% block title %}{{ search }} - Amazoff Search {% endblock %} 
+{% extends "layout.html" %} {% block title %}{{ search }} - Amazoff Search {% endblock %} 
 
 {% block content %} 
 
-    {% if search %}
-        <h4>Showing results for "{{ search }}"</h4>
+{% if search %}
 
-        {% if products %} 
+<h4>Showing results for "{{ search }}"</h4>
 
+{% if product %} 
 
-            {% for product in products %}
+{% for product in product %}
 
-                <img src="{{product.picture1}}" alt="{{product.name}}" />
-                <h2>{{product.name}}</h2>
-                <h3>Rs. {{product.price}}</h3>
-                <p>{{product.average_rating}}</p>
+<img src="{{product.picture1}}" alt="{{product.name}}" />
+<h2>{{product.name}}</h2>
+<h3>Rs. {{product.price}}</h3>
+<p>{{product.average_rating}}</p>
 
-            {% endfor %} 
-        {% else %}
-            <p>No results found, try using different keywords!</p>
-        {% endif %}
+{% endfor %} 
 
-    {% else %}
-        <p>You haven't searched for anything, what's your issue? Why even press the search button? Are you that jobless in life? Come on, man.</p>
-    {% endif %}
+{% else %}
+<p>No results found, try using different keywords!</p>
+{% endif %} 
 
-{% endblock %}
+{% else %}
+<p>
+  You haven't searched for anything, what's your issue? Why even press the
+  search button? Are you that jobless in life? Come on, man.
+</p>
+{% endif %} {% endblock %}
