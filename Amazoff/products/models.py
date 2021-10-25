@@ -1,9 +1,17 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 
+# creating model for products
+
 class Product(models.Model):
+
+    # will include a name field, title field, price, description field, inventory value
+    # tags for searching (not displayed), popularity for filtering purposes and a maximum of 6 images
+    # using JSONs as we can easily parse through them in javascript files
+
     name = models.CharField("Name", max_length=120)
     site_title = models.CharField("Title", max_length=60)
     price = models.IntegerField("Price")
@@ -15,12 +23,12 @@ class Product(models.Model):
     # pictures - maximum 6 pictures to be uploaded, 1 is required
 
     picture1 = models.ImageField(
-        "Image 1", upload_to=None, height_field=None, width_field=None, max_length=100
+        "Image 1", upload_to='images/', height_field=None, width_field=None, max_length=100
     )
     picture2 = models.ImageField(
         "Image 2",
         blank=True,
-        upload_to=None,
+        upload_to='images/',
         height_field=None,
         width_field=None,
         max_length=100,
@@ -28,7 +36,7 @@ class Product(models.Model):
     picture3 = models.ImageField(
         "Image 3",
         blank=True,
-        upload_to=None,
+        upload_to='images/',
         height_field=None,
         width_field=None,
         max_length=100,
@@ -36,7 +44,7 @@ class Product(models.Model):
     picture4 = models.ImageField(
         "Image 4",
         blank=True,
-        upload_to=None,
+        upload_to='images/',
         height_field=None,
         width_field=None,
         max_length=100,
@@ -44,7 +52,7 @@ class Product(models.Model):
     picture5 = models.ImageField(
         "Image 5",
         blank=True,
-        upload_to=None,
+        upload_to='images/',
         height_field=None,
         width_field=None,
         max_length=100,
@@ -52,12 +60,25 @@ class Product(models.Model):
     picture6 = models.ImageField(
         "Image 6",
         blank=True,
-        upload_to=None,
+        upload_to='images/',
         height_field=None,
         width_field=None,
         max_length=100,
     )
-    review_count = models.IntegerField("Review Count")
-    rating_count = models.IntegerField("Rating Count")
-    average_rating = models.IntegerField("Average Rating")
-    reviews_ratings = models.JSONField("Reviews and Ratings")
+
+
+# reviews and ratings database
+
+
+class ReviewsRatings(models.Model):
+
+    # includes a user foreign key and project foreign key, not null, to link who has reviewed which product
+    # has a rating which cannot be null, validated for a range of 1 to 5 (will be stars)
+    # has a review field which can be blank, as some people may just rate and not review
+
+    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, null=False, on_delete=models.CASCADE)
+    rating = models.IntegerField("Rating", default=1, validators=[
+        MaxValueValidator(5), MinValueValidator(1)],
+        null=False, blank=False)
+    review = models.CharField("Review", max_length=250, blank=True, null=True)

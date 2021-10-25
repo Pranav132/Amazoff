@@ -1,4 +1,6 @@
 {% load static %}
+
+  <!-- LAYOUT PAGE -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,6 +33,7 @@
   </head>
   <body>
         {% block navbar %}
+        <!-- Bootstrap Navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,6 +63,7 @@
                   <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
               </ul>
+              <!-- Linking Search form -->
               <form class="form-inline my-2 my-lg-0" method="POST" action={% url 'product_search' %}>
                 {% csrf_token %}
                 <input class="form-control mr-sm-2" type="search" placeholder="Search Amazoff" aria-label="Search" name="searched">
@@ -70,7 +74,7 @@
         {% endblock %}
         {% block content %}{% endblock %}
         {% block footer %}
-            <!-- Footer -->
+            <!-- Bootstrap Footer -->
             <footer class="page-footer font-small blue pt-4">
 
                 <!-- Footer Links -->
