@@ -3,8 +3,14 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
+# Creating a table for product categories, which can be used to create product groups for recommendations.
+
+
+class Product_Categories (models.Model):
+    name = models.CharField("Category Name", max_length=50)
 
 # creating model for products
+
 
 class Product(models.Model):
 
@@ -65,6 +71,8 @@ class Product(models.Model):
         width_field=None,
         max_length=100,
     )
+
+    category = models.ManyToManyField(Product_Categories)
 
 
 # reviews and ratings database

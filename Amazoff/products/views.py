@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from products.models import Product, ReviewsRatings
+from products.models import Product, Product_Categories, ReviewsRatings
 from django.shortcuts import render, redirect
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -44,9 +44,5 @@ def search(request):
         all_products = Product.objects.all()
 
         product = Product.objects.filter(name__icontains=search)
-
-        # for prod in all_products:
-        #     if fuzz.partial_ratio(prod.name, search) >= 80 & fuzz.token_sort_ratio(prod.name, search) >= 80:
-        #         product.append(prod.name)
 
         return render(request, 'product_search.html', {"product": product, "search": search})
