@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-from products.models import Product
+from products.models import Product, Product_Categories, ReviewsRatings
 from django.shortcuts import render, redirect
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 # Create your views here.
 
@@ -18,6 +20,7 @@ def products(request):
     products = Product.objects.all()
     prods = []
     # parsing through returned product objects and creating nested lists with required values
+
     for product in products:
         prods.append([product.id, product.name, product.site_title, product.price,
                       product.description, product.tags, product.popularity])
@@ -38,6 +41,8 @@ def search(request):
 
     if request.method == 'POST':
         search = request.POST['searched']
+        all_products = Product.objects.all()
+
         product = Product.objects.filter(name__icontains=search)
+
         return render(request, 'product_search.html', {"product": product, "search": search})
-        # return HttpResponse("<h1>Search works only.</h1>")

@@ -3,8 +3,14 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
+# Creating a table for product categories, which can be used to create product groups for recommendations.
+
+
+class Product_Categories (models.Model):
+    name = models.CharField("Category Name", max_length=50)
 
 # creating model for products
+
 
 class Product(models.Model):
 
@@ -65,6 +71,8 @@ class Product(models.Model):
         width_field=None,
         max_length=100,
     )
+
+    category = models.ManyToManyField(Product_Categories)
 
 
 class Customer(models.Model):
@@ -145,3 +153,26 @@ class ReviewsRatings(models.Model):
         MaxValueValidator(5), MinValueValidator(1)],
         null=False, blank=False)
     review = models.CharField("Review", max_length=250, blank=True, null=True)
+
+
+class User(models.Model):
+
+    # includes phone number, email, username, saved addresses, password, wishlist
+
+    phone_number = models.CharField(
+        "Number", max_length=10, null=False)
+    email = models.EmailField("Email", max_length=254,
+                              null=False)
+    username = models.CharField(
+        "Username", max_length=50, null=False)
+
+    # Have to figure out password validator, google said we should use forms to store passwords
+
+    # password = models.CharField(
+    #     "Password", max_length=20, null=False)
+
+    # Wishlist will link to multiple products in the Product database instead of having the names.
+    # I THINK this is how we do it, please correct if I am wrong.
+
+    wishlist = models.ManyToManyField(
+        Product)
