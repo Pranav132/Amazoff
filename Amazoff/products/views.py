@@ -34,7 +34,7 @@ def product(request, product_id):
 
 def search(request):
 
-    # search function, usingg POST method, rendering product_search.html
+    # search function, using POST method, rendering product_search.html
 
     if request.method == 'POST':
         search = request.POST['searched']

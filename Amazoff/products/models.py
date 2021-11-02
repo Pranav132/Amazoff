@@ -67,6 +67,69 @@ class Product(models.Model):
     )
 
 
+class Customer(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+
+    # wishlist is diff model
+    # cart is diff model
+    # addresses is diff model
+    # order history is a database query
+    # preferences done after category model is done
+
+    def __str__(self):
+        return self.user.username
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
+    orderExecuted = models.BooleanField(default=False, null=True, blank=True)
+    cartValue = models.DecimalField(default=0.00, decimal_places=2)
+    orderDate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.id
+
+    @property
+    def calcCartTotal(self):
+        cartitems = self.cartitem_set.all()
+        total = sum([item.calcTotal for item in cartitems])
+        return total
+
+    @property
+    def calcCartQuant(self):
+        cartitems = self.cartitem_set.all()
+        quantity = sum([item.quant for item in cartitems])
+        return quantity
+
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
+    quant = models.IntegerField(default=0, null=True, blank=True)
+    changeDate = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def calcTotal(self):
+        total = self.product.price * self.quant
+        return total
+
+
+class Addresses(models.Model):
+    customer = models.ForeignKey(
+        Customer, on_delete=models.SET_NULL, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
+    addressLine1 = models.CharField(max_length=100, null=False)
+    addressLine2 = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=False)
+    state = models.CharField(max_length=100, null=False)
+    country = models.CharField(max_length=100, null=False)
+    zipCode = models.IntegerField(max_length=10, null=False)
+    addedDate = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.addressLine1
+
 # reviews and ratings database
 
 
