@@ -1,0 +1,161 @@
+.wrapperproducts {
+  background: #aaa;
+}
+
+.product-title {
+  height: 30vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 3em;
+  text-shadow: 4px 4px 2px #000;
+  color: #fff;
+  padding-bottom: 5vh;
+  background: #555;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 0% 85%);
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(24, minmax(auto, 60px));
+  grid-gap: 40px;
+  padding: 2%;
+  padding-bottom: 5%;
+  background: #aaa;
+}
+
+.cards {
+  grid-column: 2 / span 24;
+  display: grid;
+  grid-template-columns: repeat(24, minmax(auto, 60px));
+  grid-gap: 40px;
+}
+
+.text--medium {
+  font-size: 1em;
+  line-height: 20px;
+  font-weight: 400px;
+  color: #000;
+  font-family: "Poppins", sans-serif;
+}
+
+/*CARDS*/
+
+.card {
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 1);
+  grid-column-end: span 6;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+
+.card_image-container {
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+  position: relative;
+  background: #ccc;
+}
+
+.card_image-container img {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card_content {
+  background: #ccc;
+  padding: 20px;
+}
+
+.card_title {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+
+.card_info {
+  display: flex;
+  align-self: end;
+  align-items: center;
+}
+
+.card_button {
+  font-family: "Poppins", sans-serif;
+  background: white;
+  border: 2px solid #000;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.75em 1em;
+  transition: 0.4s ease-in-out;
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  color: black;
+}
+
+.card_button:hover {
+  background: black;
+  color: white;
+}
+
+@media only screen and (max-width: 1000px) {
+  main {
+    grid-template-columns: 10px repeat(6, 1fr) 10px;
+    grid-gap: 10px;
+  }
+
+  .card {
+    grid-column-end: span 6;
+  }
+
+  .cards {
+    grid-column: 2 / span 6;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  main {
+    padding-left: 3.5%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  main {
+    grid-template-columns: 10px repeat(6, 1fr) 10px;
+    grid-gap: 10px;
+  }
+
+  .card {
+    grid-column-end: span 6;
+  }
+
+  .cards {
+    grid-column: 2 / span 6;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  main {
+    grid-template-columns: 10px repeat(6, 1fr) 10px;
+    grid-gap: 10px;
+  }
+
+  .cards {
+    grid-column: 2 / span 6;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
+  }
+
+  .card {
+    grid-column-end: span 6;
+  }
+}

@@ -1,19 +1,36 @@
-{% extends "layout.html" %} {% block title %}{{ product.name}}{% endblock %} 
+{% extends "layout.html" %} 
+{% load static %}
+{% block title %}{{ product.name}}{% endblock %} 
+{% block styles %}
+<link rel='stylesheet' href="{% static 'css/style-productpage.css' %}">
+{% endblock %}
+
+{% block scripts %}
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script src = "{% static 'scripts/script-productpage.js' %}"></script>
+{% endblock %}
 
 {%block content %}
-<!-- Individual Product page -->
-<h1>{{ product.name }}</h1>
-<ul>
-    <!--Listing product data-->
-    <li><strong>ID</strong> : {{ product.id }}</li>
-    <li><strong>Name</strong> : {{ product.site_title }}</li>
-    <li><strong>Price</strong> : {{ product.price }}</li>
-    <li><strong>Description</strong> : {{ product.description }}</li>
-    <li><strong>Tags</strong> : {{ product.tags }}</li>
-    <li><strong>Popularity</strong> : {{ product.popularity }}</li> 
-</ul> 
+<div class="wrapperproducts">
+<div class="grid second-nav" style = "background: #aaa;">
+    <div class="column-xs-12">
+      <nav>
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'products' %}">Products</a></li>
+          <li class="breadcrumb-item active" style = "color: white;">{{ product.name }}</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  
+
 <!-- Bootstap carousel. Rendering as many photos in carousel as given from django model -->
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<div class="carousel-wrapper">
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
     <ol class="carousel-indicators">
         {% if product.picture1 %}
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -37,7 +54,7 @@
     <div class="carousel-inner">
         {% if product.picture1 %}
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ product.picture1.url }}" alt="First slide">
+                <img class="d-block w-100" src="{{ product.picture1.url }}" alt="First slide" style = "max-height: 100vh; object-fit: contain;">
             </div>
             {% endif %}
         {% if product.picture2 %}
@@ -75,4 +92,23 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+</div>
+
+  <!-- Individual Product page -->
+<h1>{{ product.name }}</h1>
+<ul>
+    <!--Listing product data-->
+    <li><strong>ID</strong> : {{ product.id }}</li>
+    <li><strong>Name</strong> : {{ product.site_title }}</li>
+    <li><strong>Price</strong> : {{ product.price }}</li>
+    <li><strong>Description</strong> : {{ product.description }}</li>
+    <li><strong>Tags</strong> : {{ product.tags }}</li>
+    <li><strong>Popularity</strong> : {{ product.popularity }}</li> 
+</ul> 
+
+</div>
+
+
+
+
 {% endblock %}
