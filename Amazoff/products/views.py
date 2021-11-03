@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from products.models import Product, Product_Categories, ReviewsRatings
 from django.shortcuts import render, redirect
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
+#from fuzzywuzzy import fuzz
+#from fuzzywuzzy import process
 
 # Create your views here.
 

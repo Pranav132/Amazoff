@@ -90,9 +90,9 @@ class Customer(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     orderExecuted = models.BooleanField(default=False, null=True, blank=True)
-    cartValue = models.DecimalField(default=0.00, decimal_places=2)
+    cartValue = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -132,7 +132,7 @@ class Addresses(models.Model):
     city = models.CharField(max_length=100, null=False)
     state = models.CharField(max_length=100, null=False)
     country = models.CharField(max_length=100, null=False)
-    zipCode = models.IntegerField(max_length=10, null=False)
+    zipCode = models.IntegerField(default=00000, null=False)
     addedDate = models.DateField(auto_now_add=True)
 
     def __str__(self):
