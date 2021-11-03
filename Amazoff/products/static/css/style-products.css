@@ -36,6 +36,7 @@ main {
   line-height: 20px;
   font-weight: 400px;
   color: #000;
+  background: #ccc;
   font-family: "Poppins", sans-serif;
 }
 
@@ -46,13 +47,17 @@ main {
   grid-column-end: span 6;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease 0s;
+  background: #ccc;
+  border: 2px solid green;
 }
 
 .card_image-container {
   width: 100%;
-  padding-top: 100%;
+  padding-top: 120%;
+  object-fit: contain;
   overflow: hidden;
   position: relative;
   background: #ccc;
@@ -64,11 +69,13 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background: #ccc;
 }
 
 .card_content {
   background: #ccc;
-  padding: 20px;
+  padding: 30px;
+  height: 100%;
 }
 
 .card_title {
@@ -76,12 +83,14 @@ main {
   font-weight: bold;
   font-size: 1.5em;
   text-transform: uppercase;
+  background: #ccc;
 }
 
 .card_info {
   display: flex;
   align-self: end;
   align-items: center;
+  background: #ccc;
 }
 
 .card_button {
