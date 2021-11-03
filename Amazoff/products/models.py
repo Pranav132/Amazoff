@@ -9,6 +9,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Product_Categories (models.Model):
     name = models.CharField("Category Name", max_length=50)
 
+
 # creating model for products
 
 
@@ -23,7 +24,6 @@ class Product(models.Model):
     price = models.IntegerField("Price")
     description = models.TextField("Description", blank=True)
     inventory = models.IntegerField("Inventory")
-    tags = models.JSONField("Tags", encoder=None, decoder=None)
     popularity = models.IntegerField("Popularity")
 
     # pictures - maximum 6 pictures to be uploaded, 1 is required
@@ -92,7 +92,8 @@ class Customer(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     orderExecuted = models.BooleanField(default=False, null=True, blank=True)
-    cartValue = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
+    cartValue = models.DecimalField(
+        default=0.00, max_digits=10, decimal_places=2)
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -122,6 +123,7 @@ class CartItem(models.Model):
         total = self.product.price * self.quant
         return total
 
+
 class Wishlist(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     orderExecuted = models.BooleanField(default=False, null=True, blank=True)
@@ -133,8 +135,10 @@ class Wishlist(models.Model):
 
 class WishlistItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    wishlist = models.ForeignKey(Wishlist, on_delete=models.SET_NULL, null=True)
+    wishlist = models.ForeignKey(
+        Wishlist, on_delete=models.SET_NULL, null=True)
     changeDate = models.DateTimeField(auto_now_add=True)
+
 
 class Addresses(models.Model):
     customer = models.ForeignKey(

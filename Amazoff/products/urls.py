@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 # including paths for each feature
 
 urlpatterns = [
-    path('products/', views.products, name='products_view'),
+    path('products/', views.products, name='products'),
     # unique path for each product depending on product id
     path('products/<int:product_id>/', views.product, name='product_page'),
     path("", views.index, name="index"),

@@ -1,17 +1,53 @@
-{% extends "layout.html" %} {% block title %}Products{% endblock %}
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}Products{% endblock %}
+{% block styles %}
+<link rel='stylesheet' href="{% static 'css/style-products.css' %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.js" integrity="sha512-5RPueBRwDHxZ362heK/fya6Azw6ayHtn7nTqZnIoGFjiXdGAEvAjKco/FvzpTEIbfJI2Qxirl0/g21qizV/a/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
 <!-- General product page-->
 {%block content %}
-<h1>Products</h1>
-<br /><br /><br />
-<!-- Rendering every product and data -->
-{% for product in products %}
-<h3>{{ product.name }}</h3>
-<ul>
-  <li><strong>ID</strong> : {{ product.id }}</li>
-  <li><strong>Name</strong> : {{ product.site_title }}</li>
-  <li><strong>Price</strong> : {{ product.price }}</li>
-  <li><strong>Description</strong> : {{ product.description }}</li>
-  <li><strong>Tags</strong> : {{ product.tags }}</li>
-  <li><strong>Popularity</strong> : {{ product.popularity }}</li>
-</ul>
-{% endfor %} {% endblock %}
+
+<div class="wrapperproducts">
+
+<div class="product-title">
+  PRODUCTS
+</div>
+
+<main>
+  <section class = "cards">
+    <!-- Rendering every product and data -->
+    {% for product in products %}
+      <div class="card">
+        <div class="card_image-container">
+            <img src = "{{ product.picture1.url }}">
+        </div>
+        <div class="card_content">
+            <p class = "card_title text--medium">
+                {{ product.name }}
+            </p>
+            <div class="card_info">
+                <p class = "text--medium">₹{{ product.price }}</p>
+                <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
+            </div>
+        </div>
+    </div>
+    </ul>
+    {% endfor %} 
+  </section>
+</main>
+
+</div>
+
+<script type="text/javascript">
+  VanillaTilt.init(document.querySelectorAll(".card"), {
+  max: 10,
+  speed: 400,
+  glare: true,
+  "max-glare": 0.5,
+});
+</script>
+{% endblock %}
