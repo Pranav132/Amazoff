@@ -9,6 +9,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Product_Categories (models.Model):
     name = models.CharField("Category Name", max_length=50)
 
+    def __str__(self):
+        return self.name
+
+class Tags(models.Model):
+    name = models.CharField("Name", max_length= 120)
+
+    def __str__(self):
+        return self.name
+
 # creating model for products
 
 
@@ -19,11 +28,9 @@ class Product(models.Model):
     # using JSONs as we can easily parse through them in javascript files
 
     name = models.CharField("Name", max_length=120)
-    site_title = models.CharField("Title", max_length=60)
-    price = models.IntegerField("Price")
+    price =models.DecimalField("Price",default=0.00, max_digits=10, decimal_places=2)
     description = models.TextField("Description", blank=True)
     inventory = models.IntegerField("Inventory")
-    tags = models.JSONField("Tags", encoder=None, decoder=None)
     popularity = models.IntegerField("Popularity")
 
     # pictures - maximum 6 pictures to be uploaded, 1 is required
@@ -73,6 +80,11 @@ class Product(models.Model):
     )
 
     category = models.ManyToManyField(Product_Categories)
+    product = models.ManyToManyField(Tags)
+
+    def __str__(self):
+        return self.name
+
 
 
 class Customer(models.Model):
@@ -167,7 +179,7 @@ class ReviewsRatings(models.Model):
         null=False, blank=False)
     review = models.CharField("Review", max_length=250, blank=True, null=True)
 
-
+'''
 class User(models.Model):
 
     # includes phone number, email, username, saved addresses, password, wishlist
@@ -189,3 +201,4 @@ class User(models.Model):
 
     wishlist = models.ManyToManyField(
         Product)
+'''
