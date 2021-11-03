@@ -122,6 +122,19 @@ class CartItem(models.Model):
         total = self.product.price * self.quant
         return total
 
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    orderExecuted = models.BooleanField(default=False, null=True, blank=True)
+    orderDate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.id
+
+
+class WishlistItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.SET_NULL, null=True)
+    changeDate = models.DateTimeField(auto_now_add=True)
 
 class Addresses(models.Model):
     customer = models.ForeignKey(
