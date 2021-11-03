@@ -52,7 +52,7 @@ main {
 
 .card_image-container {
   width: 100%;
-  padding-top: 56.25%;
+  padding-top: 100%;
   overflow: hidden;
   position: relative;
   background: #ccc;

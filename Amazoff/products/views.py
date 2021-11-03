@@ -22,7 +22,7 @@ def products(request):
     # parsing through returned product objects and creating nested lists with required values
 
     for product in products:
-        prods.append([product.picture1, product.id, product.name, product.site_title, product.price,
+        prods.append([product.picture1, product.id, product.name, product.price,
                       product.description, product.popularity])
 
     # sending to products.html file
