@@ -1,32 +1,74 @@
 {% extends "layout.html" %} {% block title %}{{ search }} - Amazoff Search {% endblock %} 
-
+{% load static %}
+{% block styles %}
+<link rel='stylesheet' href="{% static 'css/style-products.css' %}">
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.js" integrity="sha512-5RPueBRwDHxZ362heK/fya6Azw6ayHtn7nTqZnIoGFjiXdGAEvAjKco/FvzpTEIbfJI2Qxirl0/g21qizV/a/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
 {% block content %} 
+
+
+<div class="wrapperproducts">
 
 {% if search %}
 
-<h4>Showing results for "{{ search }}"</h4>
+
+  <div class="product-title">
+    
+  Showing results for "{{ search }}"
+  </div>
+  
+
 
 {% if product %} 
 
 {% for product in product %}
-
-<img src="{{product.picture1}}" alt="{{product.name}}" />
-<h2>{{product.name}}</h2>
-<h3>Rs. {{product.price}}</h3>
-<p>{{product.average_rating}}</p>
-
+<main>
+  <section class = "cards">
+<div class="card">
+  <div class="card_image-container">
+      <img src = "{{ product.picture1.url }}">
+  </div>
+  <div class="card_content">
+      <p class = "card_title text--medium">
+          {{ product.name }}
+      </p>
+      <div class="card_info">
+          <p class = "text--medium">₹{{ product.price }}</p>
+          <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
+      </div>
+  </div>
+</div>
+</ul>
 {% endfor %} 
+</section>
+</main>
+
 
 {% else %}
-<p>No results found, try using different keywords!</p>
+<div style = "height: 50vh; width: 100%; display: grid; place-items: center;">
+<h1 style = "text-align:center; padding: 2%;">No results found, try using different keywords!</h1>
+</div>
 {% endif %} 
 
 {% else %}
-<p>
+<div style = "height: 50vh; width: 100%; display: grid; place-items: center;">
+<h1 style = "text-align:center; padding: 2%;">
   You haven't searched for anything, what's your issue? Why even press the
   search button? Are you that jobless in life? Come on, man.
-</p>
+</h1>
+</div>
 {% endif %} 
 
+</div>
 
+<script type="text/javascript">
+  VanillaTilt.init(document.querySelectorAll(".card"), {
+  max: 10,
+  speed: 400,
+  glare: true,
+  "max-glare": 0.5,
+});
+</script>
 {% endblock %}

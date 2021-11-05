@@ -1,15 +1,6 @@
 .carousel-wrapper {
-  display: grid;
-  place-items: center;
-  max-height: 100vh;
   padding: 1%;
   background: #ddd;
-}
-
-.carousel {
-  max-height: 100vh;
-  overflow: hidden;
-  object-fit: cover;
 }
 
 .breadcrumb-list {
