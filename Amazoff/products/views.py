@@ -41,8 +41,30 @@ def search(request):
 
     if request.method == 'POST':
         search = request.POST['searched']
-        all_products = Product.objects.all()
+        product = Product.objects.none()
 
-        product = Product.objects.filter(name__icontains=search)
+        # this gives us all the products who's names are directly related to the search term
+        main_product = Product.objects.filter(name__icontains=search)
+        related_products = Product.objects.filter(
+            category__name__icontains=search)
+        product = main_product | related_products
+
+        # from the search term, find the product category that fits with that.
+
+        # searched_category = Product_Categories.objects.filter(
+        #     name__icontains=search)
+
+        # # get the id of that category and filter all products with that ID
+
+        # category_ID = []
+
+        # for category in searched_category:
+        #     category_ID.append(category.id)
+
+        # for category_id in category_ID:
+        #     related_products = Product.objects.filter(
+        #         category__icontains=category_id)
+
+        #     product = related_products | product
 
         return render(request, 'product_search.html', {"product": product, "search": search})
