@@ -11,6 +11,9 @@ def index(request):
     # to render the homepage
     return render(request, "index.html")
 
+def cart(request):
+    # to render the cart
+    return render(request, "cart.html")
 
 def products(request):
 
