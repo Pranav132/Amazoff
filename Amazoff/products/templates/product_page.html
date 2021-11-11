@@ -10,7 +10,6 @@
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
-<script src = "{% static 'scripts/script-productpage.js' %}"></script>
 {% endblock %}
 
 {%block content %}
@@ -18,7 +17,7 @@
 <div class="grid second-nav" style = "background: #aaa;">
     <div class="column-xs-12">
       <nav>
-        <ol class="breadcrumb-list">
+        <ol class="breadcrumb-list" style="font-size:0.1em;">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
           <li class="breadcrumb-item"><a href="{% url 'products' %}">Products</a></li>
           <li class="breadcrumb-item active" style = "color: white;">{{ product.name }}</li>
