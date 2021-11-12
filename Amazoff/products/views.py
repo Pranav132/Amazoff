@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from products.models import Product, Product_Categories, ReviewsRatings
 from django.shortcuts import render, redirect
+from .forms import FilterForm
 #from fuzzywuzzy import fuzz
 #from fuzzywuzzy import process
 
@@ -11,9 +12,11 @@ def index(request):
     # to render the homepage
     return render(request, "index.html")
 
+
 def cart(request):
     # to render the cart
     return render(request, "cart.html")
+
 
 def products(request):
 
@@ -35,39 +38,65 @@ def products(request):
 def product(request, product_id):
     # specific product page, accessing data of each product through product ID primary key
     product = Product.objects.get(id=product_id)
+    # reviews and ratings of the particular product
+    # ratings = ReviewsRatings.objects.get(product=product_id)
     return render(request, "product_page.html", {"product": product})
 
 
 def search(request):
 
-    # search function, using POST method, rendering product_search.html
+    # search function, using GET method, rendering product_search.html
 
-    if request.method == 'POST':
-        search = request.POST['searched']
+    if request.method == 'GET':
+        search = request.GET['searched']
         product = Product.objects.none()
+
+        print("GET")
+        print(search)
 
         # this gives us all the products who's names are directly related to the search term
         main_product = Product.objects.filter(name__icontains=search)
         related_products = Product.objects.filter(
             category__name__icontains=search)
-        product = main_product | related_products
+        far_related_products = Product.objects.filter(
+            description__icontains=search)
+        product = main_product | related_products | far_related_products
 
-        # from the search term, find the product category that fits with that.
+        # initializing the form and setting the default value to be relevance
+        form = FilterForm(initial={'name': 'relevance'})
+        return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
 
-        # searched_category = Product_Categories.objects.filter(
-        #     name__icontains=search)
+    if request.method == 'POST':
+        form = FilterForm(request.POST)
+        search = request.POST.get('searched')
 
-        # # get the id of that category and filter all products with that ID
+        print("POST")
+        print(search)
 
-        # category_ID = []
+        main_product = Product.objects.filter(name__icontains=search)
+        related_products = Product.objects.filter(
+            category__name__icontains=search)
+        far_related_products = Product.objects.filter(
+            description__icontains=search)
+        product = main_product | related_products | far_related_products
 
-        # for category in searched_category:
-        #     category_ID.append(category.id)
+        if form.is_valid():
+            choice = request.POST.get('name')[0]
+            print(choice)
 
-        # for category_id in category_ID:
-        #     related_products = Product.objects.filter(
-        #         category__icontains=category_id)
+            if choice == 'r':
+                product = product
 
-        #     product = related_products | product
+            if choice == 'p':
+                product = product.order_by('-popularity')
+                print('Popularity')
 
-        return render(request, 'product_search.html', {"product": product, "search": search})
+            if choice == 'l':
+                product = product.order_by('price')
+                print('Low to High')
+
+            if choice == 'h':
+                product = product.order_by('-price')
+                print('High to Low')
+
+        return render(request, 'product_search.html', {"product": product, "search": search, "form": form})

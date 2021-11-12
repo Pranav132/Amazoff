@@ -64,8 +64,8 @@
                 </li>
               </ul>
               <!-- Linking Search form -->
-              <form class="form-inline my-2 my-lg-0" method="POST" action={% url 'product_search' %}>
-                {% csrf_token %}
+              <form class="form-inline my-2 my-lg-0" method="GET" action={% url 'product_search' %}>
+                <!-- {% csrf_token %} -->
                 <input class="form-control mr-sm-2" type="search" placeholder="Search Amazoff" aria-label="Search" name="searched">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
