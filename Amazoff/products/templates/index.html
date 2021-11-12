@@ -1,6 +1,12 @@
 {% extends "layout.html" %} {% block title %}Index{% endblock %} 
+{% load static %}
+{% load socialaccount %}
 
 {%block content %}
-<h1>Index</h1>
-<p class="important">Welcome to my awesome homepage.</p>
+<h1>My Google OAuth Project </h1>
+{% if user.is_authenticated %}
+  <p>Welcome, You are logged in as {{ user.username }}</p>
+{% else %}
+  <a href="{% provider_login_url 'google' %}">Login With Google</a>
+{% endif %}
 {% endblock %}
