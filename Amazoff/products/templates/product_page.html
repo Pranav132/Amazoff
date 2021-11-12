@@ -17,7 +17,7 @@
 <div class="grid second-nav" style = "background: #aaa;">
     <div class="column-xs-12">
       <nav>
-        <ol class="breadcrumb-list" style="font-size:0.1em;">
+        <ol class="breadcrumb-list" style="font-size: 1.25em;">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
           <li class="breadcrumb-item"><a href="{% url 'products' %}">Products</a></li>
           <li class="breadcrumb-item active" style = "color: white;">{{ product.name }}</li>
@@ -30,7 +30,7 @@
 <!-- Bootstap carousel. Rendering as many photos in carousel as given from django model -->
 <div class="carousel-wrapper">
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
-    <ol class="carousel-indicators">
+    <ol class="carousel-indicators" style = "position:absolute; bottom: 0;">
         {% if product.picture1 %}
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         {% endif %}
@@ -53,7 +53,7 @@
     <div class="carousel-inner">
         {% if product.picture1 %}
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ product.picture1.url }}" alt="First slide" style = "max-height: 100vh; object-fit: contain;">
+                <img class="d-block w-100" src="{{ product.picture1.url }}" alt="First slide">
             </div>
             {% endif %}
         {% if product.picture2 %}
@@ -73,12 +73,12 @@
         {% endif %}
         {% if product.picture5 %}
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ product.picture5.url }}" alt="Fourth slide">
+                <img class="d-block w-100" src="{{ product.picture5.url }}" alt="Fifth slide">
             </div>
         {% endif %}
         {% if product.picture6 %}
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ product.picture6.url }}" alt="Fourth slide">
+                <img class="d-block w-100" src="{{ product.picture6.url }}" alt="Sixth slide">
             </div>
         {% endif %}
     </div>

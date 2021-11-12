@@ -31,27 +31,25 @@
   
 
 {% if product %} 
-
-{% for product in product %}
 <main>
   <section class = "cards">
-<div class="card">
-  <div class="card_image-container">
+{% for product in product %}
+  <div class="card">
+    <div class="card_image-container">
       <img src = "{{ product.picture1.url }}">
-  </div>
-  <div class="card_content">
-      <p class = "card_title text--medium">
+    </div>
+    <div class="card_content">
+        <p class = "card_title text--medium">
           {{ product.name }}
-      </p>
-      <div class="card_info">
+        </p>
+        <div class="card_info">
           <p class = "text--medium">₹{{ product.price }}</p>
           <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
-      </div>
+        </div>
   </div>
 </div>
-</ul>
-{% endfor %} 
 
+{% endfor %} 
 </section>
 </main>
 

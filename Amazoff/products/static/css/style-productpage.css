@@ -1,6 +1,10 @@
 .carousel-wrapper {
   padding: 1%;
-  background: #ddd;
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: #eee;
 }
 
 .breadcrumb-list {

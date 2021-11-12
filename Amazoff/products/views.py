@@ -51,9 +51,6 @@ def search(request):
         search = request.GET['searched']
         product = Product.objects.none()
 
-        print("GET")
-        print(search)
-
         # this gives us all the products who's names are directly related to the search term
         main_product = Product.objects.filter(name__icontains=search)
         related_products = Product.objects.filter(
@@ -70,9 +67,6 @@ def search(request):
         form = FilterForm(request.POST)
         search = request.POST.get('searched')
 
-        print("POST")
-        print(search)
-
         main_product = Product.objects.filter(name__icontains=search)
         related_products = Product.objects.filter(
             category__name__icontains=search)
@@ -81,22 +75,18 @@ def search(request):
         product = main_product | related_products | far_related_products
 
         if form.is_valid():
-            choice = request.POST.get('name')[0]
-            print(choice)
+            choice = request.POST.get('name')
 
-            if choice == 'r':
+            if choice == 'relevance':
                 product = product
 
-            if choice == 'p':
+            if choice == 'popularity':
                 product = product.order_by('-popularity')
-                print('Popularity')
 
-            if choice == 'l':
+            if choice == 'low2high':
                 product = product.order_by('price')
-                print('Low to High')
 
-            if choice == 'h':
+            if choice == 'high2low':
                 product = product.order_by('-price')
-                print('High to Low')
 
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
