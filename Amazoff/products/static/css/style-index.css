@@ -1,0 +1,83 @@
+/* CSS HEX */
+:root {
+  --rich-black-fogra-29: #0d1b2aff;
+  --oxford-blue: #1b263bff;
+  --bdazzled-blue: #415a77ff;
+  --shadow-blue: #778da9ff;
+  --platinum: #e0e1ddff;
+}
+
+.hero {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  /* background-image: radial-gradient(
+    ellipse farthest-corner at center top,
+    #9ab1c7 0%,
+    #1a242f 100%
+  ); */
+  justify-content: center;
+  align-items: center;
+  background: url("https://images.pexels.com/photos/768975/pexels-photo-768975.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: grayscale(50%);
+}
+
+.info {
+  height: 75vh;
+  width: 80%;
+  backdrop-filter: blur(20px);
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 1);
+  border-radius: 2%;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  flex-direction: column;
+}
+
+.info .title {
+  font-family: "Bebas Neue", sans-serif;
+  text-transform: uppercase;
+  color: var(--platinum);
+  font-size: 25vmin;
+  text-shadow: 5px 5px 0.05em #415a77ff;
+}
+
+.info a button {
+  height: 12vh;
+  width: 24vh;
+  background: none;
+  border: 2px solid var(--oxford-blue);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.4s linear;
+  min-width: 75px;
+  font-weight: 600;
+  font-size: 2em;
+  position: relative;
+  color: var(--oxford-blue);
+}
+
+.info a button:hover {
+  color: var(--platinum);
+}
+
+.info a button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--rich-black-fogra-29);
+  z-index: -1;
+  transition: transform 0.5s;
+  transform-origin: 0 0;
+  transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
+  transform: scaleY(0);
+}
+
+.info a button:hover::before {
+  transform: scaleY(1);
+}

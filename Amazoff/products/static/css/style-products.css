@@ -1,5 +1,14 @@
+:root {
+  --rich-black-fogra-29: #0d1b2aff;
+  --oxford-blue: #1b263bff;
+  --bdazzled-blue: #415a77ff;
+  --shadow-blue: #778da9ff;
+  --platinum: #e0e1ddff;
+  --gray: #6c757d;
+}
+
 .wrapperproducts {
-  background: #aaa;
+  background: var(--platinum);
   min-height: 100vh;
 }
 
@@ -10,9 +19,9 @@
   text-align: center;
   font-size: 3em;
   text-shadow: 4px 4px 2px #000;
-  color: #fff;
+  color: var(--platinum);
   padding-bottom: 5vh;
-  background: #555;
+  background: var(--gray);
   clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 0% 85%);
 }
 
@@ -22,7 +31,7 @@ main {
   grid-gap: 40px;
   padding: 2%;
   padding-bottom: 5%;
-  background: #aaa;
+  background: var(--platinum);
 }
 
 .cards {
@@ -36,8 +45,8 @@ main {
   font-size: 1em;
   line-height: 20px;
   font-weight: 400px;
-  color: #000;
-  background: #ccc;
+  color: var(--platinum);
+  background: var(--gray);
   font-family: "Poppins", sans-serif;
 }
 
@@ -51,8 +60,7 @@ main {
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease 0s;
-  background: #ccc;
-  border: 2px solid green;
+  background: var(--gray);
 }
 
 .card_image-container {
@@ -61,7 +69,7 @@ main {
   object-fit: contain;
   overflow: hidden;
   position: relative;
-  background: #ccc;
+  background: var(--gray);
 }
 
 .card_image-container img {
@@ -70,11 +78,11 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #ccc;
+  background: var(--gray);
 }
 
 .card_content {
-  background: #ccc;
+  background: var(--gray);
   padding: 30px;
   height: 100%;
 }
@@ -84,20 +92,21 @@ main {
   font-weight: bold;
   font-size: 1.5em;
   text-transform: uppercase;
-  background: #ccc;
+  background: var(--gray);
 }
 
 .card_info {
   display: flex;
   align-self: end;
   align-items: center;
-  background: #ccc;
+  color: var(--platinum);
+  background: var(--gray);
 }
 
 .card_button {
   font-family: "Poppins", sans-serif;
-  background: white;
-  border: 2px solid #000;
+  background: var(--platinum);
+  border: 2px solid var(--rich-black-fogra-29);
   text-transform: uppercase;
   cursor: pointer;
   padding: 0.75em 1em;
@@ -105,12 +114,12 @@ main {
   position: absolute;
   right: 1em;
   bottom: 1em;
-  color: black;
+  color: var(--rich-black-fogra-29);
 }
 
 .card_button:hover {
-  background: black;
-  color: white;
+  background: var(--rich-black-fogra-29);
+  color: var(--platinum);
 }
 
 @media only screen and (max-width: 1000px) {

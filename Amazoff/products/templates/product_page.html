@@ -6,10 +6,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
 {% endblock %}
 
 {%block content %}
@@ -93,6 +89,10 @@
   </div>
 </div>
 
+<div class="info">
+
+<div class="polygon"></div>
+
   <!-- Individual Product page -->
 <h1>{{ product.name }}</h1>
 <ul>
@@ -103,13 +103,19 @@
     <li><strong>Description</strong> : {{ product.description }}</li>
     <li><strong>Tags</strong> : {{ product.tags }}</li>
     <li><strong>Popularity</strong> : {{ product.popularity }}</li> 
-</ul> 
+</ul>
+
+{% if rating < 0 %}
+<h3>No ratings</h3>
+{% else %}
+<h1>Rating : {{ rating }}</h1>
+<h1>View Ratings for <a href = "{% url 'review' product_id=product.id %}">this product</a></h1>
+{% endif %}
 
 <button type="button" style = "padding: 3px;">ADD TO CART</button>
-
 </div>
 
-
+</div>
 
 
 {% endblock %}

@@ -1,11 +1,42 @@
 .carousel-wrapper {
-  padding: 1%;
+  padding: 2%;
   min-height: 50vh;
   display: grid;
   place-items: center;
   position: relative;
-  background: #eee;
+  background: blue;
+  overflow: hidden;
 }
+
+.info {
+  background: green;
+}
+
+.polygon {
+  height: 10vh;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 35%, 0% 85%);
+  background: blue;
+}
+
+.carousel-indicators .active {
+  background-color: red;
+}
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff0000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff0000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-item img {
+  max-height: 60vh;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* .carousel-item img {
+} */
 
 .breadcrumb-list {
   display: flex;

@@ -109,8 +109,8 @@ class Cart(models.Model):
         default=0.00, max_digits=10, decimal_places=2)
     orderDate = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.id
+    # def __str__(self):
+    #     return self.id
 
     @property
     def calcCartTotal(self):
@@ -142,8 +142,8 @@ class Wishlist(models.Model):
     orderExecuted = models.BooleanField(default=False, null=True, blank=True)
     orderDate = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.id
+    # def __str__(self):
+    #     return self.id
 
 
 class WishlistItem(models.Model):
@@ -154,7 +154,7 @@ class WishlistItem(models.Model):
 
 
 class Addresses(models.Model):
-    customer = models.ForeignKey(
+    Customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
     addressLine1 = models.CharField(max_length=100, null=False)

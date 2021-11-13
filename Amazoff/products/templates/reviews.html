@@ -1,0 +1,10 @@
+{% extends "layout.html" %} {% block title %}Reviews{% endblock %}
+{% block content %}
+
+{% for rating in ratings %}
+<h3>{{ rating.user}} rates:</h3>
+<h5>{{rating.rating}} stars</h5>
+<h6>{{rating.review}}</h6>
+<br><br>
+{% endfor %}
+{% endblock %}

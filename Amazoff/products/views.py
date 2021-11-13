@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from products.models import Product, Product_Categories, ReviewsRatings
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart
 from django.shortcuts import render, redirect
 from .forms import FilterForm
 #from fuzzywuzzy import fuzz
@@ -38,9 +38,50 @@ def products(request):
 def product(request, product_id):
     # specific product page, accessing data of each product through product ID primary key
     product = Product.objects.get(id=product_id)
-    # reviews and ratings of the particular product
-    # ratings = ReviewsRatings.objects.get(product=product_id)
-    return render(request, "product_page.html", {"product": product})
+    # getting average rating of product
+    ratings = ReviewsRatings.objects.filter(product=product_id).all()
+    avg = 0.0
+    count = 0
+    for rating in ratings:
+        avg += rating.rating
+        count += 1
+    if count == 0:
+        avg = -1
+    else:
+        avg = avg / count
+        avg = round(avg)
+    print(avg)
+
+    return render(request, "product_page.html", {"product": product, "rating": avg})
+
+
+def user(request):
+    user = request.user
+    customer = Customer.objects.get(user=user)
+    print(customer)
+    addresses = Addresses.objects.filter(Customer=customer).all()
+    print(addresses)
+    print(user.first_name)
+    orderHistory = Cart.objects.filter(
+        user=user, orderExecuted=True).all()
+    print(orderHistory)
+    reviews = ReviewsRatings.objects.filter(user=user).all()
+    print(reviews)
+    cart = Cart.objects.filter(user=user, orderExecuted=False).first()
+    print(cart)
+    return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "cart": cart, "reviews": reviews})
+
+
+def order(request, cart_id):
+    pass
+
+
+def review(request, product_id):
+    ratings = ReviewsRatings.objects.filter(product=product_id).all()
+    for rating in ratings:
+        print(rating.user, rating.product, rating.rating, rating.review)
+
+    return render(request, "reviews.html", {"ratings": ratings})
 
 
 def search(request):
