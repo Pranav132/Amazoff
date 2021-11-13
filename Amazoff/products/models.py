@@ -19,6 +19,13 @@ class Tags(models.Model):
     def __str__(self):
         return self.name
 
+
+class Product_SubCategories (models.Model):
+    name = models.CharField("Sub-Category Name", max_length=50)
+
+    def __str__(self):
+        return self.name
+
 # creating model for products
 
 
@@ -82,6 +89,7 @@ class Product(models.Model):
     )
 
     category = models.ManyToManyField(Product_Categories)
+    subcategory = models.ManyToManyField(Product_SubCategories)
     product = models.ManyToManyField(Tags)
 
     def __str__(self):
@@ -109,8 +117,8 @@ class Cart(models.Model):
         default=0.00, max_digits=10, decimal_places=2)
     orderDate = models.DateTimeField(auto_now_add=True)
 
-    # def __str__(self):
-    #     return self.id
+    def __str__(self):
+        return self.id
 
     @property
     def calcCartTotal(self):
@@ -123,6 +131,7 @@ class Cart(models.Model):
         cartitems = self.cartitem_set.all()
         quantity = sum([item.quant for item in cartitems])
         return quantity
+
 
 
 class CartItem(models.Model):
@@ -142,8 +151,8 @@ class Wishlist(models.Model):
     orderExecuted = models.BooleanField(default=False, null=True, blank=True)
     orderDate = models.DateTimeField(auto_now_add=True)
 
-    # def __str__(self):
-    #     return self.id
+    def __str__(self):
+        return self.id
 
 
 class WishlistItem(models.Model):
@@ -154,7 +163,7 @@ class WishlistItem(models.Model):
 
 
 class Addresses(models.Model):
-    Customer = models.ForeignKey(
+    customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
     addressLine1 = models.CharField(max_length=100, null=False)
