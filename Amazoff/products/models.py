@@ -5,6 +5,12 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Creating a table for product categories, which can be used to create product groups for recommendations.
 
+class Product_SubCategories (models.Model):
+    name = models.CharField("Sub-Category Name", max_length=50)
+
+    def __str__(self):
+        return self.name
+
 
 class Product_Categories (models.Model):
     name = models.CharField("Category Name", max_length=50)
@@ -20,11 +26,6 @@ class Tags(models.Model):
         return self.name
 
 
-class Product_SubCategories (models.Model):
-    name = models.CharField("Sub-Category Name", max_length=50)
-
-    def __str__(self):
-        return self.name
 
 # creating model for products
 
@@ -90,7 +91,7 @@ class Product(models.Model):
 
     category = models.ManyToManyField(Product_Categories)
     subcategory = models.ManyToManyField(Product_SubCategories)
-    product = models.ManyToManyField(Tags)
+    tags = models.ManyToManyField(Tags)
 
     def __str__(self):
         return self.name

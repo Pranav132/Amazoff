@@ -8,7 +8,7 @@
 }
 
 .wrapperproducts {
-  background: var(--platinum);
+  background: var(--shadow-blue);
   min-height: 100vh;
 }
 
@@ -31,7 +31,7 @@ main {
   grid-gap: 40px;
   padding: 2%;
   padding-bottom: 5%;
-  background: var(--platinum);
+  background: var(--shadow-blue);
 }
 
 .cards {
