@@ -90,12 +90,8 @@ class Product(models.Model):
     )
 
     category = models.ManyToManyField(Product_Categories)
-<<<<<<< HEAD
     subcategory = models.ManyToManyField(subcategories)
     tags = models.ManyToManyField(Tags)
-=======
-    product = models.ManyToManyField(Tags)
->>>>>>> parent of 9914a9c (small changes)
 
     def __str__(self):
         return self.name
