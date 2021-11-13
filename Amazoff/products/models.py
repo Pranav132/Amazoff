@@ -82,7 +82,7 @@ class Product(models.Model):
     )
 
     category = models.ManyToManyField(Product_Categories)
-    product = models.ManyToManyField(Tags)
+    tags = models.ManyToManyField(Tags)
 
     def __str__(self):
         return self.name
