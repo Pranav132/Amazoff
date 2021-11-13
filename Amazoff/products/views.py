@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart
 from django.shortcuts import render, redirect
 from .forms import FilterForm
+from django.http import JsonResponse
+import json
 #from fuzzywuzzy import fuzz
 #from fuzzywuzzy import process
 
@@ -54,6 +56,30 @@ def product(request, product_id):
 
     return render(request, "product_page.html", {"product": product, "rating": avg})
 
+def UpdateItem(request):
+	data = json.loads(request.body)
+	productId = data['productId']
+	action = data['action']
+	print('Action:', action)
+	print('Product:', productId)
+
+	customer = request.user.customer
+	product = Product.objects.get(id=productId)
+	order, created = Cart.objects.get_or_create(customer=customer, complete=False)
+
+	orderItem, created = CartItem.objects.get_or_create(order=order, product=product)
+
+	if action == 'add':
+		orderItem.quantity = (orderItem.quantity + 1)
+	elif action == 'remove':
+		orderItem.quantity = (orderItem.quantity - 1)
+
+	orderItem.save()
+
+	if orderItem.quantity <= 0:
+		orderItem.delete()
+
+	return JsonResponse('Item was added', safe=False)
 
 def user(request):
     user = request.user
