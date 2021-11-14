@@ -42,6 +42,7 @@ def product(request, product_id):
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
     avg = 0.0
     count = 0
+    stars = [-1, -1, -1, -1, -1]
     for rating in ratings:
         avg += rating.rating
         count += 1
@@ -50,9 +51,11 @@ def product(request, product_id):
     else:
         avg = avg / count
         avg = round(avg)
-    print(avg)
+        for i in range(avg):
+            stars[i] = 0
+    print(stars)
 
-    return render(request, "product_page.html", {"product": product, "rating": avg})
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count})
 
 
 def user(request):

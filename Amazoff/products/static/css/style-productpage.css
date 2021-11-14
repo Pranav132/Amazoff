@@ -12,6 +12,28 @@
   background: green;
 }
 
+.text {
+  padding-top: 5vh;
+  background: yellow;
+  font-family: "Bebas Neue", sans-serif;
+  padding-left: 2%;
+}
+
+.checked {
+  color: orange;
+}
+
+.rating {
+  margin-bottom: 2vh;
+}
+.product-title {
+  font-size: 5em;
+}
+
+.product-price {
+  font-size: 1.5em;
+}
+
 .polygon {
   height: 10vh;
   clip-path: polygon(0% 0%, 100% 0%, 100% 35%, 0% 85%);
