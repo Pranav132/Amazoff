@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem
 from django.shortcuts import render, redirect
 from .forms import FilterForm
 from django.http import JsonResponse
@@ -18,7 +18,6 @@ def index(request):
 def cart(request):
     # to render the cart
     return render(request, "cart.html")
-
 
 
 def products(request):
@@ -57,30 +56,34 @@ def product(request, product_id):
 
     return render(request, "product_page.html", {"product": product, "rating": avg})
 
+
 def UpdateItem(request):
-	data = json.loads(request.body)
-	productId = data['productId']
-	action = data['action']
-	print('Action:', action)
-	print('Product:', productId)
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
 
-	customer = request.user.customer
-	product = Product.objects.get(id=productId)
-	order, created = Cart.objects.get_or_create(customer=customer, complete=False)
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, created = Cart.objects.get_or_create(
+        customer=customer, complete=False)
 
-	orderItem, created = CartItem.objects.get_or_create(order=order, product=product)
+    orderItem, created = CartItem.objects.get_or_create(
+        order=order, product=product)
 
-	if action == 'add':
-		orderItem.quantity = (orderItem.quantity + 1)
-	elif action == 'remove':
-		orderItem.quantity = (orderItem.quantity - 1)
+    if action == 'add':
+        orderItem.quantity = (orderItem.quantity + 1)
+    elif action == 'remove':
+        orderItem.quantity = (orderItem.quantity - 1)
 
-	orderItem.save()
+    orderItem.save()
 
-	if orderItem.quantity <= 0:
-		orderItem.delete()
+    if orderItem.quantity <= 0:
+        orderItem.delete()
 
-	return JsonResponse('Item was added', safe=False)
+    return JsonResponse('Item was added', safe=False)
+
 
 def user(request):
     user = request.user
@@ -159,9 +162,11 @@ def search(request):
 
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
 
+
 def contact(request):
     # to render the contact page
     return render(request, "contact.html")
+
 
 def faq(request):
     # to render the faq page
