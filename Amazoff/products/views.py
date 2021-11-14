@@ -20,6 +20,7 @@ def cart(request):
     return render(request, "cart.html")
 
 
+
 def products(request):
 
     # rendering every required product
@@ -157,3 +158,11 @@ def search(request):
                 product = product.order_by('-price')
 
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
+
+def contact(request):
+    # to render the contact page
+    return render(request, "contact.html")
+
+def faq(request):
+    # to render the faq page
+    return render(request, "faq.html")
