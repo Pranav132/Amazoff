@@ -20,6 +20,7 @@
   font-size: 3em;
   text-shadow: 4px 4px 2px #000;
   color: var(--platinum);
+  font-family: "Bebas Neue", sans-serif;
   padding-bottom: 5vh;
   background: var(--gray);
   clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 0% 85%);

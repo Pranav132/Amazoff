@@ -1,10 +1,19 @@
+:root {
+  --rich-black-fogra-29: #0d1b2aff;
+  --oxford-blue: #1b263bff;
+  --bdazzled-blue: #415a77ff;
+  --shadow-blue: #778da9ff;
+  --platinum: #e0e1ddff;
+  --gray: #6c757d;
+}
+
 .carousel-wrapper {
   padding: 2%;
   min-height: 50vh;
   display: grid;
   place-items: center;
   position: relative;
-  background: blue;
+  background: var(--platinum);
   overflow: hidden;
 }
 
@@ -24,31 +33,44 @@
 }
 
 .rating {
-  margin-bottom: 2vh;
+  padding-bottom: 1%;
 }
+
 .product-title {
-  font-size: 5em;
+  font-size: 5vmax;
 }
 
 .product-price {
-  font-size: 1.5em;
+  font-size: 2vmax;
+}
+
+.product-description {
+  font-size: 1.5vmax;
 }
 
 .polygon {
   height: 10vh;
   clip-path: polygon(0% 0%, 100% 0%, 100% 35%, 0% 85%);
-  background: blue;
+  background: var(--platinum);
 }
 
 .carousel-indicators .active {
-  background-color: red;
+  background-color: var(--bdazzled-blue);
 }
 .carousel-control-prev-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff0000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%415a77ff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
 }
 
 .carousel-control-next-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff0000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%415a77ff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel {
+  padding-top: 2vh;
+}
+
+.carousel-inner {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 .carousel-item img {

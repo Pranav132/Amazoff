@@ -108,10 +108,10 @@
             <span class="fa fa-star checked"></span>
         {% endif %}
     {% endfor %}
-    <a href = "{% url 'review' product_id=product.id %}"><span style = "font-size:1.5em;">&ensp;({{ratingsCount}})</span></a>
+    <a href = "{% url 'review' product_id=product.id %}"><span style = "font-size:1.25em;">&ensp;({{ratingsCount}})</span></a>
 {% endif %}
 </div>
-
+<p class = "product-description">{{ product.description }}</p>
 <!-- <ul> -->
     <!--Listing product data-->
     <!-- <li><strong>ID</strong> : {{ product.id }}</li>
@@ -123,7 +123,8 @@
 <!--</ul> -->
 
 
-<button type="button" style = "padding: 3px;">ADD TO CART</button>
+<a href = "#"><button type="button" class = "cart-button">ADD TO CART</button></a>
+
 </div>
 
 
