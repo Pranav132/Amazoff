@@ -18,7 +18,7 @@
 }
 
 .info {
-  background: green;
+  background: var(--oxford-blue);
 }
 
 .text {
