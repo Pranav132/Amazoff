@@ -23,6 +23,25 @@
 			</div>
 
 			<br>
+
+			{% for product in cart_items %}
+      		<div class="card">
+        		<div class="card_image-container">
+            		<img src = "{{ product.picture1.url }}">
+       			 </div>
+       			 <div class="card_content">
+            		<p class = "card_title text--medium">
+                		{{ product.name }}
+            		</p>
+            	<div class="card_info">
+                	<p class = "text--medium">₹{{ product.price }}</p>
+                	<a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
+            	</div>
+        	</div>
+   		 	</div>
+    		</ul>
+    		{% endfor %} 
+
 			<div class="box-element">
 				<div class="cart-row">
 					<div style="flex:2"></div>

@@ -17,7 +17,9 @@ def index(request):
 
 def cart(request):
     # to render the cart
-    return render(request, "cart.html")
+    current_user= request.user
+    cart_items = Cart.objects.filter(user__username__contains=current_user)
+    return render(request, "cart.html", {"cart_items": cart_items})
 
 
 def products(request):
