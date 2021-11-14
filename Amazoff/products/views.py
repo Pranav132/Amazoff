@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, User
 from django.shortcuts import render, redirect
 from .forms import FilterForm
 #from fuzzywuzzy import fuzz
@@ -9,6 +9,12 @@ from .forms import FilterForm
 
 
 def index(request):
+    # to make every user a customer
+    users = User.objects.all()
+    for user in users:
+        checkCustomer = Customer.objects.filter(user=user).first()
+        if not checkCustomer:
+            Customer.objects.create(user=user)
     # to render the homepage
     return render(request, "index.html")
 
