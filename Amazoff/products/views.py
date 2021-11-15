@@ -147,9 +147,9 @@ def newReview(request, product_id):
 
     if request.method == 'POST':
         user = request.user
-        # product_search = Product.objects.get(id=product_id)
         print(product_id)
         product = Product.objects.get(id=product_id)
+        new_review = ReviewsRatings.objects.create(user=user, product=product)
         form = ReviewForm(request.POST)
         if form.is_valid():
             rating = request.POST.get('rating')
@@ -158,9 +158,8 @@ def newReview(request, product_id):
             print(rating)
             print(review)
 
-            new_review = ReviewsRatings.objects.get_or_create(
-                user=user, product=product)[0]
-            print(new_review)
+            new_review.rating = rating
+            new_review.review = review
 
             new_review.save()
 
