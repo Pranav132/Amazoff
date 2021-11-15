@@ -15,7 +15,7 @@
 						<th><h5>Items: <strong>5</strong></h5></th>
 						<th><h5>Total:<strong> $100</strong></h5></th>
 						<th>
-							<a  style="float:right; margin:5px;" class="btn btn-success" ></a></a>Checkout</a>
+							<a style="float:right; margin:5px;" class="btn btn-success" >Checkout</a>
 						</th>
 					</tr>
 				</table>
@@ -23,30 +23,15 @@
 			</div>
 
 			<br>
-			<div class="box-element">
-				<div class="cart-row">
-					<div style="flex:2"></div>
-					<div style="flex:2"><strong>Item</strong></div>
-					<div style="flex:1"><strong>Price</strong></div>
-					<div style="flex:1"><strong>Quantity</strong></div>
-					<div style="flex:1"><strong>Total</strong></div>
-				</div>
-				<!--{% for item in items %}
-				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
-					<div style="flex:1">
-						<p class="quantity">{{item.quantity}}</p>
-						<div class="quantity">
-							<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
-					
-							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
-						</div>
-					</div>
-					<div style="flex:1"><p>$20</p></div>
-				</div>
-				{% endfor %}-->
+			<ul>
+				{% for product in cart_items %}
+				<li><strong>Name:</strong> {{ product.product.name }}</li>
+				<li><strong>Description:</strong> {{ product.product.description }}</li>
+				<li><strong>Quantity:</strong> {{ product.quant }}</li>
+				{% endfor %}
+			</ul>
+
+      		
 			</div>
 		</div>
 	</div>

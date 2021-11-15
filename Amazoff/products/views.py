@@ -1,7 +1,9 @@
-from django.http import HttpResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, User
+from django.http import HttpResponse, JsonResponse
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User
 from django.shortcuts import render, redirect
 from .forms import FilterForm
+from django.contrib.auth.decorators import login_required
+import json
 #from fuzzywuzzy import fuzz
 #from fuzzywuzzy import process
 
@@ -21,7 +23,13 @@ def index(request):
 
 def cart(request):
     # to render the cart
-    return render(request, "cart.html")
+    cart_id = Cart.objects.get(
+        user__username=request.user)
+    print(cart_id)
+
+    cart_items = CartItem.objects.filter(cart=cart_id)
+    print(cart_items)
+    return render(request, "cart.html", {"cart_items": cart_items})
 
 
 def products(request):
@@ -62,6 +70,37 @@ def product(request, product_id):
     print(stars)
 
     return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count})
+
+
+def UpdateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user
+    print(customer)
+    product = Product.objects.get(id=productId)
+    print(product)
+    order = Cart.objects.get_or_create(
+        user=customer, orderExecuted=False)[0]
+
+    orderItem = CartItem.objects.get_or_create(
+        cart=order, product=product)[0]
+    print(orderItem)
+
+    if action == 'add':
+        orderItem.quant = (orderItem.quant + 1)
+    elif action == 'remove':
+        orderItem.quant = (orderItem.quant - 1)
+
+    orderItem.save()
+
+    if orderItem.quant <= 0:
+        orderItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
 
 
 def user(request):
@@ -140,3 +179,13 @@ def search(request):
                 product = product.order_by('-price')
 
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
+
+
+def contact(request):
+    # to render the contact page
+    return render(request, "contact.html")
+
+
+def faq(request):
+    # to render the faq page
+    return render(request, "faq.html")
