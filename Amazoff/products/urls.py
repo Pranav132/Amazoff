@@ -16,6 +16,7 @@ urlpatterns = [
     path("contact/", views.contact, name="contact"),
     path("faq/", views.faq, name="faq"),
     path("cart/", views.cart, name="cart"),
+    path("checkout/", views.checkout, name="checkout"),
     path("search/", views.search, name="product_search"),
     path("update_item/", views.UpdateItem, name='update_item'),
     path('accounts/', include('allauth.urls')),

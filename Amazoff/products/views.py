@@ -189,3 +189,70 @@ def contact(request):
 def faq(request):
     # to render the faq page
     return render(request, "faq.html")
+
+
+def checkout(request):
+    user = request.user
+    current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    print(current_cart)
+    cart_items = CartItem.objects.filter(cart=current_cart.id)
+    print(cart_items)
+    user_name = user.first_name
+    user_addresses = Addresses.objects.filter(Customer__user=user)
+    print(user)
+    print(user_addresses)
+
+    if request.method == 'POST':
+        price_quant_totals = []
+        # quant_totals = []
+        outofstock = []
+        for product in cart_items:
+            # for every item of the cart, take the passed quantity
+            quantity = request.POST.get(product.product.name)
+            quantity = int(quantity)
+            # then change quantity of cart item to that quantity
+            product.quant = quantity
+
+            if product.quant == 0:
+                print('DELETE')
+                product.delete()
+            else:
+                print('SAVING...')
+                # quantity requested is non-zero
+                # checking if it is lesser than product inventory
+                inventory = product.product.inventory
+                if product.quant <= inventory:
+                    product.save()
+                    price_quant_totals.append(
+                        [product.product.name, product.product.price * product.quant, product.quant])
+                    # price_totals[product.product.name] = (
+                    #     product.quant * product.product.price)
+                    # quant_totals.append([product.product.name, product.quant])
+                else:
+                    # if not enough stock left, send an alert about stock and fix quant to max available
+                    print('Not enough products, setting quantity to max avaiable')
+                    outofstock.append(product.product.name)
+                    product.quant = inventory
+                    product.save()
+                    price_quant_totals.append(
+                        [product.product.name, product.product.price * product.quant, product.quant])
+                    # price_totals[product.product.name] = (
+                    #     product.quant * product.product.price)
+                    # quant_totals.append([product.product.name, product.quant])
+                    # quant_totals[product.product.name] = product.quant
+
+        # calculate the value and send to html page
+        total_price = 0
+        total_quant = 0
+        for product in price_quant_totals:
+            total_price = product[1] + total_price
+            total_quant = product[2] + total_quant
+
+        print(total_price)
+        print(total_quant)
+        print(price_quant_totals)
+        print(outofstock)
+
+    return render(request, "checkout.html", {"user": user, "user_name": user_name, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock})
+
+    return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")

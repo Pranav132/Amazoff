@@ -1,0 +1,51 @@
+{% extends "layout.html" %} {% block title %}Checkout{% endblock %} 
+{% load static %}
+{% block scripts %}
+{% endblock %}
+{% block content %}
+
+<h1>Hello, {{ user_name }}</h1>
+
+{% if outofstock %}
+    <script>
+        {% for item in outofstock %}
+            alert("Insufficient {{item}} quantity in stock, giving you all we have :(")        
+        {% endfor %}
+    </script>
+{% endif %}
+
+{% if price_quant_totals %}
+{% for key in price_quant_totals %}
+<div>
+
+    <table class="table">
+        <tr>
+            <th style="max-width: 50px; ">{{key.0}}</th>
+            <th style="max-width: 50px;">{{key.2}}</th>
+            <th style="max-width: 50px;">Rs. {{key.1}}</th>
+        </tr>
+
+    </table>
+    
+</div>
+{% endfor %}
+
+<table class="table">
+    <tr>
+        <th style="max-width: 50px; color: navy; border-top: 3px solid black;">Cart Total</th>
+        <th style="max-width: 50px; color: navy; border-top: 3px solid black;">{{ total_quant }}</th>
+        <th style="max-width: 50px; color: navy; border-top: 3px solid black;">Rs. {{ total_price }}</th>
+    </tr>
+</table>
+
+<!-- Add section which deals with addresses -->
+
+{% if user_addresses %}
+
+{% else %}
+
+<h3>CART IS EMPTY you dumbfuck</h3>
+
+{% endif %}
+
+{% endblock content %}
