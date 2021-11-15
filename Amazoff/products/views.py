@@ -126,10 +126,25 @@ def order(request, cart_id):
 
 def review(request, product_id):
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
-    for rating in ratings:
-        print(rating.user, rating.product, rating.rating, rating.review)
+    checker = [0, 0, 0, 0, 0]
+    return render(request, "reviews.html", {"ratings": ratings, "checker": checker})
 
-    return render(request, "reviews.html", {"ratings": ratings})
+
+def orderHistory(request):
+    orders = Cart.objects.filter(user=request.user, orderExecuted=True).all()
+    for order in orders:
+        print(order.cartValue)
+        print(order.orderDate)
+    # prints the order history of the current customer
+
+
+def newReview(request, product_id):
+    # review form
+    # create review form for user to fill - GET
+    # send data back and make a new review and rating in database - POST
+    # rating is required but review is not
+    # use the same input number from 1 to 5 for review
+    pass
 
 
 def search(request):

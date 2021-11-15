@@ -1,10 +1,27 @@
 {% extends "layout.html" %} {% block title %}Reviews{% endblock %}
+{% block styles %}
+
+{% endblock %}
 {% block content %}
 
 {% for rating in ratings %}
-<h3>{{ rating.user}} rates:</h3>
-<h5>{{rating.rating}} stars</h5>
-<h6>{{rating.review}}</h6>
-<br><br>
+<!-- first the stars
+then user name
+then if there is description, description -->
+{% for i in checker %}
+    {% if forloop.counter0 < rating.rating %}
+    <span class="fa fa-star" style="color: orange;"></span>
+{% else %}
+    <span class="fa fa-star"></span>
+{% endif %}
 {% endfor %}
+<h3>{{rating.user}}</h3>
+{% if rating.review %}
+    <h6>{{rating.review}}</h6>
+{% endif %}
+<br>
+<br>
+{% endfor %}
+<h1>Write your <a href = "#">own review for this product.</a></h1>
+<!-- should go to review form page -->
 {% endblock %}
