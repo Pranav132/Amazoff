@@ -4,6 +4,9 @@
 {% endblock %}
 {% block content %}
 
+<!-- <h1 type="hidden">{{ product_id }}</h1> -->
+
+{% if ratings %}
 {% for rating in ratings %}
 <!-- first the stars
 then user name
@@ -22,6 +25,11 @@ then if there is description, description -->
 <br>
 <br>
 {% endfor %}
-<h1>Write your <a href = "#">own review for this product.</a></h1>
+
+{% else %}
+<h3>No reviews yet, be the first to write a review!</h3>
+<h5><a href = "{% url 'newReview' product_id=product_id %}">Write your own review for this product.</a></h5>
 <!-- should go to review form page -->
+
+{% endif %}
 {% endblock %}
