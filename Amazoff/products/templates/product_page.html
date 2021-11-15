@@ -96,21 +96,22 @@
 <div class="text">
       <!-- Individual Product page -->
 <h1 class = " product-title">{{ product.name }}</h1>
-<p class = "product-price">₹{{ product.price}} </p>
-<div class="rating">
-{% if ratingsCount == 0 %}
-    <p class = "noratings">No Ratings.</p>
-{% else %}
-    {% for rate in rating %}
-        {% if rate < 0 %}
-            <span class="fa fa-star"></span>
-        {% else %}
-            <span class="fa fa-star checked"></span>
-        {% endif %}
-    {% endfor %}
-    <a href = "{% url 'review' product_id=product.id %}"><span style = "font-size:1.25em;">&ensp;({{ratingsCount}})</span></a>
-{% endif %}
-</div>
+<div class="priceandrating"><p class = "product-price">₹{{ product.price}} </p>
+    <div class="rating">
+    {% if ratingsCount == 0 %}
+        <p class = "noratings" style = "font-size:3vmax;">No Ratings.</p>
+    {% else %}
+        {% for rate in rating %}
+            {% if rate < 0 %}
+                <span class="fa fa-star"></span>
+            {% else %}
+                <span class="fa fa-star checked"></span>
+            {% endif %}
+        {% endfor %}
+        <a href = "{% url 'review' product_id=product.id %}"><span style = "font-size:2vmax;">&ensp;({{ratingsCount}})</span></a>
+    {% endif %}
+    </div></div>
+
 <p class = "product-description">{{ product.description }}</p>
 <!-- <ul> -->
     <!--Listing product data-->

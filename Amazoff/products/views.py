@@ -35,7 +35,7 @@ def products(request):
 
     for product in products:
         prods.append([product.picture1, product.id, product.name, product.price,
-                      product.description, product.popularity])
+                      product.description, product.popularity, product.inventory])
 
     # sending to products.html file
     return render(request, "products.html", {"products": products})

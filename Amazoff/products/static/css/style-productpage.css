@@ -18,34 +18,48 @@
 }
 
 .info {
-  background: var(--oxford-blue);
+  background: var(--shadow-blue);
 }
 
 .text {
   padding-top: 5vh;
-  background: yellow;
+  background: var(--shadow-blue);
   font-family: "Bebas Neue", sans-serif;
   padding-left: 2%;
+  color: var(--platinum);
+  text-align: center;
 }
 
 .checked {
   color: orange;
 }
-
-.rating {
-  padding-bottom: 1%;
-}
-
-.product-title {
-  font-size: 5vmax;
-}
-
-.product-price {
+.rating span {
+  padding-top: 7.5%;
   font-size: 2vmax;
 }
 
+.priceandrating {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.product-title {
+  font-size: 7vmax;
+  color: var(--rich-black-fogra-29);
+  text-decoration: underline;
+}
+
+.product-price {
+  font-size: 3vmax;
+  color: #023e8a;
+}
+
 .product-description {
-  font-size: 1.5vmax;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.75vmax;
+  padding: 0 5%;
 }
 
 .polygon {

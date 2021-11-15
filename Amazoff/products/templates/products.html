@@ -21,7 +21,11 @@
   <section class = "cards">
     <!-- Rendering every product and data -->
     {% for product in products %}
+    {% if product.inventory <= 0 %}
+      <div class= "card outofstock">
+    {% else %}
       <div class="card">
+    {% endif %}
         <div class="card_image-container">
             <img src = "{{ product.picture1.url }}">
         </div>
@@ -31,7 +35,11 @@
             </p>
             <div class="card_info">
                 <p class = "text--medium">₹{{ product.price }}</p>
+                {% if product.inventory > 0 %}
                 <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
+                {% else %}
+                <button class = "card_button text-medium">View</button>
+                {% endif %}
             </div>
         </div>
     </div>

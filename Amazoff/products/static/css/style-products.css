@@ -12,6 +12,10 @@
   min-height: 100vh;
 }
 
+.outofstock {
+  filter: grayscale(100%) blur(4px);
+}
+
 .product-title {
   height: 30vh;
   display: grid;
