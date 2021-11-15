@@ -13,3 +13,12 @@ class FilterForm(forms.Form):
 
     name = forms.ChoiceField(
         choices=CHOICES, widget=forms.RadioSelect)
+
+
+class newAddressForm (forms.Form):
+    addressLine1 = forms.CharField()
+    addressLine2 = forms.CharField(required=False)
+    city = forms.CharField()
+    state = forms.CharField()
+    country = forms.CharField()
+    zipCode = forms.IntegerField()

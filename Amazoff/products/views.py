@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User
 from django.shortcuts import render, redirect
-from .forms import FilterForm
+from .forms import FilterForm, newAddressForm
 from django.contrib.auth.decorators import login_required
 import json
 #from fuzzywuzzy import fuzz
@@ -256,3 +256,19 @@ def checkout(request):
     return render(request, "checkout.html", {"user": user, "user_name": user_name, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock})
 
     return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")
+
+
+def newAddress(request, user_name):
+    username = user_name
+    user = Customer.objects.get(user__username=username)
+    print(user)
+    cart = Cart.objects.get(user=Customer)
+    print(cart)
+    if request.method == 'GET':
+        form = newAddressForm()
+
+    if request.method == 'POST':
+        form = newAddressForm(request.POST)
+        user_addresses = Addresses.objects.create(Customer=Customer, cart=cart)
+        print(user_addresses)
+    return render(request, 'new_address.html', {"form": form, "user_name": user_name})
