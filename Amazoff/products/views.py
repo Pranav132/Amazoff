@@ -1,8 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem
 from django.shortcuts import render, redirect
 from .forms import FilterForm
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 import json
 #from fuzzywuzzy import fuzz
 #from fuzzywuzzy import process
@@ -17,8 +17,12 @@ def index(request):
 
 def cart(request):
     # to render the cart
-    current_user = request.user
-    cart_items = Cart.objects.filter(user__username__contains=current_user)
+    cart_id = Cart.objects.get(
+        user__username=request.user)
+    print(cart_id)
+
+    cart_items = CartItem.objects.filter(cart=cart_id)
+    print(cart_items)
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
@@ -66,22 +70,25 @@ def UpdateItem(request):
     print('Action:', action)
     print('Product:', productId)
 
-    customer = request.user.customer
+    customer = request.user
+    print(customer)
     product = Product.objects.get(id=productId)
-    order, created = Cart.objects.get_or_create(
-        customer=customer, complete=False)
+    print(product)
+    order = Cart.objects.get_or_create(
+        user=customer, orderExecuted=False)[0]
 
-    orderItem, created = CartItem.objects.get_or_create(
-        order=order, product=product)
+    orderItem = CartItem.objects.get_or_create(
+        cart=order, product=product)[0]
+    print(orderItem)
 
     if action == 'add':
-        orderItem.quantity = (orderItem.quantity + 1)
+        orderItem.quant = (orderItem.quant + 1)
     elif action == 'remove':
-        orderItem.quantity = (orderItem.quantity - 1)
+        orderItem.quant = (orderItem.quant - 1)
 
     orderItem.save()
 
-    if orderItem.quantity <= 0:
+    if orderItem.quant <= 0:
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)

@@ -17,6 +17,7 @@ urlpatterns = [
     path("faq/", views.faq, name="faq"),
     path("cart/", views.cart, name="cart"),
     path("search/", views.search, name="product_search"),
+    path("update_item/", views.UpdateItem, name='update_item'),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view()),
     path("user/", views.user, name="user"),
