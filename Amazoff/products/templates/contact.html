@@ -1,0 +1,140 @@
+{% extends "layout.html" %} {% block title %}Contact{% endblock %} 
+{% load static %}
+{% load socialaccount %}
+
+{% block styles %}
+<link rel='stylesheet' href="{% static 'css/style-index.css' %}">
+{% endblock %}
+
+{%block content %}
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center">Contact us</h3>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="name">Name</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="name" class="form-control" placeholder="Type your name here">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="lastName">Last name</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="lastName" class="form-control" placeholder="Type your last name here">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="email">E-mail</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="email" class="form-control" placeholder="Type your e-mail">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="phone">Phone</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="phone" class="form-control" placeholder="So we can reach you">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <p class="text-center">We are sorry if you are experiecing any problems. We will try our best to reach you within 24 hours. </p>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button class="btn btn-primary" style="background-color: black ;" onclick='foo();'>Submit Request</button>
+                                                <script>
+                                                function foo(){
+                                                 alert('Your request has been sent :)');
+                                                }
+                                                </script>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-3">
+                                            <label>Alternatively, reach out to us at</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12 col-md-offset-2">
+                                            <h4>SH-4, Ashoka University</h4>
+                                            <p>NH-44</p>
+                                            <p>Rajiv Gandhi Education City</p>
+                                            <p>Sonipat</p>
+                                            <p>Haryana - 131029</p>
+                                            <p>Phone: +91-9972956502</p>
+                                            <p>E-mail: <a href="mailto:support@amazoff.com">support@amazoff.com</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'PT Sans', sans-serif;
+    }
+
+    .container-fluid {
+        background:rgb(187, 187, 187);
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 100%;
+    }
+
+    hr {
+        border: 1px solid #354458;
+    }
+
+    .panel {
+        margin-top: 50px;
+        margin-right: 10px;
+    }
+
+    .col-md-8 > button {
+        display: block;
+        margin: auto;
+    }
+
+    .social > a {
+        width: 100%;
+    }
+
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+}
+</style>
+
+{% endblock %}
+
+

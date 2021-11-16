@@ -1,6 +1,9 @@
-{% extends "layout.html" %} {% block title %}{{ search }} - Cart {% endblock %} 
+{% extends "layout.html" %} {% block title %}Cart {% endblock %} 
 {% load static %}
-{% block scripts %}<script src = "{% static 'js/cart.js' %}"></script>{% endblock %}
+{% block scripts %}
+<script src = "{% static 'js/cart.js' %}"></script>
+
+{% endblock %}
 {% block content %}
 	<div class="row">
 		<div class="col-lg-12">
@@ -10,43 +13,34 @@
 
 				<br>
 				<br>
+				
+			</div>
+			
+			<br>
+			<form action={% url 'checkout' %}  method="post">
+				{% csrf_token %}
+
+				<ul>
+					{% for product in cart_items %}
+					<li><strong>Name:</strong> {{ product.product.name }}</li>
+					<li><strong>Price of each:</strong> {{ product.product.price }}</li>
+					<li><strong>Quantity:</strong> {{ product.quant }}</li>
+					<li><strong>Inventory:</strong> {{ product.product.inventory }}</li>
+					<input type="number" id="{{ product.product.id }}" name="{{ product.product.name }}" value = "{{ product.quant }}" min="0" max="100">
+					{% endfor %}
+				</ul>
+				
 				<table class="table">
 					<tr>
-						<th><h5>Items: <strong>5</strong></h5></th>
-						<th><h5>Total:<strong> $100</strong></h5></th>
+						<th>Quantity and Total price will be calculated on the next page!</th>
 						<th>
-							<a  style="float:right; margin:5px;" class="btn btn-success" ></a></a>Checkout</a>
+							<input type="submit" value="Checkout">
 						</th>
 					</tr>
 				</table>
 
-			</div>
-
-			<br>
-			<div class="box-element">
-				<div class="cart-row">
-					<div style="flex:2"></div>
-					<div style="flex:2"><strong>Item</strong></div>
-					<div style="flex:1"><strong>Price</strong></div>
-					<div style="flex:1"><strong>Quantity</strong></div>
-					<div style="flex:1"><strong>Total</strong></div>
-				</div>
-				<!--{% for item in items %}
-				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
-					<div style="flex:1">
-						<p class="quantity">{{item.quantity}}</p>
-						<div class="quantity">
-							<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
-					
-							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
-						</div>
-					</div>
-					<div style="flex:1"><p>$20</p></div>
-				</div>
-				{% endfor %}-->
+			</form>
+      		
 			</div>
 		</div>
 	</div>

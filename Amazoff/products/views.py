@@ -1,7 +1,9 @@
-from django.http import HttpResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart
+from django.http import HttpResponse, JsonResponse
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User
 from django.shortcuts import render, redirect
-from .forms import FilterForm
+from .forms import FilterForm, newAddressForm, ReviewForm
+from django.contrib.auth.decorators import login_required
+import json
 #from fuzzywuzzy import fuzz
 #from fuzzywuzzy import process
 
@@ -9,13 +11,25 @@ from .forms import FilterForm
 
 
 def index(request):
+    # to make every user a customer
+    users = User.objects.all()
+    for user in users:
+        checkCustomer = Customer.objects.filter(user=user).first()
+        if not checkCustomer:
+            Customer.objects.create(user=user)
     # to render the homepage
     return render(request, "index.html")
 
 
 def cart(request):
     # to render the cart
-    return render(request, "cart.html")
+    cart_id = Cart.objects.get(
+        user__username=request.user)
+    print(cart_id)
+
+    cart_items = CartItem.objects.filter(cart=cart_id)
+    print(cart_items)
+    return render(request, "cart.html", {"cart_items": cart_items})
 
 
 def products(request):
@@ -29,7 +43,7 @@ def products(request):
 
     for product in products:
         prods.append([product.picture1, product.id, product.name, product.price,
-                      product.description, product.popularity])
+                      product.description, product.popularity, product.inventory])
 
     # sending to products.html file
     return render(request, "products.html", {"products": products})
@@ -42,6 +56,7 @@ def product(request, product_id):
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
     avg = 0.0
     count = 0
+    stars = [-1, -1, -1, -1, -1]
     for rating in ratings:
         avg += rating.rating
         count += 1
@@ -50,9 +65,42 @@ def product(request, product_id):
     else:
         avg = avg / count
         avg = round(avg)
-    print(avg)
+        for i in range(avg):
+            stars[i] = 0
+    print(stars)
 
-    return render(request, "product_page.html", {"product": product, "rating": avg})
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count})
+
+
+def UpdateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user
+    print(customer)
+    product = Product.objects.get(id=productId)
+    print(product)
+    order = Cart.objects.get_or_create(
+        user=customer, orderExecuted=False)[0]
+
+    orderItem = CartItem.objects.get_or_create(
+        cart=order, product=product)[0]
+    print(orderItem)
+
+    if action == 'add':
+        orderItem.quant = (orderItem.quant + 1)
+    elif action == 'remove':
+        orderItem.quant = (orderItem.quant - 1)
+
+    orderItem.save()
+
+    if orderItem.quant <= 0:
+        orderItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
 
 
 def user(request):
@@ -78,10 +126,45 @@ def order(request, cart_id):
 
 def review(request, product_id):
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
-    for rating in ratings:
-        print(rating.user, rating.product, rating.rating, rating.review)
+    prod_id = product_id
+    checker = [0, 0, 0, 0, 0]
+    return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id})
 
-    return render(request, "reviews.html", {"ratings": ratings})
+
+def orderHistory(request):
+    orders = Cart.objects.filter(user=request.user, orderExecuted=True).all()
+    for order in orders:
+        print(order.cartValue)
+        print(order.orderDate)
+    # prints the order history of the current customer
+
+
+def newReview(request, product_id):
+    # importing all existing reviews and ratings
+    # review form
+    if request.method == 'GET':
+        form = ReviewForm(initial={"rating": 5})
+        return render(request, "new_review.html", {"form": form, "product_id": product_id})
+
+    if request.method == 'POST':
+        user = request.user
+        product = Product.objects.get(id=product_id)
+        new_review = ReviewsRatings.objects.create(user=user, product=product)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            rating = request.POST.get('rating')
+            review = request.POST.get('review')
+            new_review.rating = rating
+            new_review.review = review
+
+            new_review.save()
+
+            return redirect('product_page', product_id=product_id)
+
+    # create review form for user to fill - GET
+    # send data back and make a new review and rating in database - POST
+    # rating is required but review is not
+    # use the same input number from 1 to 5 for review
 
 
 def search(request):
@@ -131,3 +214,96 @@ def search(request):
                 product = product.order_by('-price')
 
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
+
+
+def contact(request):
+    # to render the contact page
+    return render(request, "contact.html")
+
+
+def faq(request):
+    # to render the faq page
+    return render(request, "faq.html")
+
+
+def checkout(request):
+    user = request.user
+    current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    print(current_cart)
+    cart_items = CartItem.objects.filter(cart=current_cart.id)
+    print(cart_items)
+    user_name = user.first_name
+    user_addresses = Addresses.objects.filter(Customer__user=user)
+    print(user)
+    print(user_addresses)
+
+    if request.method == 'POST':
+        price_quant_totals = []
+        # quant_totals = []
+        outofstock = []
+        for product in cart_items:
+            # for every item of the cart, take the passed quantity
+            quantity = request.POST.get(product.product.name)
+            quantity = int(quantity)
+            # then change quantity of cart item to that quantity
+            product.quant = quantity
+
+            if product.quant == 0:
+                print('DELETE')
+                product.delete()
+            else:
+                print('SAVING...')
+                # quantity requested is non-zero
+                # checking if it is lesser than product inventory
+                inventory = product.product.inventory
+                if product.quant <= inventory:
+                    product.save()
+                    price_quant_totals.append(
+                        [product.product.name, product.product.price * product.quant, product.quant])
+                    # price_totals[product.product.name] = (
+                    #     product.quant * product.product.price)
+                    # quant_totals.append([product.product.name, product.quant])
+                else:
+                    # if not enough stock left, send an alert about stock and fix quant to max available
+                    print('Not enough products, setting quantity to max avaiable')
+                    outofstock.append(product.product.name)
+                    product.quant = inventory
+                    product.save()
+                    price_quant_totals.append(
+                        [product.product.name, product.product.price * product.quant, product.quant])
+                    # price_totals[product.product.name] = (
+                    #     product.quant * product.product.price)
+                    # quant_totals.append([product.product.name, product.quant])
+                    # quant_totals[product.product.name] = product.quant
+
+        # calculate the value and send to html page
+        total_price = 0
+        total_quant = 0
+        for product in price_quant_totals:
+            total_price = product[1] + total_price
+            total_quant = product[2] + total_quant
+
+        print(total_price)
+        print(total_quant)
+        print(price_quant_totals)
+        print(outofstock)
+
+    return render(request, "checkout.html", {"user": user, "user_name": user_name, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock})
+
+    return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")
+
+
+def newAddress(request, user_name):
+    username = user_name
+    user = Customer.objects.get(user__username=username)
+    print(user)
+    cart = Cart.objects.get(user=Customer)
+    print(cart)
+    if request.method == 'GET':
+        form = newAddressForm()
+
+    if request.method == 'POST':
+        form = newAddressForm(request.POST)
+        user_addresses = Addresses.objects.create(Customer=Customer, cart=cart)
+        print(user_addresses)
+    return render(request, 'new_address.html', {"form": form, "user_name": user_name})

@@ -93,26 +93,43 @@
 
 <div class="polygon"></div>
 
-  <!-- Individual Product page -->
-<h1>{{ product.name }}</h1>
-<ul>
+<div class="text">
+      <!-- Individual Product page -->
+<h1 class = " product-title">{{ product.name }}</h1>
+<div class="priceandrating"><p class = "product-price">₹{{ product.price}} </p>
+    <div class="rating">
+    {% if ratingsCount == 0 %}
+        <p class = "noratings" style = "font-size:3vmax;">No Ratings.</p>
+    {% else %}
+        {% for rate in rating %}
+            {% if rate < 0 %}
+                <span class="fa fa-star"></span>
+            {% else %}
+                <span class="fa fa-star checked"></span>
+            {% endif %}
+        {% endfor %}
+        <a href = "{% url 'review' product_id=product.id %}"><span style = "font-size:2vmax;">&ensp;({{ratingsCount}})</span></a>
+    {% endif %}
+    </div></div>
+
+<p class = "product-description">{{ product.description }}</p>
+<!-- <ul> -->
     <!--Listing product data-->
-    <li><strong>ID</strong> : {{ product.id }}</li>
+    <!-- <li><strong>ID</strong> : {{ product.id }}</li>
     <li><strong>Name</strong> : {{ product.site_title }}</li>
     <li><strong>Price</strong> : {{ product.price }}</li>
     <li><strong>Description</strong> : {{ product.description }}</li>
     <li><strong>Tags</strong> : {{ product.tags }}</li>
-    <li><strong>Popularity</strong> : {{ product.popularity }}</li> 
-</ul>
+    <li><strong>Popularity</strong> : {{ product.popularity }}</li>  -->
+<!--</ul> -->
 
-{% if rating < 0 %}
-<h3>No ratings</h3>
-{% else %}
-<h1>Rating : {{ rating }}</h1>
-<h1>View Ratings for <a href = "{% url 'review' product_id=product.id %}">this product</a></h1>
-{% endif %}
 
-<button type="button" style = "padding: 3px;">ADD TO CART</button>
+<button data-product="{{product.id}}" data-action="add" class="update-cart">Add to Cart</button>
+<h1><a href = "{% url 'review' product_id=product.id %}">See reviews for this product</a></h1>
+<h1><a href = "{% url 'newReview' product_id=product.id %}">Write your own review for this product</a></h1>
+</div>
+
+
 </div>
 
 </div>
