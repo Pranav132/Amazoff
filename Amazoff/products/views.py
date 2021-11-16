@@ -125,10 +125,12 @@ def order(request, cart_id):
 
 
 def review(request, product_id):
+    user = request.user
+    print(user)
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
     prod_id = product_id
     checker = [0, 0, 0, 0, 0]
-    return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id})
+    return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id, "user": user})
 
 
 def orderHistory(request):
@@ -159,7 +161,7 @@ def newReview(request, product_id):
 
             new_review.save()
 
-            return redirect('product_page', product_id=product_id)
+            return redirect('review', product_id=product_id)
 
     # create review form for user to fill - GET
     # send data back and make a new review and rating in database - POST

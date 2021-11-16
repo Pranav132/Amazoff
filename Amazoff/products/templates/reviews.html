@@ -22,9 +22,15 @@ then if there is description, description -->
 {% if rating.review %}
     <h6>{{rating.review}}</h6>
 {% endif %}
+{% if user == rating.user %}
+    <!-- Functionality to edit or delete these reviews needs to be added via a new link -->
+    <p>Edit review</p>
+    <p>Delete review</p>
+{% endif %}
 <br>
 <br>
 {% endfor %}
+<h5><a href = "{% url 'newReview' product_id=product_id %}">Write your own review for this product.</a></h5>
 
 {% else %}
 <h3>No reviews yet, be the first to write a review!</h3>
