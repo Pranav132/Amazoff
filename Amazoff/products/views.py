@@ -144,30 +144,27 @@ def newReview(request, product_id):
     # review form
     if request.method == 'GET':
         form = ReviewForm(initial={"rating": 5})
+        return render(request, "new_review.html", {"form": form, "product_id": product_id})
 
     if request.method == 'POST':
         user = request.user
-        print(product_id)
         product = Product.objects.get(id=product_id)
         new_review = ReviewsRatings.objects.create(user=user, product=product)
         form = ReviewForm(request.POST)
         if form.is_valid():
             rating = request.POST.get('rating')
             review = request.POST.get('review')
-
-            print(rating)
-            print(review)
-
             new_review.rating = rating
             new_review.review = review
 
             new_review.save()
 
+            return redirect('product_page', product_id=product_id)
+
     # create review form for user to fill - GET
     # send data back and make a new review and rating in database - POST
     # rating is required but review is not
     # use the same input number from 1 to 5 for review
-    return render(request, "new_review.html", {"form": form, "product_id": product_id})
 
 
 def search(request):
