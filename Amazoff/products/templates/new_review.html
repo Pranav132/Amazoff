@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 
-<form action="" method="post">
+<form action="{% url 'product_page' product_id=product.id %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit review!">

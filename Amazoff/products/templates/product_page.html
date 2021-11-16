@@ -126,7 +126,7 @@
 
 <button data-product="{{product.id}}" data-action="add" class="update-cart">Add to Cart</button>
 <h1><a href = "{% url 'review' product_id=product.id %}">See reviews for this product</a></h1>
-<h1>Write your own review for this product</h1>
+<h1><a href = "{% url 'newReview' product_id=product.id %}">Write your own review for this product</a></h1>
 </div>
 
 
