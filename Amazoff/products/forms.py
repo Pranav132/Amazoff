@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class FilterForm(forms.Form):
@@ -22,3 +23,10 @@ class newAddressForm (forms.Form):
     state = forms.CharField()
     country = forms.CharField()
     zipCode = forms.IntegerField()
+
+
+class ReviewForm(forms.Form):
+    rating = forms.IntegerField(label='Rating', widget=forms.NumberInput(
+        attrs={'min': 1, 'max': '5', 'type': 'number'}))
+    review = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Tell us what you think!'}))

@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User
 from django.shortcuts import render, redirect
-from .forms import FilterForm, newAddressForm
+from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 import json
 #from fuzzywuzzy import fuzz
@@ -126,10 +126,45 @@ def order(request, cart_id):
 
 def review(request, product_id):
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
-    for rating in ratings:
-        print(rating.user, rating.product, rating.rating, rating.review)
+    prod_id = product_id
+    checker = [0, 0, 0, 0, 0]
+    return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id})
 
-    return render(request, "reviews.html", {"ratings": ratings})
+
+def orderHistory(request):
+    orders = Cart.objects.filter(user=request.user, orderExecuted=True).all()
+    for order in orders:
+        print(order.cartValue)
+        print(order.orderDate)
+    # prints the order history of the current customer
+
+
+def newReview(request, product_id):
+    # importing all existing reviews and ratings
+    # review form
+    if request.method == 'GET':
+        form = ReviewForm(initial={"rating": 5})
+        return render(request, "new_review.html", {"form": form, "product_id": product_id})
+
+    if request.method == 'POST':
+        user = request.user
+        product = Product.objects.get(id=product_id)
+        new_review = ReviewsRatings.objects.create(user=user, product=product)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            rating = request.POST.get('rating')
+            review = request.POST.get('review')
+            new_review.rating = rating
+            new_review.review = review
+
+            new_review.save()
+
+            return redirect('product_page', product_id=product_id)
+
+    # create review form for user to fill - GET
+    # send data back and make a new review and rating in database - POST
+    # rating is required but review is not
+    # use the same input number from 1 to 5 for review
 
 
 def search(request):
