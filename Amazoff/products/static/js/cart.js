@@ -8,8 +8,9 @@ for (var i = 0; i < updateBtns.length; i++) {
 		console.log('USER:', user)
 
 		if (user === 'AnonymousUser'){
-			console.log('Not logged in')
+			alert('Please log in to add to cart.')
 		}else{
+			alert("Item added successfully.")
 			updateUserOrder(productId, action)
 		}
 		
@@ -18,7 +19,6 @@ for (var i = 0; i < updateBtns.length; i++) {
 
 function updateUserOrder(productId, action){
 	console.log('User logged in, sending data...')
-
 	var url = '/update_item/'
 
 	fetch(url, {
