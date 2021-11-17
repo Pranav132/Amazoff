@@ -290,22 +290,30 @@ def checkout(request):
         print(price_quant_totals)
         print(outofstock)
 
-    return render(request, "checkout.html", {"user": user, "user_name": user_name, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock})
+    return render(request, "checkout.html", {"user": user, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock})
 
     return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")
 
 
-def newAddress(request, user_name):
-    username = user_name
-    user = Customer.objects.get(user__username=username)
+def newAddress(request):
+    user = Customer.objects.get(user=request.user)
     print(user)
-    cart = Cart.objects.get(user=Customer)
+    cart = Cart.objects.get(user=request.user)
     print(cart)
+
     if request.method == 'GET':
         form = newAddressForm()
+        return render(request, 'new_address.html', {"form": form})
 
     if request.method == 'POST':
-        form = newAddressForm(request.POST)
-        user_addresses = Addresses.objects.create(Customer=Customer, cart=cart)
+        customer = Customer.objects.get(user=request.user)
+        addressLine1 = request.POST.get('addressLine1')
+        addressLine2 = request.POST.get('addressLine2')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        country = request.POST.get('country')
+        zipCode = request.POST.get('zipCode')
+        user_addresses = Addresses.objects.create(Customer=customer, cart=cart, addressLine1=addressLine1,
+                                                  addressLine2=addressLine2, city=city, state=state, country=country, zipCode=zipCode)
         print(user_addresses)
-    return render(request, 'new_address.html', {"form": form, "user_name": user_name})
+        return HttpResponse("<h1>Yes</h1>")
