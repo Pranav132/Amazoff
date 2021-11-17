@@ -17,6 +17,9 @@ def index(request):
         checkCustomer = Customer.objects.filter(user=user).first()
         if not checkCustomer:
             Customer.objects.create(user=user)
+        checkCart = Cart.objects.filter(user=user)
+        if not checkCart:
+            Cart.objects.create(user=user)
     # to render the homepage
     return render(request, "index.html")
 
@@ -27,7 +30,6 @@ def cart(request):
     cart_id = Cart.objects.get(user=request.user)
 
     cart_items = CartItem.objects.filter(cart=cart_id)
-    print(cart_items)
     return render(request, "cart.html", {"cart_items": cart_items})
 
 

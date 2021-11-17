@@ -118,7 +118,7 @@ class Cart(models.Model):
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     @property
     def calcCartTotal(self):
@@ -151,7 +151,7 @@ class Wishlist(models.Model):
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class WishlistItem(models.Model):
