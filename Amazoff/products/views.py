@@ -125,11 +125,21 @@ def order(request, cart_id):
 
 def review(request, product_id):
     user = request.user
-    print(user)
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
+    product = Product.objects.filter(id=product_id)[0]
     prod_id = product_id
     checker = [0, 0, 0, 0, 0]
-    return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id, "user": user})
+    return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id, "user": user, "product": product})
+
+
+def deleteReview(request, reviewsRatings_id):
+    review = ReviewsRatings.objects.filter(id=reviewsRatings_id)
+    print(review)
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        product = Product.objects.filter(id=product_id)
+        review.delete()
+        return redirect('review', product_id=product_id)
 
 
 def orderHistory(request):

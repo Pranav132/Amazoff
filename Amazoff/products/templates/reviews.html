@@ -1,16 +1,23 @@
 {% extends "layout.html" %} {% block title %}Reviews{% endblock %}
+{% load static %}
 {% block styles %}
-
+<link rel="stylesheet" href="{% static 'css/style-rating.css' %}">
 {% endblock %}
 {% block content %}
 
-<!-- <h1 type="hidden">{{ product_id }}</h1> -->
+<div class="title">
+    Reviews for&nbsp;<strong style="text-decoration: underline;"> {{ product.name }}</strong>
+</div>
 
 {% if ratings %}
+<div class="allratings">
 {% for rating in ratings %}
 <!-- first the stars
 then user name
 then if there is description, description -->
+<br>
+<div class="rates">
+<div class="stars">
 {% for i in checker %}
     {% if forloop.counter0 < rating.rating %}
     <span class="fa fa-star" style="color: orange;"></span>
@@ -18,24 +25,52 @@ then if there is description, description -->
     <span class="fa fa-star"></span>
 {% endif %}
 {% endfor %}
-<h3>{{rating.user}}</h3>
+</div>
+<div class="username">{{rating.user}}</div>
 {% if rating.review %}
-    <h6>{{rating.review}}</h6>
+    <div class = "review">{{rating.review}}</div>
 {% endif %}
+<div class="delete">
 {% if user == rating.user %}
-    <!-- Functionality to edit or delete these reviews needs to be added via a new link -->
-    <p>Edit review</p>
-    <p>Delete review</p>
+    <i class="bi bi-trash-fill" onclick="togglePopup('{{rating.id}}')"></i>
 {% endif %}
-<br>
-<br>
-{% endfor %}
-<h5><a href = "{% url 'newReview' product_id=product_id %}">Write your own review for this product.</a></h5>
+</div>
+</div>
 
+<br>
+<hr>
+{% endfor %}
+</div>
 {% else %}
-<h3>No reviews yet, be the first to write a review!</h3>
-<h5><a href = "{% url 'newReview' product_id=product_id %}">Write your own review for this product.</a></h5>
+<h3 class = "own">No reviews yet, be the first to write a review!</h3>
+{% endif %}
+
+<a href = "{% url 'newReview' product_id=product_id %}" class = "own">Write your own review for this product.</a>
 <!-- should go to review form page -->
 
-{% endif %}
+{% for rating in ratings %}
+<section class = "popup" id = "{{rating.id}}">
+    <div class = overlay></div>
+    <div class="content">
+        <div class="close-btn" onclick="togglePopup('{{rating.id}}')">&times;</div>
+        <div class="text">
+            Are you sure you want to delete this review?
+        </div>
+        <div class="form">
+            <form method = "POST" action = "{% url 'deleteReview' reviewsRatings_id=rating.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{product.id}}" />
+                <input type = "submit" value = "Delete" class = "submitbutton" onclick = "alert('Review deleted successfully')" />
+            </form>
+        </div>
+    </div>
+</section>
+{% endfor%}
+
+<script>
+    function togglePopup(idname)
+    {
+        document.getElementById(idname).classList.toggle("active");
+    }
+</script>
 {% endblock %}

@@ -39,6 +39,7 @@
 }
 
 .priceandrating {
+  padding: 3% 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -58,8 +59,25 @@
 
 .product-description {
   font-family: "Poppins", sans-serif;
-  font-size: 1.75vmax;
-  padding: 0 5%;
+  font-size: 1.5vmax;
+  padding: 3% 5%;
+  text-align: left;
+}
+
+.review {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: 2vmax;
+  padding: 5vh 0;
+  color: var(--platinum);
+}
+
+.review a {
+  color: var(--rich-black-fogra-29);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .polygon {
@@ -124,4 +142,42 @@
 
 .grid > [class*="column-"] {
   padding: 1rem;
+}
+
+.update-cart {
+  background: linear-gradient(-45deg, #3f00b5, #9f69fe, #27c8b7, #3f00b5);
+  background-size: 800% 400%;
+  padding: 0.5em 1em;
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+  font-size: 2.5vmax;
+  font-weight: 700;
+  color: white;
+  transition: all 0.5s ease-in-out;
+  animation: gradient 10s infinite cubic-bezier(0.62, 0.28, 0.23, 0.99) both;
+}
+
+.update-cart:hover {
+  animation: gradient 3s infinite;
+  transform: scale(1.05);
+}
+
+.update-cart:active {
+  animation: gradient 3s infinite;
+  transform: scale(0.8);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }

@@ -27,4 +27,6 @@ urlpatterns = [
     path("newAddress/", views.newAddress, name="newAddress"),
     path("newReview/<int:product_id>", views.newReview, name="newReview"),
     path("orderHistory", views.orderHistory, name="orderHistory"),
+    path("deleteReview/<int:reviewsRatings_id>",
+         views.deleteReview, name="deleteReview"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # static media url and root to serve images uploaded through imagefield
