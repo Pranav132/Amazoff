@@ -17,12 +17,12 @@ class FilterForm(forms.Form):
 
 
 class newAddressForm (forms.Form):
-    addressLine1 = forms.CharField()
-    addressLine2 = forms.CharField(required=False)
-    city = forms.CharField()
-    state = forms.CharField()
-    country = forms.CharField()
-    zipCode = forms.IntegerField()
+    name = forms.CharField(max_length=100, required=True)
+    addressLine1 = forms.CharField(max_length=100)
+    addressLine2 = forms.CharField(max_length=100, required=False)
+    city = forms.CharField(max_length=100)
+    state = forms.CharField(max_length=100)
+    country = forms.CharField(max_length=100)
 
 
 class ReviewForm(forms.Form):

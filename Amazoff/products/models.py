@@ -90,7 +90,7 @@ class Product(models.Model):
     )
 
     category = models.ManyToManyField(Product_Categories)
-    product = models.ManyToManyField(Tags)
+    tags = models.ManyToManyField(Tags)
 
     def __str__(self):
         return self.name
@@ -162,6 +162,7 @@ class WishlistItem(models.Model):
 
 
 class Addresses(models.Model):
+    name = models.CharField(max_length=100, null=False)
     customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, null=True)
     addressLine1 = models.CharField(max_length=100, null=False)
@@ -173,7 +174,7 @@ class Addresses(models.Model):
     addedDate = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.addressLine1
+        return self.name
 
 # reviews and ratings database
 
@@ -190,6 +191,13 @@ class ReviewsRatings(models.Model):
         MaxValueValidator(5), MinValueValidator(1)],
         null=False, blank=False)
     review = models.CharField("Review", max_length=250, blank=True, null=True)
+
+
+class completedOrders(models.Model):
+    order = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
+    address = models.ForeignKey(
+        Addresses, on_delete=models.SET_NULL, null=True)
+    orderTime = models.DateTimeField(auto_now_add=True)
 
 
 '''

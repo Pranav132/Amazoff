@@ -7,6 +7,8 @@
 <form action="" method="post">
     {% csrf_token %}
     {{ form }}
+    <label for="zipCode">Zip Code</label>
+    <input type = "number" name="zipCode" default = "00000" min= "00000" max= "999999" style = "width: 5vw;">
     <input type="submit" value="Add address">
   </form>
 

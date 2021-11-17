@@ -314,13 +314,14 @@ def newAddress(request):
 
     if request.method == 'POST':
         customer = Customer.objects.get(user=request.user)
+        name = request.POST.get('name')
         addressLine1 = request.POST.get('addressLine1')
         addressLine2 = request.POST.get('addressLine2')
         city = request.POST.get('city')
         state = request.POST.get('state')
         country = request.POST.get('country')
         zipCode = request.POST.get('zipCode')
-        user_addresses = Addresses.objects.create(customer=customer, cart=cart, addressLine1=addressLine1,
+        user_addresses = Addresses.objects.create(customer=customer, name=name, addressLine1=addressLine1,
                                                   addressLine2=addressLine2, city=city, state=state, country=country, zipCode=zipCode)
         print(user_addresses)
         return HttpResponse("<h1>Yes</h1>")

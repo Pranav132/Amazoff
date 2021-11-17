@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tags, Customer, Product, ReviewsRatings, User, Product_Categories, Cart, CartItem, Wishlist, WishlistItem, subcategories, Addresses
+from .models import Tags, Customer, Product, ReviewsRatings, User, Product_Categories, Cart, CartItem, Wishlist, WishlistItem, subcategories, Addresses, completedOrders
 
 
 # Register your models here.
@@ -14,3 +14,4 @@ admin.site.register(Wishlist)
 admin.site.register(Addresses)
 admin.site.register(WishlistItem)
 admin.site.register(Tags)
+admin.site.register(completedOrders)
