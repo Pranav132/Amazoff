@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, completedOrders
 from django.shortcuts import render, redirect
 from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
@@ -24,7 +24,7 @@ def index(request):
 def cart(request):
     # to render the cart
     print(request.user)
-    cart_id = Cart.objects.get(user=request.user)
+    cart_id = Cart.objects.get(user=request.user, orderExecuted=False)
 
     cart_items = CartItem.objects.filter(cart=cart_id)
     print(cart_items)
@@ -108,9 +108,12 @@ def user(request):
     print(customer)
     addresses = Addresses.objects.filter(customer=customer).all()
     print(addresses)
-    print(user.first_name)
-    orderHistory = Cart.objects.filter(
+    orders = Cart.objects.filter(
         user=user, orderExecuted=True).all()
+    orderHistory = []
+    for order in orders:
+        compOrder = completedOrders.objects.filter(order=order).all()
+        orderHistory.append(compOrder)
     print(orderHistory)
     reviews = ReviewsRatings.objects.filter(user=user).all()
     print(reviews)
@@ -301,7 +304,6 @@ def checkout(request):
 
 
 def newAddress(request):
-    cart = Cart.objects.get(user=request.user)
 
     if request.method == 'GET':
         form = newAddressForm()
