@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 import json
+from django.contrib.postgres.search import SearchQuery
 #from fuzzywuzzy import fuzz
 #from fuzzywuzzy import process
 
