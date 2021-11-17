@@ -23,9 +23,8 @@ def index(request):
 
 def cart(request):
     # to render the cart
-    cart_id = Cart.objects.get(
-        user__username=request.user)
-    print(cart_id)
+    print(request.user)
+    cart_id = Cart.objects.get(user=request.user)
 
     cart_items = CartItem.objects.filter(cart=cart_id)
     print(cart_items)
@@ -230,12 +229,12 @@ def faq(request):
 
 def checkout(request):
     user = request.user
+    customer = Customer.objects.get(user=user)
     current_cart = Cart.objects.get(user=user, orderExecuted=False)
-    print(current_cart)
     cart_items = CartItem.objects.filter(cart=current_cart.id)
     print(cart_items)
     user_name = user.first_name
-    user_addresses = Addresses.objects.filter(Customer__user=user)
+    user_addresses = Addresses.objects.filter(customer=customer)
     print(user)
     print(user_addresses)
 
@@ -299,7 +298,6 @@ def newAddress(request):
     user = Customer.objects.get(user=request.user)
     print(user)
     cart = Cart.objects.get(user=request.user)
-    print(cart)
 
     if request.method == 'GET':
         form = newAddressForm()
@@ -313,7 +311,7 @@ def newAddress(request):
         state = request.POST.get('state')
         country = request.POST.get('country')
         zipCode = request.POST.get('zipCode')
-        user_addresses = Addresses.objects.create(Customer=customer, cart=cart, addressLine1=addressLine1,
+        user_addresses = Addresses.objects.create(customer=customer, cart=cart, addressLine1=addressLine1,
                                                   addressLine2=addressLine2, city=city, state=state, country=country, zipCode=zipCode)
         print(user_addresses)
         return HttpResponse("<h1>Yes</h1>")
