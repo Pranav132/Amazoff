@@ -75,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Adding new context processor for autocomplete functionality
+                'products.context_processors.autocomplete_processor',
             ],
         },
     },

@@ -12,11 +12,16 @@
     <link rel="icon" href="{% static 'web-logo.png' %}" type="image/png">
     <!-- Styles -->
     <link rel='stylesheet' href="{% static 'css/style.css' %}">
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 
     {% block styles %}
     {% endblock %}
 
     <!-- Scripts -->
+    <!-- Scripts for autocomplete functionality -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script> 
+
     <script type="text/javascript">
       var user = '{{request.user}}'
 
@@ -89,9 +94,14 @@
               <!-- Linking Search form -->
               <form class="form-inline my-2 my-lg-0" method="GET" action={% url 'product_search' %}>
                 <!-- {% csrf_token %} -->
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Amazoff" aria-label="Search" name="searched">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Amazoff" aria-label="Search" name="searched" id="tags">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
+              {% if template_products %}
+              {% for template_product in template_products %}
+              <h1>{{template_product.name}}</h1>
+              {% endfor %}
+              {% endif %}
             </div>
           </nav>
         {% endblock %}

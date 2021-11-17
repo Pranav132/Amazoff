@@ -190,11 +190,15 @@ def search(request):
 
         # this gives us all the products who's names are directly related to the search term
         main_product = Product.objects.filter(name__icontains=search)
-        related_products = Product.objects.filter(
+        product_categories = Product.objects.filter(
             category__name__icontains=search)
-        far_related_products = Product.objects.filter(
+        product_subcategories = Product.objects.filter(
+            sub_categories__name__icontains=search)
+        product_tags = Product.objects.filter(
+            tags__name__icontains=search)
+        product_descriptions = Product.objects.filter(
             description__icontains=search)
-        product = main_product | related_products | far_related_products
+        product = main_product | product_categories | product_subcategories | product_tags | product_descriptions
 
         # initializing the form and setting the default value to be relevance
         form = FilterForm(initial={'name': 'relevance'})
@@ -205,11 +209,15 @@ def search(request):
         search = request.POST.get('searched')
 
         main_product = Product.objects.filter(name__icontains=search)
-        related_products = Product.objects.filter(
+        product_categories = Product.objects.filter(
             category__name__icontains=search)
-        far_related_products = Product.objects.filter(
+        product_subcategories = Product.objects.filter(
+            sub_categories__name__icontains=search)
+        product_tags = Product.objects.filter(
+            tags__name__icontains=search)
+        product_descriptions = Product.objects.filter(
             description__icontains=search)
-        product = main_product | related_products | far_related_products
+        product = main_product | product_categories | product_subcategories | product_tags | product_descriptions
 
         if form.is_valid():
             choice = request.POST.get('name')

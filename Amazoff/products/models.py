@@ -91,6 +91,7 @@ class Product(models.Model):
 
     category = models.ManyToManyField(Product_Categories)
     tags = models.ManyToManyField(Tags)
+    sub_categories = models.ManyToManyField(subcategories)
 
     def __str__(self):
         return self.name
