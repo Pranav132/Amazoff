@@ -22,7 +22,6 @@
 }
 
 .text {
-  padding-top: 5vh;
   background: var(--shadow-blue);
   font-family: "Bebas Neue", sans-serif;
   padding-left: 2%;
@@ -39,7 +38,7 @@
 }
 
 .priceandrating {
-  padding: 3% 0;
+  padding: 2% 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -60,7 +59,7 @@
 .product-description {
   font-family: "Poppins", sans-serif;
   font-size: 1.5vmax;
-  padding: 3% 5%;
+  padding: 0 5% 3% 5%;
   text-align: left;
 }
 

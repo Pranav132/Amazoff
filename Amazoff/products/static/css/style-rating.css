@@ -8,7 +8,7 @@
 }
 
 html {
-  background-color: var(--bdazzled-blue);
+  background-color: var(--platinum);
 }
 
 .title {
@@ -113,7 +113,7 @@ html {
 .text {
   padding-top: 15vh;
   font-size: 2.5vmin;
-  font-family: "Quicksand", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .popup.active .content {
@@ -144,8 +144,31 @@ html {
 
 .own {
   height: 30vh;
-  background: var(--bdazzled-blue);
+  background: var(--shadow-blue);
+  color: var(--platinum);
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+  font-size: 3vmax;
+}
+
+.write {
+  height: 20vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 2vmax;
+  text-transform: uppercase;
+  background: #c9daf5;
+}
+
+.write a {
+  color: var(--gray);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.write a:hover {
+  color: #000;
+  text-decoration: none;
 }

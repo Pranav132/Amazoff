@@ -237,6 +237,7 @@ def faq(request):
     return render(request, "faq.html")
 
 
+@login_required
 def checkout(request):
     user = request.user
     customer = Customer.objects.get(user=user)
@@ -244,7 +245,7 @@ def checkout(request):
     cart_items = CartItem.objects.filter(cart=current_cart.id)
     print(cart_items)
     user_name = user.first_name
-    user_addresses = Addresses.objects.filter(customer=customer)
+    user_addresses = Addresses.objects.filter(customer=customer).all()
     print(user)
     print(user_addresses)
 
@@ -299,14 +300,12 @@ def checkout(request):
         print(price_quant_totals)
         print(outofstock)
 
-    return render(request, "checkout.html", {"user": user, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock})
+    return render(request, "checkout.html", {"user": user, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock, "user_addresses": user_addresses})
 
     return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")
 
 
 def newAddress(request):
-    user = Customer.objects.get(user=request.user)
-    print(user)
     cart = Cart.objects.get(user=request.user)
 
     if request.method == 'GET':

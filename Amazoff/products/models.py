@@ -164,7 +164,6 @@ class WishlistItem(models.Model):
 class Addresses(models.Model):
     customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, null=True)
-    cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
     addressLine1 = models.CharField(max_length=100, null=False)
     addressLine2 = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=False)

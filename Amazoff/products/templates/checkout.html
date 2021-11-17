@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 
-<h1>Hello, {{ user_name }}</h1>
+<h1>Hello, <span style="text-transform: capitalize;">{{ user.first_name }}</span></h1>
 
 {% if outofstock %}
     <script>
@@ -42,6 +42,9 @@
 
 {% if user_addresses %}
     <!-- add addresses to choose from -->
+    {% for address in user_addresses %}
+    <p>{{address}}</p>
+    {% endfor %}
     <a href="{% url 'newAddress' %}"><button>Add new address</button></a>
     
 {% else %}

@@ -29,7 +29,9 @@ then if there is description, description -->
 <div class="username">{{rating.user}}</div>
 {% if rating.review %}
     <div class = "review">{{rating.review}}</div>
+    
 {% endif %}
+<hr>
 <div class="delete">
 {% if user == rating.user %}
     <i class="bi bi-trash-fill" onclick="togglePopup('{{rating.id}}')"></i>
@@ -38,15 +40,18 @@ then if there is description, description -->
 </div>
 
 <br>
-<hr>
+
 {% endfor %}
 </div>
 {% else %}
-<h3 class = "own">No reviews yet, be the first to write a review!</h3>
+<div class = "own">No reviews yet, be the first to write a review!</div>
 {% endif %}
 
-<a href = "{% url 'newReview' product_id=product_id %}" class = "own">Write your own review for this product.</a>
+<div class="write">
+<a href = "{% url 'newReview' product_id=product_id %}">Write your own review for this product.</a>
+<a href = "{% url 'product_page' product_id=product_id %}">Go Back</a>
 <!-- should go to review form page -->
+</div>
 
 {% for rating in ratings %}
 <section class = "popup" id = "{{rating.id}}">
