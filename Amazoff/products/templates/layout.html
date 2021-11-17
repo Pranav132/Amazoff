@@ -71,16 +71,24 @@
                 {% else %}
                   <li class="nav-item mr-auto" style = "font-size:1.3em;"><a href="{% provider_login_url 'google' %}">Login</a></li> 
                 {% endif %} -->
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown" style = "font-size:1.3em;">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                    Hello, {{user.first_name}}
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="{% url 'user' %}">Your Account</a>
+                    <a class="dropdown-item" href="{% url 'cart' %}">Cart</a>
+                    <a class="dropdown-item" href="#">Wishlist</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="/accounts/logout"><strong>Logout</strong></a>
                   </div>
+                </li>
+                {% else %}
+                 <li class = "nav-item"><a class = "nav-link" href="{% provider_login_url 'google' %}" style="font-size:1.3em; color: #0099ff; text-decoration: underline;">Login With Google</a></li>
+                 {% endif %}
+                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'products' %}" style="font-size:1.3em;">Shop</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/contact" style="font-size:1.3em;">Contact</a>
@@ -101,11 +109,11 @@
         <div class="footer-basic">
           <footer>
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href="#">Link</a></li>
-                  <li class="list-inline-item"><a href="#">Link</a></li>
-                  <li class="list-inline-item"><a href="#">Link</a></li>
-                  <li class="list-inline-item"><a href="#">Link</a></li>
-                  <li class="list-inline-item"><a href="#">Link</a></li>
+                  <li class="list-inline-item"><a href="{% url 'index' %}">Home</a></li>
+                  <li class="list-inline-item"><a href="{% url 'products' %}">Shop</a></li>
+                  <li class="list-inline-item"><a href="{% url 'cart' %}">Cart</a></li>
+                  <li class="list-inline-item"><a href="{% url 'user' %}">Your Account</a></li>
+                  <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
               </ul>
               <p style= "color: #778da9ff; text-align: center; padding-top: 20px; text-decoration: underline;">Made by Angad, Aditya and Pranav</p>
               <!-- <p class="copyright">Company Name © 2018</p> -->

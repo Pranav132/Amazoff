@@ -22,13 +22,14 @@
   Showing results for "{{ search }}"
   </div>
 
-  <form action={% url 'product_search' %} method="post">
+  <form action={% url 'product_search' %} method="POST">
     {% csrf_token %}
     {{ form }}
     <input type = "hidden" id = "searched_form" name = "searched" value = "">
     <input type="submit" value="Save 'sort-by' settings">
   </form>
-  
+  <br>
+  <hr>
 
 {% if product %} 
 <main>
@@ -57,15 +58,14 @@
 
 {% else %}
 <div style = "height: 50vh; width: 100%; display: grid; place-items: center;">
-<h1 style = "text-align:center; padding: 2%;">No results found, try using different keywords!</h1>
+<h1 style = "text-align:center; padding: 2%; color: var(--platinum);">No results found, try using different keywords!</h1>
 </div>
 {% endif %} 
 
 {% else %}
-<div style = "height: 50vh; width: 100%; display: grid; place-items: center;">
-<h1 style = "text-align:center; padding: 2%;">
-  You haven't searched for anything, what's your issue? Why even press the
-  search button? Are you that jobless in life? Come on, man.
+<div style = "height: 100vh; width: 100%; display: grid; place-items: center;">
+<h1 style = "text-align:center; padding: 2%; color: var(--platinum); font-size: 5em;">
+  Nothing has been searched for. Please try again.
 </h1>
 </div>
 {% endif %} 
