@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, Wishlist, WishlistItem
 from django.shortcuts import render, redirect
 from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,9 @@ def index(request):
         checkCart = Cart.objects.filter(user=user)
         if not checkCart:
             Cart.objects.create(user=user)
+        checkWishlist = Wishlist.objects.filter(user=user)
+        if not checkWishlist:
+            Wishlist.objects.create(user=user)
     # to render the homepage
     return render(request, "index.html")
 
@@ -32,6 +35,15 @@ def cart(request):
 
     cart_items = CartItem.objects.filter(cart=cart_id)
     return render(request, "cart.html", {"cart_items": cart_items})
+
+
+def wishlist(request):
+    # to render the cart
+    print(request.user)
+    wishlist_id = Wishlist.objects.get(user=request.user)
+
+    wishlist_items = WishlistItem.objects.filter(wishlist=wishlist_id)
+    return render(request, "wishlist.html", {"user": request.user, "wishlist_items": wishlist_items})
 
 
 def products(request):
@@ -105,6 +117,35 @@ def UpdateItem(request):
     return JsonResponse('Item was added', safe=False)
 
 
+def UpdateWishlist(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user
+    print(customer)
+    product = Product.objects.get(id=productId)
+    print(product)
+    wishlist = Wishlist.objects.get_or_create(
+        user=customer, orderExecuted=False)[0]
+
+    wishlistItem = WishlistItem.objects.get_or_create(
+        wishlist=wishlist, product=product)[0]
+    print(wishlistItem)
+
+    if action == 'add':
+        wishlist.add()
+        # wishlistItem.quant = (wishlistItem.quant + 1)
+    elif action == 'remove':
+        wishlistItem.delete()
+
+    wishlistItem.save()
+
+    return JsonResponse('Item was added', safe=False)
+
+
 def user(request):
     user = request.user
     customer = Customer.objects.get(user=user)
@@ -143,6 +184,16 @@ def deleteReview(request, reviewsRatings_id):
         product = Product.objects.filter(id=product_id)
         review.delete()
         return redirect('review', product_id=product_id)
+
+
+def deleteWishlistItem(request, wishlistItem_id):
+    wishlist_id = Wishlist.objects.filter(user=request.user)
+    wishlist = WishlistItem.objects.filter(wishlist=wishlist_id)
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        delete_wishlistitem = wishlist.filter(product=product_id)
+        delete_wishlistitem.delete()
+        return redirect('wishlist')
 
 
 def orderHistory(request):
