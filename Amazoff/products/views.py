@@ -106,7 +106,7 @@ def user(request):
     user = request.user
     customer = Customer.objects.get(user=user)
     print(customer)
-    addresses = Addresses.objects.filter(Customer=customer).all()
+    addresses = Addresses.objects.filter(customer=customer).all()
     print(addresses)
     print(user.first_name)
     orderHistory = Cart.objects.filter(
@@ -230,11 +230,6 @@ def search(request):
 def contact(request):
     # to render the contact page
     return render(request, "contact.html")
-
-
-def faq(request):
-    # to render the faq page
-    return render(request, "faq.html")
 
 
 @login_required

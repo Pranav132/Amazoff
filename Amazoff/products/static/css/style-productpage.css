@@ -180,3 +180,14 @@
     background-position: 0% 50%;
   }
 }
+
+.wishlist {
+  text-decoration: none;
+  transition: 0.5s;
+}
+
+.wishlist:hover {
+  text-decoration: none;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  transition: 0.5s;
+}

@@ -8,7 +8,7 @@
 }
 
 .wrapperproducts {
-  background: var(--platinum);
+  background: var(--bdazzled-blue);
   min-height: 100vh;
 }
 
@@ -36,7 +36,7 @@ main {
   grid-gap: 40px;
   padding: 2%;
   padding-bottom: 5%;
-  background: var(--platinum);
+  background: var(--bdazzled-blue);
 }
 
 .cards {
@@ -120,6 +120,20 @@ main {
   right: 1em;
   bottom: 1em;
   color: var(--rich-black-fogra-29);
+}
+
+.wishlist {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  text-decoration: none;
+  transition: 0.5s;
+}
+
+.wishlist:hover {
+  text-decoration: none;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  transition: 0.5s;
 }
 
 .card_button:hover {

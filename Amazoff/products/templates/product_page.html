@@ -108,8 +108,8 @@
                 <span class="fa fa-star checked"></span>
             {% endif %}
         {% endfor %}
-        <a href = "{% url 'review' product_id=product.id %}"><span style = "font-size:2vmax;">&ensp;({{ratingsCount}})</span></a>
     {% endif %}
+    <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2vmax; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></a>
     </div></div>
 
 <p class = "product-description">{{ product.description }}</p>
@@ -136,7 +136,7 @@
 
 </div>
 
-</div>
 
+</div>
 
 {% endblock %}

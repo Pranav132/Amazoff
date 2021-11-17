@@ -14,7 +14,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("home/", views.index, name="index"),
     path("contact/", views.contact, name="contact"),
-    path("faq/", views.faq, name="faq"),
     path("cart/", views.cart, name="cart"),
     path("checkout/", views.checkout, name="checkout"),
     path("search/", views.search, name="product_search"),

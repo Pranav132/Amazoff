@@ -34,6 +34,7 @@
                 {{ product.name }}
             </p>
             <div class="card_info">
+              <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></a>
                 <p class = "text--medium">₹{{ product.price }}</p>
                 {% if product.inventory > 0 %}
                 <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>

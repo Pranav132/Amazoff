@@ -7,6 +7,10 @@
   --platinum: #e0e1ddff;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 .hero {
   height: 100vh;
   width: 100vw;
