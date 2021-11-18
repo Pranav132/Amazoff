@@ -15,9 +15,11 @@ urlpatterns = [
     path("home/", views.index, name="index"),
     path("contact/", views.contact, name="contact"),
     path("cart/", views.cart, name="cart"),
+    path("wishlist/", views.wishlist, name="wishlist"),
     path("checkout/", views.checkout, name="checkout"),
     path("search/", views.search, name="product_search"),
     path("update_item/", views.UpdateItem, name='update_item'),
+    path("update_wishlist/", views.UpdateWishlist, name='update_wishlist'),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view()),
     path("user/", views.user, name="user"),
@@ -28,4 +30,6 @@ urlpatterns = [
     path("orderHistory", views.orderHistory, name="orderHistory"),
     path("deleteReview/<int:reviewsRatings_id>",
          views.deleteReview, name="deleteReview"),
+    path("deleteWishlistItem/<int:wishlistItem_id>",
+         views.deleteWishlistItem, name="deleteWishlistItem"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # static media url and root to serve images uploaded through imagefield

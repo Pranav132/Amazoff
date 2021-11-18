@@ -91,6 +91,7 @@ class Product(models.Model):
 
     category = models.ManyToManyField(Product_Categories)
     tags = models.ManyToManyField(Tags)
+    sub_categories = models.ManyToManyField(subcategories)
 
     def __str__(self):
         return self.name
@@ -151,7 +152,7 @@ class Wishlist(models.Model):
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class WishlistItem(models.Model):
