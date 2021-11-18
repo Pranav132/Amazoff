@@ -79,12 +79,12 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown" style = "font-size:1.3em;">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Hello, {{user.first_name}}
+                    Hello, <span style = "text-transform: capitalize;">{{user.first_name}}</span>
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'user' %}">Your Account</a>
                     <a class="dropdown-item" href="{% url 'cart' %}">Cart</a>
-                    <a class="dropdown-item" href="#">Wishlist</a>
+                    <a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/accounts/logout"><strong>Logout</strong></a>
                   </div>
