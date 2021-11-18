@@ -1,7 +1,35 @@
-{% extends "layout.html" %} {% block title %}{{user.first_name}}{% endblock %}
+{% extends "layout.html" %} {% block title %}Your Account{% endblock %}
+{%load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/style-user.css' %}">
+{% endblock %}
 {%block content%}
-<h1>Hello {{user.first_name}}</h1>
+<div class="hello">Hello,&nbsp;{{user.first_name}}
+<div class="cart">
+    <a href="{% url 'cart' %}"><i class="bi bi-cart-check-fill"></i>&nbsp;&nbsp; View Your Cart</a>
+    <a href="{% url 'wishlist' %}"><i class="bi bi-heart-fill" style = "color: red;"></i>&nbsp;&nbsp; View Your Wishlist</a>
+</div>
+</div>
+<div class="addresses"></div>
+<div class="orders"></div>
+<div class="reviews"></div>
 {% for address in addresses %}
-<h3>{{ address }}</h3>
+    <h3>{{ address.name }}</h3>
 {% endfor %}
+{% for order in orderHistory %}
+{% for value in order %}
+{% if forloop.counter0 == 0 %}
+    <h3>{{ value }}</h3>
+{% else %}
+    {% for item in value %}
+        <h5>{{ item.product }}</h5>
+        <h5>{{ item.quant }}</h5>
+    {% endfor %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% for review in reviews %}
+    <h3>{{ review.review }}</h3>
+{% endfor %}
+<a href="{% url 'cart' %}">Your cart</a>
 {% endblock %}

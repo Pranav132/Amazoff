@@ -149,7 +149,6 @@ def UpdateWishlist(request):
 def user(request):
     user = request.user
     customer = Customer.objects.get(user=user)
-    print(customer)
     addresses = Addresses.objects.filter(customer=customer).all()
     print(addresses)
     orders = Cart.objects.filter(
@@ -157,13 +156,14 @@ def user(request):
     orderHistory = []
     for order in orders:
         compOrder = completedOrders.objects.filter(order=order).all()
-        orderHistory.append(compOrder)
+        for complete in compOrder:
+            items = CartItem.objects.filter(cart=complete.order).all()
+            print(items)
+            orderHistory.append([complete, items])
     print(orderHistory)
     reviews = ReviewsRatings.objects.filter(user=user).all()
     print(reviews)
-    cart = Cart.objects.filter(user=user, orderExecuted=False).first()
-    print(cart)
-    return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "cart": cart, "reviews": reviews})
+    return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "reviews": reviews})
 
 
 def order(request, cart_id):

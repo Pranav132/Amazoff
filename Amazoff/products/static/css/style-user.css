@@ -1,0 +1,33 @@
+:root {
+  --rich-black-fogra-29: #0d1b2aff;
+  --oxford-blue: #1b263bff;
+  --bdazzled-blue: #415a77ff;
+  --shadow-blue: #778da9ff;
+  --platinum: #e0e1ddff;
+  --gray: #6c757d;
+}
+
+.hello {
+  min-height: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 5vmax;
+  background: var(--shadow-blue);
+  color: var(--platinum);
+}
+
+.cart {
+  padding-top: 2%;
+  width: 100%;
+  font-size: 1.5vmax;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: space-around;
+}
+.cart a {
+  color: var(--rich-black-fogra-29);
+  font-size: 1em;
+}
