@@ -3,9 +3,17 @@
 {% block title %}{{ product.name}}{% endblock %} 
 {% block styles %}
 <link rel='stylesheet' href="{% static 'css/style-productpage.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/style-reccos.css' %}"
 {% endblock %}
 
 {% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/reccos.js' %}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
+
 {% endblock %}
 
 {%block content %}
@@ -109,7 +117,19 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2vmax; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></a>
+    {% if product.name in template_wishlistItems %}
+              <form action="" method="post">
+                {% csrf_token %}
+                <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Not feeling it?" data-content = "Click to remove from wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="remove"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></button>
+                <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+              </form>
+              {% else %}
+              <form action="" method="post">
+                {% csrf_token %}
+                <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Like this item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="add"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></button>
+                <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+              </form>
+              {% endif %}
     </div></div>
 
 <p class = "product-description">{{ product.description }}</p>
@@ -138,5 +158,75 @@
 
 
 </div>
+
+<!-- Recommendation slider -->
+
+<div class="container-fluid" style= "background:#e0e1dd">
+
+    <h1>You may also like:</h1>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="carousel carousel-showmanymoveone slide" id="itemslider" style= "background-image: linear-gradient(rgb(216, 215, 215)ay)">
+          <div class="carousel-inner">
+  
+            <div class="item active">
+              <div class="col-xs-12 col-sm-6 col-md-2">
+                <a href="{% url 'product_page' product_id=recommended.0.id %}"><img src="{{ recommended.0.picture1.url }}" class="img-responsive center-block"></a>
+                <h4 class="text-center">{{ recommended.0.name }}</h4>
+                <h5 class="text-center">₹ {{ recommended.0.price }}</h5>
+              </div>
+            </div>
+  
+            <div class="item">
+              <div class="col-xs-12 col-sm-6 col-md-2">
+                <a href="{% url 'product_page' product_id=recommended.1.id %}"><img src="{{ recommended.1.picture1.url }}" class="img-responsive center-block"></a>
+                <h4 class="text-center">{{ recommended.1.name }}</h4>
+                <h5 class="text-center">₹ {{ recommended.1.price }}</h5>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="col-xs-12 col-sm-6 col-md-2">
+                <a href="{% url 'product_page' product_id=recommended.2.id %}"><img src="{{ recommended.2.picture1.url }}" class="img-responsive center-block"></a>
+                <h4 class="text-center">{{ recommended.2.name }}</h4>
+                <h5 class="text-center">₹ {{ recommended.2.price }}</h5>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="col-xs-12 col-sm-6 col-md-2">
+                <a href="{% url 'product_page' product_id=recommended.3.id %}"><img src="{{ recommended.3.picture1.url }}" class="img-responsive center-block"></a>
+                <h4 class="text-center">{{ recommended.3.name }}</h4>
+                <h5 class="text-center">₹ {{ recommended.3.price }}</h5>
+              </div>
+            </div>
+
+            <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-2">
+                  <a href="{% url 'product_page' product_id=recommended.4.id %}"><img src="{{ recommended.4.picture1.url }}" class="img-responsive center-block"></a>
+                  <h4 class="text-center">{{ recommended.4.name }}</h4>
+                  <h5 class="text-center">₹ {{ recommended.4.price }}</h5>
+                </div>
+              </div>
+
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-2">
+                  <a href="{% url 'product_page' product_id=recommended.5.id %}"><img src="{{ recommended.5.picture1.url }}" class="img-responsive center-block"></a>
+                  <h4 class="text-center">{{ recommended.5.name }}</h4>
+                  <h5 class="text-center">₹ {{ recommended.5.price }}</h5>
+                </div>
+              </div>
+
+          </div>
+  
+          <div id="slider-control">
+          <a class="left carousel-control" href="#itemslider" data-slide="prev"><img src="https://cdn0.iconfinder.com/data/icons/website-kit-2/512/icon_402-512.png" alt="Left" class="img-responsive"></a>
+          <a class="right carousel-control" href="#itemslider" data-slide="next"><img src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="Right" class="img-responsive"></a>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, Wishlist, WishlistItem, completedOrders
+from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, Tags, User, Wishlist, WishlistItem, completedOrders, subcategories
 from django.shortcuts import render, redirect
 from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
@@ -47,7 +47,6 @@ def wishlist(request):
 
 
 def products(request):
-
     # rendering every required product
 
     # in this case, rendering all products
@@ -83,7 +82,32 @@ def product(request, product_id):
             stars[i] = 0
     print(stars)
 
-    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count})
+    recommended = Product.objects.none()
+
+    for sub in product.sub_categories.all():
+        sub_id = subcategories.objects.get(id=sub.id)
+        tag_id = Tags.objects.get(id=product.tags.first().id)
+        sub_recco = Product.objects.filter(
+            sub_categories=sub_id, tags=tag_id).exclude(id=product.id).exclude(inventory=0)[0:6]
+        recommended = recommended | sub_recco
+
+    if recommended.count() < 6:
+        diff = 5 - recommended.count()
+        for cat in product.category.all():
+            cat_id = Product_Categories.objects.get(id=cat.id)
+            tag_id = Tags.objects.get(id=product.tags.first().id)
+            cat_recco = Product.objects.filter(
+                category=cat_id, tags=tag_id).exclude(id=product.id).exclude(inventory=0)
+            recommended = recommended | cat_recco
+
+    print(recommended[0:6])
+
+    recommended_list = []
+
+    for rec in recommended:
+        recommended_list.append(rec)
+
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
 
 
 def UpdateItem(request):
@@ -136,12 +160,9 @@ def UpdateWishlist(request):
     print(wishlistItem)
 
     if action == 'add':
-        wishlist.add()
-        # wishlistItem.quant = (wishlistItem.quant + 1)
+        wishlistItem.save()
     elif action == 'remove':
         wishlistItem.delete()
-
-    wishlistItem.save()
 
     return JsonResponse('Item was added', safe=False)
 
@@ -190,12 +211,19 @@ def deleteReview(request, reviewsRatings_id):
 
 
 def deleteWishlistItem(request, wishlistItem_id):
-    wishlist_id = Wishlist.objects.filter(user=request.user)
-    wishlist = WishlistItem.objects.filter(wishlist=wishlist_id)
     if request.method == "POST":
+        # Getting the user who is making the request
         product_id = request.POST.get("product_id")
-        delete_wishlistitem = wishlist.filter(product=product_id)
-        delete_wishlistitem.delete()
+        print(product_id)
+
+        # Getting the Wishlist associated with that user
+        wishlist = Wishlist.objects.filter(user=request.user)[0]
+        print(wishlist)
+        # Getting all WishlistItems associated with that wishlist_id in WishlistItems
+        wishlistItem = WishlistItem.objects.filter(
+            wishlist=wishlist, product=product_id)
+        # delete_wishlistitem = wishlist.filter(product=product_id)
+        wishlistItem.delete()
         return redirect('wishlist')
 
 
