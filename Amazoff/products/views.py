@@ -5,8 +5,8 @@ from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 import json
 from django.contrib.postgres.search import SearchQuery
-#from fuzzywuzzy import fuzz
-#from fuzzywuzzy import process
+# from fuzzywuzzy import fuzz
+# from fuzzywuzzy import process
 
 # Create your views here.
 
@@ -59,8 +59,15 @@ def products(request):
         prods.append([product.picture1, product.id, product.name, product.price,
                       product.description, product.popularity, product.inventory])
 
+    wishlist_id = Wishlist.objects.get(user=request.user)
+
+    wishlist_items = WishlistItem.objects.filter(wishlist=wishlist_id)
+    wish = []
+    for item in wishlist_items:
+        wish.append(item.product)
+
     # sending to products.html file
-    return render(request, "products.html", {"products": products})
+    return render(request, "products.html", {"products": products, "wishlist": wish})
 
 
 def product(request, product_id):
