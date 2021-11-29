@@ -28,6 +28,7 @@ def index(request):
     return render(request, "index.html")
 
 
+@login_required
 def cart(request):
     # to render the cart
     print(request.user)
@@ -37,6 +38,7 @@ def cart(request):
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
+@login_required
 def wishlist(request):
     # to render the cart
     print(request.user)
@@ -59,15 +61,8 @@ def products(request):
         prods.append([product.picture1, product.id, product.name, product.price,
                       product.description, product.popularity, product.inventory])
 
-    wishlist_id = Wishlist.objects.get(user=request.user)
-
-    wishlist_items = WishlistItem.objects.filter(wishlist=wishlist_id)
-    wish = []
-    for item in wishlist_items:
-        wish.append(item.product)
-
     # sending to products.html file
-    return render(request, "products.html", {"products": products, "wishlist": wish})
+    return render(request, "products.html", {"products": products})
 
 
 def product(request, product_id):
@@ -175,16 +170,14 @@ def UpdateWishlist(request):
     print(wishlistItem)
 
     if action == 'add':
-        wishlist.add()
-        # wishlistItem.quant = (wishlistItem.quant + 1)
+        wishlistItem.save()
     elif action == 'remove':
-        wishlist.delete()
-
-    wishlistItem.save()
+        wishlistItem.delete()
 
     return JsonResponse('Item was added', safe=False)
 
 
+@login_required
 def user(request):
     user = request.user
     customer = Customer.objects.get(user=user)
