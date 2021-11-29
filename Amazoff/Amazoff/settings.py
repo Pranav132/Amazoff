@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # Adding new context processor for autocomplete functionality
                 'products.context_processors.autocomplete_processor',
+                'products.context_processors.wishlist_checker',
             ],
         },
     },
