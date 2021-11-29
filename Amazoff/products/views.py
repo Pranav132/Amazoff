@@ -178,7 +178,7 @@ def UpdateWishlist(request):
         wishlist.add()
         # wishlistItem.quant = (wishlistItem.quant + 1)
     elif action == 'remove':
-        wishlistItem.delete()
+        wishlist.delete()
 
     wishlistItem.save()
 
