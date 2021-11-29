@@ -76,15 +76,15 @@ def product(request, product_id):
     # getting average rating of product
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
     avg = 0.0
-    count = 0
+    rcount = 0
     stars = [-1, -1, -1, -1, -1]
     for rating in ratings:
         avg += rating.rating
-        count += 1
-    if count == 0:
+        rcount += 1
+    if rcount == 0:
         avg = -1
     else:
-        avg = avg / count
+        avg = avg / rcount
         avg = round(avg)
         for i in range(avg):
             stars[i] = 0
@@ -122,7 +122,7 @@ def product(request, product_id):
             print(recommended_list)
             print(count)
 
-    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6]})
 
 
 def UpdateItem(request):
