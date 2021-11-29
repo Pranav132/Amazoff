@@ -42,6 +42,8 @@
 		}
 		var csrftoken = getToken('csrftoken')
     </script>
+    <!-- Auto complete script -->
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
     {% block scripts %}
     {% endblock %}
 
@@ -49,6 +51,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Auto complete CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"/>
 
     <!-- Fonts -->
      <!-- STYLE SHEETS -->
@@ -100,11 +104,29 @@
                 </li>
               </ul>
               <!-- Linking Search form -->
-              <form class="form-inline my-2 my-lg-0" method="GET" action={% url 'product_search' %}>
-                <!-- {% csrf_token %} -->
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Amazoff" aria-label="Search" name="searched" id="tags">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>
+              <div id="autocomplete" class="autocomplete">
+                <form class="form-inline my-2 my-lg-0" method="GET" action={% url 'product_search' %}>
+                  <!-- {% csrf_token %} -->
+                  <input class="form-control mr-sm-2 autocomplete-input" type="search" placeholder="Search Amazoff" aria-label="Search" name="searched" id="tags">
+                  <ul class="autocomplete-result-list"></ul>
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+              </div>
+              <script>
+                new Autocomplete ('#autocomplete', {
+                  search: input =>{
+                    console.log(input)
+                    const url = '/search/?searched=${input}'
+                    return new Promise(resolve =>{
+                      fetch(url)
+                      .then(product =>{
+                        console.log(product)
+                        resolve(product.product)
+                      })
+                    })
+                  }
+                })
+              </script>
               {% if template_products %}
               {% for template_product in template_products %}
               <!-- <h1>{{template_product.name}}</h1> -->
