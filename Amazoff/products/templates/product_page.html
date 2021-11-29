@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/drift-zoom/1.3.1/Drift.js" integrity="sha512-Pd9pNKoNtEB70QRXTvNWLO5kqcL9zK88R4SIvThaMcQRC3g8ilKFNQawEr+PSyMtf/JTjV7pbFOFnkVdr0zKvw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
 
 {%block content %}
@@ -17,7 +18,7 @@ flex wrap to column layout -->
     <div class="card-container">
         <div class="image-area">
                 <div class="floating-div">
-                <div class="image-1"><img src="{{product.picture1.url}}" alt="{{product.name}}" ></div>
+                <div class="image-1"><img class = "demo-trigger" src="{{product.picture1.url}}" alt="{{product.name}}" data-zoom='{{product.picture1.url}}' ></div>
                 </div>
 
         </div>
@@ -78,8 +79,20 @@ flex wrap to column layout -->
 </div>
 
 
+
+
 <h1> {{ recommended.0.name }} </h1>
 <h1> {{ recommended.1.name }} </h1>
+
+<script>
+var demoTrigger = document.querySelector('.demo-trigger');
+var paneContainer = document.querySelector('.image-area');
+
+new Drift(demoTrigger, {
+  paneContainer: paneContainer,
+  inlinePane: false,
+});
+</script>
 
 
 {% endblock %}
