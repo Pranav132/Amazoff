@@ -197,11 +197,11 @@ def deleteReview(request, reviewsRatings_id):
 
 
 def deleteWishlistItem(request, wishlistItem_id):
-    wishlist_id = Wishlist.objects.filter(user=request.user)
-    wishlist = WishlistItem.objects.filter(wishlist=wishlist_id)
+    wishlist_id = Wishlist.objects.filter(user=request.user)[0]
     if request.method == "POST":
         product_id = request.POST.get("product_id")
-        delete_wishlistitem = wishlist.filter(product=product_id)
+        delete_wishlistitem = WishlistItem.objects.filter(
+            wishlist=wishlist_id, product=product_id)
         delete_wishlistitem.delete()
         return redirect('wishlist')
 

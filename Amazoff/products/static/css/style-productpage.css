@@ -71,11 +71,11 @@ input {
 }
 
 @keyframes float {
-  25% {
-    transform: translateY(-3%);
+  0% {
+    transform: translateY(0%);
   }
 
-  75% {
+  50% {
     transform: translateY(3%);
   }
 }
