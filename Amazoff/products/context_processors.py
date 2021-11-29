@@ -15,10 +15,11 @@ def autocomplete_processor(request):
 
 
 def wishlist_checker(request):
-    wishlist = Wishlist.objects.filter(user=request.user)[0]
-    wishlist_Items = WishlistItem.objects.filter(wishlist=wishlist)
     wishlistItems = {}
-    for item in wishlist_Items:
-        wishlistItems[item.product.name] = True
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user).first()
+        wishlist_Items = WishlistItem.objects.filter(wishlist=wishlist)
+        for item in wishlist_Items:
+            wishlistItems[item.product.name] = True
 
     return {"template_wishlistItems": wishlistItems}

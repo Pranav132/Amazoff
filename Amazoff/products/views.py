@@ -89,30 +89,37 @@ def product(request, product_id):
             stars[i] = 0
     print(stars)
 
-    recommended = Product.objects.none()
+    recommended_list = []
+    count = 0
 
     for sub in product.sub_categories.all():
         sub_id = subcategories.objects.get(id=sub.id)
         tag_id = Tags.objects.get(id=product.tags.first().id)
         sub_recco = Product.objects.filter(
             sub_categories=sub_id, tags=tag_id).exclude(id=product.id).exclude(inventory=0)[0:6]
-        recommended = recommended | sub_recco
+        print(sub_recco)
+        for rec in sub_recco:
+            recommended_list.append(rec)
+            count = count + 1
 
-    if recommended.count() < 6:
-        diff = 5 - recommended.count()
+        print(count)
+        print(recommended_list)
+
+    if count < 6:
         for cat in product.category.all():
             cat_id = Product_Categories.objects.get(id=cat.id)
             tag_id = Tags.objects.get(id=product.tags.first().id)
             cat_recco = Product.objects.filter(
                 category=cat_id, tags=tag_id).exclude(id=product.id).exclude(inventory=0)
-            recommended = recommended | cat_recco
+            for item in recommended_list:
+                cat_recco = cat_recco.exclude(name=item.name)
+            print(cat_recco)
+            for rec in cat_recco:
+                recommended_list.append(rec)
+                count = count + 1
 
-    print(recommended[0:6])
-
-    recommended_list = []
-
-    for rec in recommended:
-        recommended_list.append(rec)
+            print(recommended_list)
+            print(count)
 
     return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
 
