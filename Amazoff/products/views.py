@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, Wishlist, WishlistItem, completedOrders
+from products.models import Product, Product_Categories, Tags, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, Wishlist, WishlistItem, completedOrders, subcategories
 from django.shortcuts import render, redirect
 from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
@@ -90,7 +90,39 @@ def product(request, product_id):
             stars[i] = 0
     print(stars)
 
-    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count})
+    recommended_list = []
+    count = 0
+
+    for sub in product.sub_categories.all():
+        sub_id = subcategories.objects.get(id=sub.id)
+        tag_id = Tags.objects.get(id=product.tags.first().id)
+        sub_recco = Product.objects.filter(
+            sub_categories=sub_id, tags=tag_id).exclude(id=product.id).exclude(inventory=0)[0:6]
+        print(sub_recco)
+        for rec in sub_recco:
+            recommended_list.append(rec)
+            count = count + 1
+
+        print(count)
+        print(recommended_list)
+
+    if count < 6:
+        for cat in product.category.all():
+            cat_id = Product_Categories.objects.get(id=cat.id)
+            tag_id = Tags.objects.get(id=product.tags.first().id)
+            cat_recco = Product.objects.filter(
+                category=cat_id, tags=tag_id).exclude(id=product.id).exclude(inventory=0)
+            for item in recommended_list:
+                cat_recco = cat_recco.exclude(name=item.name)
+            print(cat_recco)
+            for rec in cat_recco:
+                recommended_list.append(rec)
+                count = count + 1
+
+            print(recommended_list)
+            print(count)
+
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
 
 
 def UpdateItem(request):
