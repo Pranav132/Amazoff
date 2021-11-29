@@ -40,7 +40,7 @@ input {
   position: relative;
 }
 
-.wishlist a {
+.wishlist button {
   position: absolute;
   top: 0.3em;
   left: 0em;
