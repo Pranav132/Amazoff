@@ -38,7 +38,6 @@ def cart(request):
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
-@login_required
 def wishlist(request):
     # to render the cart
     print(request.user)
@@ -116,12 +115,7 @@ def product(request, product_id):
             print(recommended_list)
             print(count)
 
-
-<< << << < HEAD
-return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
-== == == =
-return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6]})
->>>>>> > no-recos
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6]})
 
 
 def UpdateItem(request):
