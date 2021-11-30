@@ -35,32 +35,38 @@
 <main>
   <section class = "cards">
 {% for product in product %}
-  <div class="card">
+<div class="card">
     <div class="card_image-container">
-      <img src = "{{ product.picture1.url }}">
+        <img src = "{{ product.picture1.url }}">
     </div>
     <div class="card_content">
         <p class = "card_title text--medium">
-          {{ product.name }}
+            {{ product.name }}
         </p>
         <div class="card_info">
           {% if product.name in template_wishlistItems %}
-              <form action="" method="post">
-                {% csrf_token %}
-                <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Not feeling it?" data-content = "Click to remove from wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="remove"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></button>
-                <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
-              </form>
-              {% else %}
-              <form action="" method="post">
-                {% csrf_token %}
-                <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Like this item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="add"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></button>
-                <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
-              </form>
-              {% endif %}
-          <p class = "text--medium">₹{{ product.price }}</p>
-          <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
+          <form action="" method="post">
+            {% csrf_token %}
+            <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Not feeling it?" data-content = "Click to remove from wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="remove"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></button>
+            <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+          </form>
+          {% else %}
+          <form action="" method="post">
+            {% csrf_token %}
+            <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Like this item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="add"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></button>
+            <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+          </form>
+          {% endif %}
+            <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+          </form>
+            <p class = "text--medium">₹{{ product.price }}</p>
+            {% if product.inventory > 0 %}
+            <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
+            {% else %}
+            <button class = "card_button text-medium">View</button>
+            {% endif %}
         </div>
-  </div>
+    </div>
 </div>
 
 {% endfor %} 

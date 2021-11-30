@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from products.models import Product, Product_Categories, ReviewsRatings, Addresses, Customer, Cart, CartItem, Tags, User, Wishlist, WishlistItem, completedOrders, subcategories
+from .models import Product, Product_Categories, Tags, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, Wishlist, WishlistItem, completedOrders, subcategories
 from django.shortcuts import render, redirect
 from .forms import FilterForm, newAddressForm, ReviewForm
 from django.contrib.auth.decorators import login_required
@@ -28,6 +28,7 @@ def index(request):
     return render(request, "index.html")
 
 
+@login_required
 def cart(request):
     # to render the cart
     print(request.user)
@@ -37,6 +38,7 @@ def cart(request):
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
+@login_required
 def wishlist(request):
     # to render the cart
     print(request.user)
@@ -58,15 +60,8 @@ def products(request):
         prods.append([product.picture1, product.id, product.name, product.price,
                       product.description, product.popularity, product.inventory])
 
-    wishlist_id = Wishlist.objects.get(user=request.user)
-
-    wishlist_items = WishlistItem.objects.filter(wishlist=wishlist_id)
-    wish = []
-    for item in wishlist_items:
-        wish.append(item.product)
-
     # sending to products.html file
-    return render(request, "products.html", {"products": products, "wishlist": wish})
+    return render(request, "products.html", {"products": products})
 
 
 def product(request, product_id):
@@ -75,15 +70,15 @@ def product(request, product_id):
     # getting average rating of product
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
     avg = 0.0
-    count = 0
+    rcount = 0
     stars = [-1, -1, -1, -1, -1]
     for rating in ratings:
         avg += rating.rating
-        count += 1
-    if count == 0:
+        rcount += 1
+    if rcount == 0:
         avg = -1
     else:
-        avg = avg / count
+        avg = avg / rcount
         avg = round(avg)
         for i in range(avg):
             stars[i] = 0
@@ -121,7 +116,12 @@ def product(request, product_id):
             print(recommended_list)
             print(count)
 
-    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
+
+<< << << < HEAD
+return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": count, "recommended": recommended_list[0:6]})
+== == == =
+return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6]})
+>>>>>> > no-recos
 
 
 def UpdateItem(request):
@@ -181,6 +181,7 @@ def UpdateWishlist(request):
     return JsonResponse('Item was added', safe=False)
 
 
+@login_required
 def user(request):
     user = request.user
     customer = Customer.objects.get(user=user)

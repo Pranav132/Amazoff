@@ -40,7 +40,7 @@ input {
   position: relative;
 }
 
-.wishlist a {
+.wishlist button {
   position: absolute;
   top: 0.3em;
   left: 0em;
@@ -224,5 +224,55 @@ input {
   .paragraph-area,
   .color-selection {
     margin: 0.5rem;
+  }
+}
+
+demo-area {
+  border-radius: 8px;
+  padding: 20px;
+}
+demo-area section {
+  padding-top: 0;
+}
+.demo-trigger {
+  display: inline-block;
+  width: 30%;
+  float: left;
+}
+.detail {
+  position: relative;
+  width: 65%;
+  margin-left: 5%;
+  float: left;
+}
+.detail button {
+  vertical-align: middle;
+  opacity: 0.5;
+  cursor: unset;
+  margin-left: 1em;
+}
+@media (max-width: 610px) {
+  .detail,
+  .demo-trigger {
+    float: none;
+  }
+  .demo-trigger {
+    display: block;
+    width: 50%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  .detail {
+    margin: 0;
+    width: auto;
+  }
+  p {
+    margin: 0 auto 1em;
+  }
+  .responsive-hint {
+    display: none;
+  }
+  h3 {
+    margin-top: 20px;
   }
 }

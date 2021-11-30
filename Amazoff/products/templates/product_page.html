@@ -10,11 +10,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="{% static 'js/reccos.js' %}"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/drift-zoom/1.3.1/Drift.js" integrity="sha512-Pd9pNKoNtEB70QRXTvNWLO5kqcL9zK88R4SIvThaMcQRC3g8ilKFNQawEr+PSyMtf/JTjV7pbFOFnkVdr0zKvw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
 
 {%block content %}
@@ -26,7 +22,7 @@ flex wrap to column layout -->
     <div class="card-container">
         <div class="image-area">
                 <div class="floating-div">
-                <div class="image-1"><img src="{{product.picture1.url}}" alt="{{product.name}}" ></div>
+                <div class="image-1"><img class = "demo-trigger" src="{{product.picture1.url}}" alt="{{product.name}}" data-zoom='{{product.picture1.url}}' ></div>
                 </div>
 
         </div>
@@ -69,7 +65,19 @@ flex wrap to column layout -->
             </div>
         </div>
         <div class="wishlist">
-            <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = " color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></a>
+          {% if product.name in template_wishlistItems %}
+          <form action="" method="post">
+            {% csrf_token %}
+            <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Not feeling it?" data-content = "Click to remove from wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="remove"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></button>
+            <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+          </form>
+          {% else %}
+          <form action="" method="post">
+            {% csrf_token %}
+            <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Like this item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="add"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></button>
+            <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
+          </form>
+          {% endif %}
         </div>
     </div>
     
@@ -77,126 +85,19 @@ flex wrap to column layout -->
 
 
 
-<!-- Recommendation slider -->
 
-<div class="container-fluid" style= "background:#e0e1dd">
+<h1> {{ recommended.0.name }} </h1>
+<h1> {{ recommended.1.name }} </h1>
 
-    <h1>You may also like:</h1>
+<script>
+var demoTrigger = document.querySelector('.demo-trigger');
+var paneContainer = document.querySelector('.image-area');
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="carousel carousel-showmanymoveone slide" id="itemslider" style= "background-image: linear-gradient(rgb(216, 215, 215)ay)">
-          <div class="carousel-inner">
-  
-            <div class="item active">
-              <div class="col-xs-12 col-sm-6 col-md-2">
-                <a href="{% url 'product_page' product_id=recommended.0.id %}"><img src="{{ recommended.0.picture1.url }}" class="img-responsive center-block"></a>
-                <h4 class="text-center">{{ recommended.0.name }}</h4>
-                <h5 class="text-center">₹ {{ recommended.0.price }}</h5>
-              </div>
-            </div>
-  
-            <div class="item">
-              <div class="col-xs-12 col-sm-6 col-md-2">
-                <a href="{% url 'product_page' product_id=recommended.1.id %}"><img src="{{ recommended.1.picture1.url }}" class="img-responsive center-block"></a>
-                <h4 class="text-center">{{ recommended.1.name }}</h4>
-                <h5 class="text-center">₹ {{ recommended.1.price }}</h5>
-              </div>
-            </div>
+new Drift(demoTrigger, {
+  paneContainer: paneContainer,
+  inlinePane: false,
+});
+</script>
 
-            <div class="item">
-              <div class="col-xs-12 col-sm-6 col-md-2">
-                <a href="{% url 'product_page' product_id=recommended.2.id %}"><img src="{{ recommended.2.picture1.url }}" class="img-responsive center-block"></a>
-                <h4 class="text-center">{{ recommended.2.name }}</h4>
-                <h5 class="text-center">₹ {{ recommended.2.price }}</h5>
-              </div>
-            </div>
 
-            <div class="item">
-              <div class="col-xs-12 col-sm-6 col-md-2">
-                <a href="{% url 'product_page' product_id=recommended.3.id %}"><img src="{{ recommended.3.picture1.url }}" class="img-responsive center-block"></a>
-                <h4 class="text-center">{{ recommended.3.name }}</h4>
-                <h5 class="text-center">₹ {{ recommended.3.price }}</h5>
-              </div>
-            </div>
-
-            <div class="item">
-                <div class="col-xs-12 col-sm-6 col-md-2">
-                  <a href="{% url 'product_page' product_id=recommended.4.id %}"><img src="{{ recommended.4.picture1.url }}" class="img-responsive center-block"></a>
-                  <h4 class="text-center">{{ recommended.4.name }}</h4>
-                  <h5 class="text-center">₹ {{ recommended.4.price }}</h5>
-                </div>
-              </div>
-
-              <div class="item">
-                <div class="col-xs-12 col-sm-6 col-md-2">
-                  <a href="{% url 'product_page' product_id=recommended.5.id %}"><img src="{{ recommended.5.picture1.url }}" class="img-responsive center-block"></a>
-                  <h4 class="text-center">{{ recommended.5.name }}</h4>
-                  <h5 class="text-center">₹ {{ recommended.5.price }}</h5>
-                </div>
-              </div>
-
-          </div>
-  
-          <div id="slider-control">
-          <a class="left carousel-control" href="#itemslider" data-slide="prev"><img src="https://cdn0.iconfinder.com/data/icons/website-kit-2/512/icon_402-512.png" alt="Left" class="img-responsive"></a>
-          <a class="right carousel-control" href="#itemslider" data-slide="next"><img src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="Right" class="img-responsive"></a>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="polygon"></div>
-
-  <div class="text">
-        <!-- Individual Product page -->
-  <h1 class = " product-title">{{ product.name }}</h1>
-  <div class="priceandrating"><p class = "product-price">₹{{ product.price}} </p>
-      <div class="rating">
-      {% if ratingsCount == 0 %}
-          <p class = "noratings" style = "font-size:3vmax;">No Ratings.</p>
-      {% else %}
-          {% for rate in rating %}
-              {% if rate < 0 %}
-                  <span class="fa fa-star"></span>
-              {% else %}
-                  <span class="fa fa-star checked"></span>
-              {% endif %}
-          {% endfor %}
-      {% endif %}
-      {% if product.name in template_wishlistItems %}
-                <form action="" method="post">
-                  {% csrf_token %}
-                  <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Not feeling it?" data-content = "Click to remove from wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="remove"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart-fill"></i></span></button>
-                  <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
-                </form>
-                {% else %}
-                <form action="" method="post">
-                  {% csrf_token %}
-                  <button style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;" type="submit" data-toggle="popover" title="Like this item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" data-product="{{product.id}}" data-action="add"><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></button>
-                  <!-- <a href = "{% url 'review' product_id=product.id %}" data-toggle="popover" title="Like this Item?" data-content = "Click to add to wishlist." data-trigger="hover" class = "wishlist" ><span style = "font-size:2em; color: red;">&ensp;<i class="bi bi-heart"></i></span></a> -->
-                </form>
-                {% endif %}
-      </div></div>
-  
-  <p class = "product-description">{{ product.description }}</p>
-  <!-- <ul> -->
-      <!--Listing product data-->
-      <!-- <li><strong>ID</strong> : {{ product.id }}</li>
-      <li><strong>Name</strong> : {{ product.site_title }}</li>
-      <li><strong>Price</strong> : {{ product.price }}</li>
-      <li><strong>Description</strong> : {{ product.description }}</li>
-      <li><strong>Tags</strong> : {{ product.tags }}</li>
-      <li><strong>Popularity</strong> : {{ product.popularity }}</li>  -->
-  <!--</ul> -->
-  
-  
-  <button data-product="{{product.id}}" data-action="add" class="update-cart">
-      Add to cart
-    </button>
-  <div class="review">
-      <a href = "{% url 'review' product_id=product.id %}">See reviews for this product</a>
-      <a href = "{% url 'newReview' product_id=product.id %}">Write your own review for this product</a>
-  </div>
-  </div>
 {% endblock %}
