@@ -83,7 +83,6 @@ def product(request, product_id):
         avg = round(avg)
         for i in range(avg):
             stars[i] = 0
-    print(stars)
 
     recommended_list = []
     count = 0
@@ -117,7 +116,9 @@ def product(request, product_id):
             print(recommended_list)
             print(count)
 
-    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6]})
+    letters = ['a', 'b', 'c', 'd', 'e', 'f']
+
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6], "letters": letters})
 
 
 def UpdateItem(request):

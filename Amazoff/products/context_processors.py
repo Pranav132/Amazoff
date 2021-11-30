@@ -20,6 +20,7 @@ def wishlist_checker(request):
         wishlist = Wishlist.objects.filter(user=request.user).first()
         wishlist_Items = WishlistItem.objects.filter(wishlist=wishlist)
         for item in wishlist_Items:
-            wishlistItems[item.product.name] = True
+            if item.product:
+                wishlistItems[item.product.name] = True
 
     return {"template_wishlistItems": wishlistItems}
