@@ -13,7 +13,8 @@ for (var i = 0; i < updateBtns.length; i++) {
 				title: 'Login.',
 				text: 'Please login to add to cart.',
 			  })
-		}else{
+		}
+		else{
 			updateUserOrder(productId, action)
 		}
 		

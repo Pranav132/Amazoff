@@ -115,7 +115,7 @@ def product(request, product_id):
             print(recommended_list)
             print(count)
 
-    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6]})
+    return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6], "user": request.user})
 
 
 def UpdateItem(request):

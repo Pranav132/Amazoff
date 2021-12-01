@@ -6,14 +6,22 @@ for (var i = 0; i < updateBtns.length; i++) {
 		var action = this.dataset.action
 		console.log('ProductId:', productId, 'Action:', action)
 		console.log('USER:', user)
-
-		if (user === 'AnonymousUser'){
-			alert('Please log in to add to wishlist.')
+		var item = document.getElementById(productId);
+		if (action === 'add'){
+			item.classList.remove('bi-heart');
+			item.classList.add('bi-heart-fill');
+			var check = "button-" + String(productId)
+			document.getElementById(check).dataset.action = 'remove';
+			document.getElementById(check).dataset.content = "Click to remove from wishlist.";
 		}
-		else{
-			updateUserWishlist(productId, action)
+		else if (action === 'remove'){
+			item.classList.remove('bi-heart-fill');
+			item.classList.add('bi-heart');
+			var check = "button-" + String(productId)
+			document.getElementById(check).dataset.action = 'add';
+			document.getElementById(check).dataset.content = "Click to add to wishlist.";
 		}
-		
+	  	updateUserWishlist(productId, action)
 	})
 }
 
@@ -36,8 +44,11 @@ function updateUserWishlist(productId, action){
 
 	.then((data) => {
 		console.log('Data:', data)
-		alert("Wishlist updated successfully")
-		location.reload()
+		Swal.fire({
+			icon: 'success',
+			title: 'Updated',
+			text: 'Your wishlist was updated',
+		  })
 	});
 }
 
