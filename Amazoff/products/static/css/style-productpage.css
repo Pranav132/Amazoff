@@ -227,14 +227,6 @@ input {
   }
 }
 
-.reco-title {
-  padding-top: 10vh;
-  font-size: 4vmax;
-  font-family: "Bebas Neue", sans-serif;
-  text-align: center;
-  text-decoration: underline;
-}
-
 .reco-wrapper {
   margin: 0px;
   padding: 0px;
@@ -297,7 +289,7 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 10vh;
+  height: 12vh;
 }
 
 .type a {
@@ -376,8 +368,19 @@ input {
 
 .slider {
   width: 100%;
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.reco-title {
+  padding-top: 10vh;
+  /* padding-bottom: 5vh; */
+  font-size: 5vmax;
+  font-family: "Raleway", sans-serif;
+  text-align: center;
+  text-decoration: underline;
+  animation: fade 3s ease-in-out;
+  text-transform: uppercase;
 }

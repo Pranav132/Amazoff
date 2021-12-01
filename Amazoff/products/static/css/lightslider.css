@@ -77,6 +77,7 @@
   margin: 10px 0 0;
   padding: 0;
   text-align: center;
+  /* /* padding-top: 2vh; */
   display: none;
 }
 .lSSlideOuter .lSPager.lSpg > li {
@@ -166,6 +167,7 @@
   opacity: 0.5;
   -webkit-transition: opacity 0.35s linear 0s;
   transition: opacity 0.35s linear 0s;
+  background-image: url("../img/controls.png");
 }
 .lSAction > a:hover {
   opacity: 1;
