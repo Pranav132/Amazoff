@@ -59,11 +59,7 @@
           {% endif %}
           {% endif %}
             <p class = "text--medium">₹{{ product.price }}</p>
-            {% if product.inventory > 0 %}
             <a href = "{% url 'product_page' product_id=product.id %}"><button class = "card_button text-medium">View</button></a>
-            {% else %}
-            <button class = "card_button text-medium">View</button>
-            {% endif %}
         </div>
     </div>
 </div>
