@@ -8,9 +8,12 @@ for (var i = 0; i < updateBtns.length; i++) {
 		console.log('USER:', user)
 
 		if (user === 'AnonymousUser'){
-			alert('Please log in to add to cart.')
+			Swal.fire({
+				icon: 'error',
+				title: 'Login.',
+				text: 'Please login to add to cart.',
+			  })
 		}else{
-			alert("Item added successfully.")
 			updateUserOrder(productId, action)
 		}
 		
@@ -36,7 +39,11 @@ function updateUserOrder(productId, action){
 
 	.then((data) => {
 		console.log('Data:', data)
-		location.reload()
+		Swal.fire({
+			icon: 'success',
+			title: 'Added!',
+			text: 'Item was successfully added to your cart!',
+		  })
 	});
 }
 

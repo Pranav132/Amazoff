@@ -16,8 +16,11 @@
 flex wrap to column layout -->
 
 <div class="container">
-        
+    {% if product.inventory > 0 %}
     <div class="card-container">
+    {% else %}
+    <div class="card-container" style = "filter: grayscale(100%) blur(5px);">
+    {% endif %}
         <div class="image-area">
                 <div class="floating-div">
                 <div class="image-1"><img class = "demo-trigger" src="{{product.picture1.url}}" alt="{{product.name}}" data-zoom='{{product.picture1.url}}' ></div>
@@ -58,7 +61,11 @@ flex wrap to column layout -->
                 </div>
             <div class="price-and-buy">
                 <h2 class="price-1">₹{{product.price}}</h2>
+                {% if product.inventory > 0 %}
                 <button data-product="{{product.id}}" data-action="add" class="update-cart">ADD TO CART</button>
+                {% else %}
+                <button class = "update-cart" disabled style = "filter: grayscale(50%);">OUT OF STOCK</button>
+                {% endif %}
             </div>
         </div>
         <div class="wishlist">
@@ -103,7 +110,6 @@ flex wrap to column layout -->
             <!-- Name-->
             <div class="type">
                 <a href = "#">{{ recommend.name }}</a>
-                <span>Recommended</span>
             </div>
             <!--price -->
             <a href = "#" class="price">₹{{ recommend.price }}</a>

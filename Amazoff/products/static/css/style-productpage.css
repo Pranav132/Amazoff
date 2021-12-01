@@ -289,7 +289,7 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 12vh;
+  height: 10vh;
 }
 
 .type a {
