@@ -9,12 +9,8 @@ for (var i = 0; i < updateBtns.length; i++) {
 
 		if (user === 'AnonymousUser'){
 			alert('Please log in to add to wishlist.')
-		}else{
-			if (action === 'add') {
-				alert("Item added successfully.")
-			}else{
-				alert("Item removed.")
-			}
+		}
+		else{
 			updateUserWishlist(productId, action)
 		}
 		
@@ -40,6 +36,7 @@ function updateUserWishlist(productId, action){
 
 	.then((data) => {
 		console.log('Data:', data)
+		alert("Wishlist updated successfully")
 		location.reload()
 	});
 }
