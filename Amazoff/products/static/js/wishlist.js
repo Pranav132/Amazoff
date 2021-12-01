@@ -4,6 +4,16 @@ for (var i = 0; i < updateBtns.length; i++) {
 	updateBtns[i].addEventListener('click', function(){
 		var productId = this.dataset.product
 		var action = this.dataset.action
+
+
+		if (user === 'AnonymousUser'){
+			Swal.fire({
+				icon: 'error',
+				title: 'Login.',
+				text: 'Please login to add to cart.',
+			  })
+		}
+		else{
 		console.log('ProductId:', productId, 'Action:', action)
 		console.log('USER:', user)
 		var item = document.getElementById(productId);
@@ -22,6 +32,7 @@ for (var i = 0; i < updateBtns.length; i++) {
 			document.getElementById(check).dataset.content = "Click to add to wishlist.";
 		}
 	  	updateUserWishlist(productId, action)
+	}
 	})
 }
 

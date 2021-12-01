@@ -211,7 +211,6 @@ input {
   }
 }
 
-/* ====== Phone Size ===== */
 @media screen and (max-width: 768px) {
   .text-area {
     text-align: center;
@@ -288,7 +287,8 @@ input {
 .type {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   height: 10vh;
 }
 
