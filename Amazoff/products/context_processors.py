@@ -16,13 +16,13 @@ def autocomplete_processor(request):
 
 def wishlist_checker(request):
     wishlistItems = {}
-    print(request.user)
+    # print(request.user)
     if request.user.is_authenticated:
         wishlist = Wishlist.objects.filter(user=request.user).first()
-        print(wishlist.user)
-        print(wishlist.id)
+        # print(wishlist.user)
+        # print(wishlist.id)
         wishlist_Items = WishlistItem.objects.filter(wishlist=wishlist)
-        print(wishlist_Items)
+        # print(wishlist_Items)
         for item in wishlist_Items:
             wishlistItems[item.product.name] = True
 
