@@ -51,13 +51,7 @@ def products(request):
     # rendering every required product
 
     # in this case, rendering all products
-    products = Product.objects.all()
-    prods = []
-    # parsing through returned product objects and creating nested lists with required values
-
-    for product in products:
-        prods.append([product.picture1, product.id, product.name, product.price,
-                      product.description, product.popularity, product.inventory])
+    products = Product.objects.order_by('-inventory').all()
 
     # sending to products.html file
     return render(request, "products.html", {"products": products})
