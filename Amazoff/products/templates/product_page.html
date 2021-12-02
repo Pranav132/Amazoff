@@ -15,11 +15,17 @@
 <!-- Make a flex box with right and left parts 
 flex wrap to column layout -->
 
+
+{% if product.inventory == 0 %}
+<div class="alert alert-dark" role="alert">
+    This item is out of stock!
+  </div>
+{% endif %}
 <div class="container">
     {% if product.inventory > 0 %}
     <div class="card-container">
     {% else %}
-    <div class="card-container" style = "filter: grayscale(100%) blur(5px);">
+    <div class="card-container" style = "filter: grayscale(100%);">
     {% endif %}
         <div class="image-area">
                 <div class="floating-div">
