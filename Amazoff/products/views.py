@@ -415,3 +415,8 @@ def newAddress(request):
                                                   addressLine2=addressLine2, city=city, state=state, country=country, zipCode=zipCode)
         print(user_addresses)
         return HttpResponse("<h1>Yes</h1>")
+
+
+# style logout
+def logoutuser(request):
+    return render(request, "logoutuser.html")

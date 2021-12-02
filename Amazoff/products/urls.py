@@ -21,7 +21,7 @@ urlpatterns = [
     path("update_item/", views.UpdateItem, name='update_item'),
     path("update_wishlist/", views.UpdateWishlist, name='update_wishlist'),
     path('accounts/', include('allauth.urls')),
-    path('logout', LogoutView.as_view()),
+    path('logout', LogoutView.as_view(), name='logout'),
     path("user/", views.user, name="user"),
     path("order/<int:cart_id>", views.order, name="order"),
     path("review/<int:product_id>", views.review, name="review"),
@@ -32,4 +32,5 @@ urlpatterns = [
          views.deleteReview, name="deleteReview"),
     path("deleteWishlistItem/<int:wishlistItem_id>",
          views.deleteWishlistItem, name="deleteWishlistItem"),
+    path("logoutuser/", views.logoutuser, name="logoutUser"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # static media url and root to serve images uploaded through imagefield
