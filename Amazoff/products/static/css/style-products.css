@@ -13,7 +13,7 @@
 }
 
 .outofstock {
-  filter: grayscale(100%) blur(4px);
+  filter: grayscale(100%);
 }
 
 .product-title {
