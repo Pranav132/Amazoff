@@ -33,5 +33,5 @@ urlpatterns = [
          views.deleteReview, name="deleteReview"),
     path("deleteWishlistItem/<int:wishlistItem_id>",
          views.deleteWishlistItem, name="deleteWishlistItem"),
-    path("logoutuser/", views.logoutuser, name="logoutUser"),
+    path("logoutuser/", views.logoutuser, name="logoutuser"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # static media url and root to serve images uploaded through imagefield

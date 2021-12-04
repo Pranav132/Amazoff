@@ -32,9 +32,10 @@ def index(request):
 def cart(request):
     # to render the cart
     print(request.user)
-    cart_id = Cart.objects.get(user=request.user, orderExecuted=False)
+    cart_id = Cart.objects.get_or_create(
+        user=request.user, orderExecuted=False)
 
-    cart_items = CartItem.objects.filter(cart=cart_id)
+    cart_items = CartItem.objects.filter(cart=cart_id[0].id)
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
@@ -234,7 +235,7 @@ def orderHistory(request):
         print(order.cartValue)
         print(order.orderDate)
     return render(request, "orderhistory.html")
-    
+
     # prints the order history of the current customer
 
 
@@ -416,12 +417,12 @@ def newAddress(request):
         print(user_addresses)
         return HttpResponse("<h1>Yes</h1>")
 
-<<<<<<< Updated upstream
 
 # style logout
 def logoutuser(request):
     return render(request, "logoutuser.html")
-=======
+
+
 def orderConfirmed(request):
     user = request.user
     customer = Customer.objects.get(user=user)
@@ -431,5 +432,4 @@ def orderConfirmed(request):
     paymentmethod = request.POST.get('paymentmethod')
     print(shippingaddress)
     print(paymentmethod)
-    return render(request, "orderconfirmed.html", {"user": user, "cart_items":cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})
->>>>>>> Stashed changes
+    return render(request, "orderconfirmed.html", {"user": user, "cart_items": cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})
