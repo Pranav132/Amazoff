@@ -225,10 +225,16 @@ def deleteWishlistItem(request, wishlistItem_id):
 
 
 def orderHistory(request):
+    user = request.user
+    current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    current_cart.orderExecuted = True
+    current_cart.save()
     orders = Cart.objects.filter(user=request.user, orderExecuted=True).all()
     for order in orders:
         print(order.cartValue)
         print(order.orderDate)
+    return render(request, "orderhistory.html")
+    
     # prints the order history of the current customer
 
 
@@ -410,7 +416,20 @@ def newAddress(request):
         print(user_addresses)
         return HttpResponse("<h1>Yes</h1>")
 
+<<<<<<< Updated upstream
 
 # style logout
 def logoutuser(request):
     return render(request, "logoutuser.html")
+=======
+def orderConfirmed(request):
+    user = request.user
+    customer = Customer.objects.get(user=user)
+    current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    cart_items = CartItem.objects.filter(cart=current_cart.id)
+    shippingaddress = request.POST.get('shippingaddress')
+    paymentmethod = request.POST.get('paymentmethod')
+    print(shippingaddress)
+    print(paymentmethod)
+    return render(request, "orderconfirmed.html", {"user": user, "cart_items":cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})
+>>>>>>> Stashed changes

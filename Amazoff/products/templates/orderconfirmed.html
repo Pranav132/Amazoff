@@ -1,0 +1,31 @@
+{% extends "layout.html" %} {% block title %}Ordered!{% endblock %} 
+{% load static %}
+{% load socialaccount %}
+
+{% block styles %}
+<link rel='stylesheet' href="{% static 'css/style-index.css' %}">
+{% endblock %}
+
+{% block content %} 
+
+<p>Thank you for placing your order {{user.first_name}}</p>
+
+<p>Your shipment consisting of </p>
+<ul>
+    {% for product in cart_items %}
+    <li><strong>Name:</strong> {{ product.product.name }}</li>
+    <li><strong>Quantity:</strong> {{ product.quant }}</li>
+    {% endfor %}
+</ul> 
+
+
+<p>Will be delivered at your selected address, {{shippingaddress}}, in <a id="days"></a> days </p>
+<script>
+    document.getElementById("days").innerHTML = 3 + Math.floor(Math.random() * 4);
+</script>
+
+<p>Selected payment method: {{paymentmethod}}.</p>
+
+<a  class="btn btn-outline-dark" href="{% url 'orderHistory' %}"> &#x2190; View Order History</a>
+
+{% endblock %}

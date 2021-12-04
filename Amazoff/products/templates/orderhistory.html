@@ -1,0 +1,21 @@
+{% extends "layout.html" %} {% block title %}Order History{% endblock %} 
+{% load static %}
+{% load socialaccount %}
+
+{% block styles %}
+<link rel='stylesheet' href="{% static 'css/style-index.css' %}">
+{% endblock %}
+
+{% block content %} 
+
+<p>Please find your order history below {{user.first_name}}</p>
+
+<ul>
+    {% for order in orders %}
+    <li><strong>Order value:</strong> {{ order.cartValue}}</li>
+    <li><strong>Date:</strong> {{order.orderDate}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+

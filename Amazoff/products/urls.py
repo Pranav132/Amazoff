@@ -26,6 +26,7 @@ urlpatterns = [
     path("order/<int:cart_id>", views.order, name="order"),
     path("review/<int:product_id>", views.review, name="review"),
     path("newAddress/", views.newAddress, name="newAddress"),
+    path("orderconfirmed/", views.orderConfirmed, name="orderconfirmed"),
     path("newReview/<int:product_id>", views.newReview, name="newReview"),
     path("orderHistory", views.orderHistory, name="orderHistory"),
     path("deleteReview/<int:reviewsRatings_id>",

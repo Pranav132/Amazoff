@@ -39,11 +39,13 @@
 </table>
 
 <!-- Add section which deals with addresses -->
-
+<form id="checkoutform" action= "/orderconfirmed/" method="POST">
+    {% csrf_token %}
 {% if user_addresses %}
     <!-- add addresses to choose from -->
+    <p>Select an Address</p>
     {% for address in user_addresses %}
-    <p>{{address}}</p>
+    <input type="radio" name="shippingaddress" value="{{address}}" required>{{address}}<br>
     {% endfor %}
     <a href="{% url 'newAddress' %}"><button>Add new address</button></a>
     
@@ -58,4 +60,9 @@
 
 {% endif %}
 
+<p>Select payment method</p>
+<input type="radio" name="paymentmethod" value="On delivery through cash/card/UPI" required>On delivery through cash/card/UPI <br>
+
+<input type="submit" value="Confirm and Place order">
+</form>
 {% endblock content %}
