@@ -171,6 +171,39 @@ input {
   background-color: WHITE;
 }
 
+.reviews {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.reviews a {
+  font-size: 1rem;
+  padding: 0.5vh 0;
+  display: inline-block;
+  font-weight: bold;
+  color: #f15025;
+  text-decoration: none;
+  position: relative;
+}
+
+.reviews a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  border-bottom: 1px solid;
+  transition: left 500ms, right 500ms;
+}
+
+.reviews a:hover::after {
+  left: 0;
+  right: 0;
+}
+
 @media screen and (max-width: 62.5rem) {
   .container {
     padding: 1rem;

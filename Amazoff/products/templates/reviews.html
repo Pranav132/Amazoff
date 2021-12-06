@@ -7,6 +7,7 @@
 
 <div class="title">
     Reviews for&nbsp;<strong style="text-decoration: underline;"> {{ product.name }}</strong>
+    <a class="btn btn-outline-dark" href="{% url 'product_page' product_id=product_id %}" style = "position: absolute; top: 0; left: 0; font-weight: 800;"> &#x2190; Continue Shopping</a>
 </div>
 
 {% if ratings %}
@@ -31,7 +32,6 @@ then if there is description, description -->
     <div class = "review">{{rating.review}}</div>
     
 {% endif %}
-<hr>
 <div class="delete">
 {% if user == rating.user %}
     <i class="bi bi-trash-fill" onclick="togglePopup('{{rating.id}}')"></i>
@@ -50,7 +50,6 @@ then if there is description, description -->
 <div class="write">
 <a href = "{% url 'newReview' product_id=product_id %}">Write your own review for this product.</a>
 <a href = "{% url 'product_page' product_id=product_id %}">Go Back</a>
-<!-- should go to review form page -->
 </div>
 
 {% for rating in ratings %}

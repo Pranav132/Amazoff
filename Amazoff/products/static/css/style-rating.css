@@ -5,6 +5,7 @@
   --shadow-blue: #778da9ff;
   --platinum: #e0e1ddff;
   --gray: #6c757d;
+  --light-gray: #dad6d6;
 }
 
 html {
@@ -18,18 +19,29 @@ html {
   align-items: center;
   font-size: 3vmax;
   font-family: "Poppins", sans-serif;
-  background-color: var(--platinum);
+  background-color: var(--shadow-blue);
   color: var(--rich-black-fogra-29);
+  position: relative;
 }
 
 .allratings {
-  background-color: var(--shadow-blue);
-  color: var(--platinum);
+  background-color: var(--light-gray);
+  color: var(--rich-black-fogra-29);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .rates {
-  padding-left: 2%;
   position: relative;
+  width: 80%;
+  padding: 1rem 1rem 2rem 1rem;
+  border-radius: 1.2rem;
+  background: var(--platinum);
+  box-shadow: 0.3rem 0.3rem 0.5rem rgba(195, 193, 198, 0.9),
+    -0.2rem -0.2rem 0.4rem var(--platinum);
+  gap: 2rem;
 }
 
 .stars {
@@ -56,6 +68,7 @@ html {
   right: 5vw;
   top: 2vh;
   font-size: 3vmax;
+  color: var(--rich-black-fogra-29);
 }
 
 .delete:hover {
@@ -112,7 +125,7 @@ html {
 
 .text {
   padding-top: 15vh;
-  font-size: 2.5vmin;
+  font-size: 3vmin;
   font-family: "Poppins", sans-serif;
 }
 
@@ -130,7 +143,7 @@ html {
   background-color: var(--oxford-blue);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  font-size: 1.5vmax;
+  font-size: 1vmax;
   padding: 2%;
   font-family: "Poppins", sans-serif;
   transition: 0.5s;
@@ -142,33 +155,44 @@ html {
   transition: 0.5s;
 }
 
-.own {
-  height: 30vh;
-  background: var(--shadow-blue);
-  color: var(--platinum);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3vmax;
-}
-
 .write {
-  height: 20vh;
+  height: 30vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
   font-size: 2vmax;
   text-transform: uppercase;
-  background: #c9daf5;
+  background: var(--bdazzled-blue);
 }
 
 .write a {
-  color: var(--gray);
-  cursor: pointer;
-  text-decoration: underline;
+  font-size: 2rem;
+  padding: 0.5vh 0;
+  display: inline-block;
+  font-weight: bold;
+  color: var(--platinum);
+  text-decoration: none;
+  position: relative;
+  transition: 0.5s ease;
 }
 
 .write a:hover {
-  color: #000;
+  color: #f15025;
   text-decoration: none;
+}
+
+.write a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  border-bottom: 1px solid;
+  transition: left 500ms, right 500ms;
+}
+
+.write a:hover::after {
+  left: 0;
+  right: 0;
+  color: #f15025;
 }

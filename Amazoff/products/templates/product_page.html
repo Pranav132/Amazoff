@@ -65,6 +65,10 @@ flex wrap to column layout -->
                     <a href = "{% url 'review' product_id=product.id %}">( {{ratingsCount}} )</a> 
                     {% endif %}
                 </div>
+                <div class="reviews">
+                    <a href = "{% url 'review' product_id=product.id %}">See Reviews for this product</a>
+                    <a href = "{% url 'newReview' product_id=product.id %}">Write a review for this product</a>
+                </div>
             <div class="price-and-buy">
                 <h2 class="price-1">₹{{product.price}}</h2>
                 {% if product.inventory > 0 %}
