@@ -5,6 +5,7 @@
   --bdazzled-blue: #415a77ff;
   --shadow-blue: #778da9ff;
   --platinum: #e0e1ddff;
+  --light-gray: #dad6d6;
 }
 
 html {
@@ -22,7 +23,7 @@ html {
   ); */
   justify-content: center;
   align-items: center;
-  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMzpXRtv6cRtncdW0ETJZCEoWZhmgrzfY4gQ&usqp=CAU");
+  background: url("https://images.pexels.com/photos/7598170/pexels-photo-7598170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
   background-repeat: no-repeat;
   background-size: cover;
   backdrop-filter: grayscale(50%);
@@ -41,16 +42,16 @@ html {
 }
 
 .info .title {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   color: var(--platinum);
-  font-size: 25vmin;
+  font-size: 10vmin;
   text-shadow: 5px 5px 10px var(--rich-black-fogra-29);
 }
 
 .info a button {
-  height: 12vh;
-  width: 24vh;
+  height: 11vh;
+  width: 22vh;
   background: none;
   border: 2px solid var(--platinum);
   text-transform: uppercase;
@@ -58,7 +59,7 @@ html {
   transition: color 0.4s linear;
   min-width: 75px;
   font-weight: 600;
-  font-size: 2em;
+  font-size: 1.5em;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
   position: relative;
   color: var(--platinum);
@@ -86,4 +87,78 @@ html {
 
 .info a button:hover::before {
   transform: scaleY(1);
+}
+
+.about-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(
+    ellipse farthest-corner at center top,
+    #40434e 0%,
+    #c9c5c5 100%
+  );
+}
+
+.about-section {
+  background: url("https://images.pexels.com/photos/1895015/pexels-photo-1895015.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500")
+    no-repeat left;
+  background-size: 65%;
+  /* background-color: #40434e; */
+  overflow: hidden;
+  padding: 100px 0;
+}
+
+.inner-container {
+  width: 50%;
+  float: right;
+  background-color: #ced0ce;
+  padding: 150px;
+  text-align: right;
+  font-family: "Poppins", sans-serif;
+}
+
+.inner-container h1 {
+  margin-bottom: 30px;
+  font-size: 3em;
+  font-weight: 700;
+}
+
+.text {
+  font-size: 1em;
+  color: #545454;
+  line-height: 30px;
+  text-align: right;
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 1200px) {
+  .inner-container {
+    padding: 80px;
+    text-align: center;
+  }
+
+  .text {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .about-section {
+    background-size: 100%;
+    padding: 100px 40px;
+  }
+  .inner-container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .about-section {
+    padding: 0;
+  }
+  .inner-container {
+    padding: 60px;
+  }
 }
