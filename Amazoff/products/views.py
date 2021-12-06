@@ -32,9 +32,10 @@ def index(request):
 def cart(request):
     # to render the cart
     print(request.user)
-    cart_id = Cart.objects.get(user=request.user, orderExecuted=False)
+    cart_id = Cart.objects.get_or_create(
+        user=request.user, orderExecuted=False)
 
-    cart_items = CartItem.objects.filter(cart=cart_id)
+    cart_items = CartItem.objects.filter(cart=cart_id[0].id)
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
@@ -51,13 +52,7 @@ def products(request):
     # rendering every required product
 
     # in this case, rendering all products
-    products = Product.objects.all()
-    prods = []
-    # parsing through returned product objects and creating nested lists with required values
-
-    for product in products:
-        prods.append([product.picture1, product.id, product.name, product.price,
-                      product.description, product.popularity, product.inventory])
+    products = Product.objects.order_by('-inventory').all()
 
     # sending to products.html file
     return render(request, "products.html", {"products": products})
@@ -231,10 +226,16 @@ def deleteWishlistItem(request, wishlistItem_id):
 
 
 def orderHistory(request):
+    user = request.user
+    current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    current_cart.orderExecuted = True
+    current_cart.save()
     orders = Cart.objects.filter(user=request.user, orderExecuted=True).all()
     for order in orders:
         print(order.cartValue)
         print(order.orderDate)
+    return render(request, "orderhistory.html")
+
     # prints the order history of the current customer
 
 
@@ -420,3 +421,15 @@ def newAddress(request):
 # style logout
 def logoutuser(request):
     return render(request, "logoutuser.html")
+
+
+def orderConfirmed(request):
+    user = request.user
+    customer = Customer.objects.get(user=user)
+    current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    cart_items = CartItem.objects.filter(cart=current_cart.id)
+    shippingaddress = request.POST.get('shippingaddress')
+    paymentmethod = request.POST.get('paymentmethod')
+    print(shippingaddress)
+    print(paymentmethod)
+    return render(request, "orderconfirmed.html", {"user": user, "cart_items": cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})
