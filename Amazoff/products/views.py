@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from .models import Product, Product_Categories, Tags, ReviewsRatings, Addresses, Customer, Cart, CartItem, User, Wishlist, WishlistItem, completedOrders, subcategories
 from django.shortcuts import render, redirect
-from .forms import FilterForm, newAddressForm, ReviewForm
+from .forms import *
 from django.contrib.auth.decorators import login_required
 import json
 from django.contrib.postgres.search import SearchQuery
@@ -283,16 +283,14 @@ def search(request):
             sub_categories__name__icontains=search)
         product_tags = Product.objects.filter(
             tags__name__icontains=search)
-        product_descriptions = Product.objects.filter(
-            description__icontains=search)
-        product = main_product | product_categories | product_subcategories | product_tags | product_descriptions
+        product = main_product | product_categories | product_subcategories | product_tags
 
         # initializing the form and setting the default value to be relevance
-        form = FilterForm(initial={'name': 'relevance'})
+        form = SortingForm(initial={'name': 'relevance'})
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
 
     if request.method == 'POST':
-        form = FilterForm(request.POST)
+        form = SortingForm(request.POST)
         search = request.POST.get('searched')
 
         main_product = Product.objects.filter(name__icontains=search)
@@ -302,12 +300,25 @@ def search(request):
             sub_categories__name__icontains=search)
         product_tags = Product.objects.filter(
             tags__name__icontains=search)
-        product_descriptions = Product.objects.filter(
-            description__icontains=search)
-        product = main_product | product_categories | product_subcategories | product_tags | product_descriptions
+        product = main_product | product_categories | product_subcategories | product_tags
 
         if form.is_valid():
             choice = request.POST.get('name')
+            print("THE CHOICE IS")
+            print(choice)
+            # brand = request.POST.get('brand')
+            price = request.POST.get('price')
+            print("THE PRICE IS")
+            print(price)
+            gender = request.POST.get('gender')
+            print("THE GENDER IS")
+            print(gender)
+            types = request.POST.get('types')
+            print("THE TYPE IS")
+            print(types)
+            use = request.POST.get('use')
+            print("THE USE IS")
+            print(use)
 
             if choice == 'relevance':
                 product = product
@@ -320,6 +331,9 @@ def search(request):
 
             if choice == 'high2low':
                 product = product.order_by('-price')
+
+        else:
+            print("SOMETHING IS WRONG")
 
         return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
 
