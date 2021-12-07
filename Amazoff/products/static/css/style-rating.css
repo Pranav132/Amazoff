@@ -39,7 +39,7 @@ html {
   padding: 1rem 1rem 2rem 1rem;
   border-radius: 1.2rem;
   background: var(--platinum);
-  box-shadow: 0.3rem 0.3rem 0.5rem rgba(195, 193, 198, 0.9),
+  box-shadow: 0.3rem 0.3rem 0.5rem rgba(00, 0, 0, 0.5),
     -0.2rem -0.2rem 0.4rem var(--platinum);
   gap: 2rem;
 }
@@ -162,37 +162,43 @@ html {
   align-items: center;
   font-size: 2vmax;
   text-transform: uppercase;
-  background: var(--bdazzled-blue);
+  background-image: radial-gradient(
+    ellipse farthest-corner at center top,
+    #40434e 0%,
+    #c9c5c5 100%
+  );
 }
 
 .write a {
-  font-size: 2rem;
   padding: 0.5vh 0;
-  display: inline-block;
-  font-weight: bold;
-  color: var(--platinum);
-  text-decoration: none;
+}
+
+.write a button {
+  height: 12vh;
+  width: 20vh;
+  background: var(--rich-black-fogra-29);
+  border: 2px solid var(--platinum);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+  padding: 1%;
+  font-weight: 500;
+  font-size: 0.9rem;
   position: relative;
-  transition: 0.5s ease;
+  color: var(--platinum);
 }
 
-.write a:hover {
-  color: #f15025;
-  text-decoration: none;
+.write a button:hover {
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
 }
 
-.write a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  right: 50%;
-  bottom: 0;
-  border-bottom: 1px solid;
-  transition: left 500ms, right 500ms;
-}
-
-.write a:hover::after {
-  left: 0;
-  right: 0;
-  color: #f15025;
+.noreviews {
+  height: 60vh;
+  background-color: var(--light-gray);
+  color: var(--rich-black-fogra-29);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
