@@ -31,7 +31,6 @@ def index(request):
 @login_required
 def cart(request):
     # to render the cart
-    print(request.user)
     cart_id = Cart.objects.get_or_create(
         user=request.user, orderExecuted=False)
 
@@ -232,15 +231,25 @@ def deleteWishlistItem(request, wishlistItem_id):
 
 
 @login_required
+def deleteCartItem(request, cartItem_id):
+    cartitem_id = Cart.objects.filter(user=request.user)[0]
+    print("history")
+    if request.method == "POST":
+        print("hi")
+        # Getting the user who is making the request
+        product_id = request.POST.get("product_id")
+        print("product_id")
+        delete_cartitem = CartItem.objects.filter(
+            cart=cartitem_id, product=product_id)
+        print(delete_cartitem, "deletecart item")
+        delete_cartitem.delete()
+        return redirect('cart')
+
+
+@login_required
 def orderHistory(request):
     user = request.user
-    current_cart = Cart.objects.get(user=user, orderExecuted=False)
-    current_cart.orderExecuted = True
-    current_cart.save()
-    orders = Cart.objects.filter(user=request.user, orderExecuted=True).all()
-    for order in orders:
-        print(order.cartValue)
-        print(order.orderDate)
+    orders = completedOrders.objects.filter(user=request.user).all()
     return render(request, "orderhistory.html")
 
     # prints the order history of the current customer
@@ -451,9 +460,14 @@ def orderConfirmed(request):
     user = request.user
     customer = Customer.objects.get(user=user)
     current_cart = Cart.objects.get(user=user, orderExecuted=False)
+    current_cart.orderExecuted = True
+    current_cart.save()
     cart_items = CartItem.objects.filter(cart=current_cart.id)
     shippingaddress = request.POST.get('shippingaddress')
     paymentmethod = request.POST.get('paymentmethod')
     print(shippingaddress)
     print(paymentmethod)
+    addy = Addresses.objects.get(name=shippingaddress, customer=customer)
+    print(addy)
+    completedOrders.objects.create(order=current_cart, address=addy)
     return render(request, "orderconfirmed.html", {"user": user, "cart_items": cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})

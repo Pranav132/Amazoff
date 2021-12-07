@@ -17,11 +17,11 @@
     <h3>{{ address.name }}</h3>
 {% endfor %}
 {% for order in orderHistory %}
-{% for value in order %}
+{% for eachorder in order %}
 {% if forloop.counter0 == 0 %}
-    <h3>{{ value }}</h3>
+    <h3>{{ eachorder }}</h3>
 {% else %}
-    {% for item in value %}
+    {% for item in eachorder %}
         <h5>{{ item.product }}</h5>
         <h5>{{ item.quant }}</h5>
     {% endfor %}

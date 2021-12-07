@@ -81,6 +81,8 @@ class newAddressForm (forms.Form):
 
 class ReviewForm(forms.Form):
     rating = forms.IntegerField(label='Rating', widget=forms.NumberInput(
-        attrs={'min': 1, 'max': '5', 'type': 'number'}))
+        attrs={'min': 1, 'max': '5', 'type': 'number',
+               'class': 'form-control'}))
     review = forms.CharField(required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Tell us what you think!'}))
+        attrs={'placeholder': 'Tell us what you think!',
+               'class': 'form-control'}))

@@ -4,44 +4,173 @@
 <script src = "{% static 'js/cart.js' %}"></script>
 
 {% endblock %}
+{% block styles %}
+<style>
+
+  .noitems{
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2em;
+    background-color: #40434e;
+    color: #fff;
+  }
+	
+	.quant{
+		min-height: 30vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background:#dad6d6;
+		text-align: center;
+	}
+	.quanttotal{
+		color: #000;
+        font-size: 1em;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        padding-bottom: 5vh;
+	}
+	.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 1px solid #4f4f4f;
+    border-radius: 4px;
+    transition: all 0.2s ease-in;
+    position: relative;
+    overflow: hidden;
+    font-size: 1.5em;
+    color: black;
+    z-index: 1;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    }
+
+    .button:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+    }
+
+    .button:after {
+    content: "";
+    position: absolute;
+    left: 55%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+    top: 180%;
+    width: 160%;
+    height: 190%;
+    background-color: #778da9ff;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+    }
+
+    .button:hover {
+    color: #ffffff;
+    border: 1px solid #778da9ff;
+    }
+
+    .button:hover:before {
+    top: -35%;
+    background-color: #778da9ff;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+
+    .button:hover:after {
+    top: -45%;
+    background-color: #778da9ff;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+
+	.title {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vmax;
+  font-family: "Poppins", sans-serif;
+  background-color: #dad6d6;
+  color: #000;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.cart-table{
+	background: #343a40;
+}
+
+.cart-table table{
+	min-height: 30vh;
+}
+</style>
+{%endblock%}
 {% block content %}
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="box-element">
-
-				<a  class="btn btn-outline-dark" href="{% url 'products' %}"> &#x2190; Continue Shopping</a>
-
-				<br>
-				<br>
-				
+			<div class="title">
+				Your cart
+				<a class="btn btn-outline-dark" href="{% url 'products' %}" style = "position: absolute; top: 0; left: 0; font-weight: 800;"> &#x2190; Continue Shopping</a>
 			</div>
-			
-			<br>
+			{% if not cart_items %}
+			<div class="noitems">
+				No items in cart.
+			</div>
+			{% else %}
+			<div class="cart-table">
 			<form action={% url 'checkout' %}  method="post">
 				{% csrf_token %}
-
-				<ul>
-					{% for product in cart_items %}
-					<li><strong>Name:</strong> {{ product.product.name }}</li>
-					<li><strong>Price of each:</strong> {{ product.product.price }}</li>
-					<li><strong>Quantity:</strong> {{ product.quant }}</li>
-					<li><strong>Inventory:</strong> {{ product.product.inventory }}</li>
-					<input type="number" id="{{ product.product.id }}" name="{{ product.product.name }}" value = "{{ product.quant }}" min="0" max="100">
-					{% endfor %}
-				</ul>
-				
-				<table class="table">
+				<table class="table table-dark">
+					<thead>
+					  <tr>
+						<th scope="col">#</th>
+						<th scope="col">Name</th>
+						<th scope="col">Price</th>
+						<th scope="col">Quantity</th>
+						<th scope="col"></th>
+					  </tr>
+					</thead>
+					<tbody>
+						{% for product in cart_items %}
+					  <tr>
+						<th scope="row">{{ forloop.counter }}</th>
+						<td> {{ product.product.name }}</td>
+						<td>{{ product.product.price }}</td>
+						<td><input type="number" id="{{ product.product.id }}" name="{{ product.product.name }}" value = "{{ product.quant }}" min="0" max="100"></td>
+						<td>
+							<i class = "bi bi-trash-fill"></i>
+					  </tr>
+            {% endfor %}
+					</tbody>
+				  </table>
+				<!-- <table class="table">
 					<tr>
 						<th>Quantity and Total price will be calculated on the next page!</th>
 						<th>
 							<input type="submit" value="Checkout">
 						</th>
 					</tr>
-				</table>
+				</table> -->
+
+				<div class="quant" style = "padding-top:5vh;">
+					<div class="quanttotal">Quantity and Total price will be calculated on the next page!</div>
+					<button class ="button" value="Checkout">Checkout</button>
+				</div>
 
 			</form>
-      		
-			</div>
 		</div>
-	</div>
+			{% endif %}
 {% endblock content %}

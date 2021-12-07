@@ -1,13 +1,37 @@
 {% extends "layout.html" %} {% block title %}{{ search }} Add new review! {% endblock %} 
 {% load static %}
 {% block scripts %}
+<style>
+    	.title {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vmax;
+  font-family: "Poppins", sans-serif;
+  background-color: #dad6d6;
+  color: #000;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.form-group{
+    padding-top: 5vh;
+    min-height: 50vh;
+   }
+</style>
 {% endblock %}
 {% block content %}
 
-<form action="" method="post">
+<div class="title">
+    Submit your new review!
+</div>
+
+<form action="" method="post" class="form-group">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Submit review!">
+    <input type="submit" value="Submit review!" class="btn btn-primary mb-2" style = "margin-top:2vh;">
 </form>
 
 {% endblock %}

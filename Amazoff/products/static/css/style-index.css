@@ -162,3 +162,80 @@ html {
     padding: 60px;
   }
 }
+
+.swiper-container {
+  width: 100%;
+  height: 90%;
+}
+
+.swiper-slide {
+  text-align: center;
+  background-image: radial-gradient(
+    ellipse farthest-corner at center top,
+    #dad6d6 0%,
+    #b8b4b4 100%
+  );
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-general {
+  padding: 75px 0;
+  margin: 0 auto;
+  width: 800px;
+}
+.container-general .gallery-wrap {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 70vh;
+}
+.container-general .gallery-wrap .item {
+  flex: 1;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: none;
+  transition: all 0.8s ease;
+  display: grid;
+  place-items: center;
+}
+.container-general .gallery-wrap .item:hover {
+  flex: 7;
+}
+
+.wrap-effect-1 .item:first-of-type {
+  background-image: url("https://media.istockphoto.com/photos/handsome-young-man-using-perfume-picture-id1047482606?b=1&k=20&m=1047482606&s=170667a&w=0&h=aKYnx1PHkAlJ7nik5NhDJJFWCgNVibxidoTWfzFmJ0Q=");
+}
+.wrap-effect-1 .item:nth-of-type(2) {
+  background-image: url("https://static.toiimg.com/photo/msid-72222798/72222798.jpg");
+}
+
+.button {
+  padding: 1.3em 3em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.button:hover {
+  background-color: var(--rich-black-fogra-29);
+  box-shadow: 0px 15px 20px rgba(1, 24, 7, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.button:active {
+  transform: translateY(-1px);
+}
