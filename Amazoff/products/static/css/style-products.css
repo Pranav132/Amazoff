@@ -4,7 +4,7 @@
   --bdazzled-blue: #415a77ff;
   --shadow-blue: #778da9ff;
   --platinum: #e0e1ddff;
-  --gray: #6c757d;
+  --gray: #7d868e;
 }
 
 .wrapperproducts {
@@ -13,7 +13,7 @@
 }
 
 .outofstock {
-  filter: grayscale(100%);
+  filter: grayscale(100%) blur(1px);
 }
 
 .product-title {
