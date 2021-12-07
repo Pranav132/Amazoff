@@ -44,7 +44,7 @@ then if there is description, description -->
 {% endfor %}
 </div>
 {% else %}
-<div class = "noreviews"><div class="rates" style="font-size:2em; font-family:'Poppins', sans-serif; font-weight:bold; display:flex; justify-content:center; align-items:center; padding-top:5vh;"><a href = "{% url 'newReview' product_id=product_id %}" style = "color: #0d1b2aff; text-decoration: underline;">No reviews yet, be the first to write a review!</a></div></div>
+<div class = "noreviews"><div class="rates" style="font-size:2em; font-family:'Poppins', sans-serif; font-weight:bold; display:flex; justify-content:center; align-items:center; padding-top:5vh;"><a href = "{% url 'newReview' product_id=product_id %}" >No reviews yet, be the first to write a review!</a></div></div>
 {% endif %}
 
 <div class="write">
