@@ -39,6 +39,7 @@ def cart(request):
     return render(request, "cart.html", {"cart_items": cart_items})
 
 
+@login_required
 def wishlist(request):
     # to render the cart
     print(request.user)
@@ -113,6 +114,7 @@ def product(request, product_id):
     return render(request, "product_page.html", {"product": product, "rating": stars, "ratingsCount": rcount, "recommended": recommended_list[0:6], "user": request.user})
 
 
+@login_required
 def UpdateItem(request):
     data = json.loads(request.body)
     productId = data['productId']
@@ -144,6 +146,7 @@ def UpdateItem(request):
     return JsonResponse('Item was added', safe=False)
 
 
+@login_required
 def UpdateWishlist(request):
     data = json.loads(request.body)
     productId = data['productId']
@@ -191,6 +194,7 @@ def user(request):
     return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "reviews": reviews})
 
 
+@login_required
 def order(request, cart_id):
     pass
 
@@ -204,6 +208,7 @@ def review(request, product_id):
     return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id, "user": user, "product": product})
 
 
+@login_required
 def deleteReview(request, reviewsRatings_id):
     review = ReviewsRatings.objects.filter(id=reviewsRatings_id)
     print(review)
@@ -214,6 +219,7 @@ def deleteReview(request, reviewsRatings_id):
         return redirect('review', product_id=product_id)
 
 
+@login_required
 def deleteWishlistItem(request, wishlistItem_id):
     wishlist_id = Wishlist.objects.filter(user=request.user)[0]
     if request.method == "POST":
@@ -225,6 +231,7 @@ def deleteWishlistItem(request, wishlistItem_id):
         return redirect('wishlist')
 
 
+@login_required
 def orderHistory(request):
     user = request.user
     current_cart = Cart.objects.get(user=user, orderExecuted=False)
@@ -239,6 +246,7 @@ def orderHistory(request):
     # prints the order history of the current customer
 
 
+@login_required
 def newReview(request, product_id):
     # importing all existing reviews and ratings
     # review form
@@ -411,6 +419,7 @@ def checkout(request):
     return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")
 
 
+@login_required
 def newAddress(request):
 
     if request.method == 'GET':
@@ -432,11 +441,12 @@ def newAddress(request):
         return HttpResponse("<h1>Yes</h1>")
 
 
-# style logout
+@login_required
 def logoutuser(request):
     return render(request, "logoutuser.html")
 
 
+@login_required
 def orderConfirmed(request):
     user = request.user
     customer = Customer.objects.get(user=user)

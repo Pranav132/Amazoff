@@ -157,6 +157,8 @@ SOCIALACCOUNT_PROVIDERS = \
         },
     }
 
+LOGIN_URL = '/accounts/google/login'
+
 SITE_ID = 3
 
 LOGIN_REDIRECT_URL = '/'

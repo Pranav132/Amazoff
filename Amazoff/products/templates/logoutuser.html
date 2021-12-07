@@ -1,8 +1,90 @@
 {% extends "layout.html" %} {% block title %}Your Account{% endblock %}
 {%load static %}
 {% block styles %}
-<!-- <link rel="stylesheet" href="{% static 'css/style-user.css' %}"> -->
+<style>
+    .logoutuser{
+        min-height: 80vh;
+        background-color: #dad6d6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .text{
+        color: #000;
+        font-size: 3em;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        padding-bottom: 5vh;
+    }
+
+    .button {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 1px solid #4f4f4f;
+    border-radius: 4px;
+    transition: all 0.2s ease-in;
+    position: relative;
+    overflow: hidden;
+    font-size: 1.5em;
+    color: black;
+    z-index: 1;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    }
+
+    .button:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+    }
+
+    .button:after {
+    content: "";
+    position: absolute;
+    left: 55%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+    top: 180%;
+    width: 160%;
+    height: 190%;
+    background-color: #778da9ff;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+    }
+
+    .button:hover {
+    color: #ffffff;
+    border: 1px solid #778da9ff;
+    }
+
+    .button:hover:before {
+    top: -35%;
+    background-color: #778da9ff;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+
+    .button:hover:after {
+    top: -45%;
+    background-color: #778da9ff;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    }
+</style>
 {% endblock %}
 {%block content%}
-<a href="{% url 'logout' %}">logout</a>
+<div class="logoutuser">
+    <div class="text">Are you sure you want to log out?</div>
+    <a href="{% url 'logout' %}"><button onclick = 'alert("You have been logged out");' class = "button">Logout</button></a>
+</div>
 {% endblock %}
