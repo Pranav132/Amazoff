@@ -172,15 +172,15 @@ def products(request):
 
         if choice == 'popularity':
             unsorted_product = unsorted_product.order_by(
-                '-popularity').order_by('-inventory')
+                '-popularity')
 
         if choice == 'low2high':
             unsorted_product = unsorted_product.order_by(
-                'price').order_by('-inventory')
+                'price')
 
         if choice == 'high2low':
             unsorted_product = unsorted_product.order_by(
-                '-price').order_by('-inventory')
+                '-price')
 
         product = []
 
@@ -189,6 +189,9 @@ def products(request):
                 continue
             else:
                 product.append(val)
+
+        # for item in product:
+        #     print(item.price)
 
         return render(request, 'products.html', {"products": product, "filter_form": filter_form})
     # rendering every required product
