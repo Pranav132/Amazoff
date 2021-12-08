@@ -151,7 +151,8 @@
 						<td>{{ product.product.price }}</td>
 						<td><input type="number" id="{{ product.product.id }}" name="{{ product.product.name }}" value = "{{ product.quant }}" min="0" max="100"></td>
 						<td>
-							<i class = "bi bi-trash-fill"></i>
+              <button data-product="{{product.product.id}}" data-action="remove" class="update-cart" type="button" onclick="alert('Item removed from cart'); window.location.reload();"><i class = "bi bi-trash-fill" style="font-size:3vmin;"></i></button>
+            </td>
 					  </tr>
             {% endfor %}
 					</tbody>

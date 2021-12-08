@@ -317,12 +317,9 @@ def UpdateItem(request):
 
     if action == 'add':
         orderItem.quant = (orderItem.quant + 1)
+        orderItem.save()
+
     elif action == 'remove':
-        orderItem.quant = (orderItem.quant - 1)
-
-    orderItem.save()
-
-    if orderItem.quant <= 0:
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
@@ -416,7 +413,6 @@ def deleteWishlistItem(request, wishlistItem_id):
 @login_required
 def deleteCartItem(request, cartItem_id):
     cartitem_id = Cart.objects.filter(user=request.user)[0]
-    print("history")
     if request.method == "POST":
         print("hi")
         # Getting the user who is making the request

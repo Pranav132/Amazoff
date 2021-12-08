@@ -59,6 +59,7 @@ function updateUserWishlist(productId, action){
 			icon: 'success',
 			title: 'Updated',
 			text: 'Your wishlist was updated',
+			footer: '<a href="/wishlist">Go to Wishlist</a>'
 		  })
 	});
 }

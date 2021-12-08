@@ -43,7 +43,8 @@ function updateUserOrder(productId, action){
 		Swal.fire({
 			icon: 'success',
 			title: 'Added!',
-			text: 'Item was successfully added to your cart!',
+			text: 'Cart has been updated successfully!',
+			footer: '<a href="/cart">Go to cart</a>'
 		  })
 	});
 }
