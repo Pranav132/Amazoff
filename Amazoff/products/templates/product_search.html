@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block title %}{{ search }} - Smellology Search {% endblock %} 
+{% extends "layout.html" %} {% block title %}{{ search }} - OnlySmells Search {% endblock %} 
 {% load static %}
 {% block styles %}
 <link rel='stylesheet' href="{% static 'css/style-products.css' %}">
@@ -12,7 +12,7 @@
   var searched = document.getElementById('searched').innerText;
   document.getElementById("filter_searched_form").value = searched;});</script>
 <style>
-.dropdown{
+.dropdown1{
   padding-left: 2vw;
   margin: 0.5vh 0vh;
 }
@@ -30,10 +30,11 @@
     
   Showing results for "{{ search }}"
   </div>
-
+  <h1 style = "padding-left: 2vw; padding-bottom: 1vh; color: #fff; font-family: 'Poppins', sans-serif; text-decoration: underline;">Sort and Filter</h1>
+  <hr>
   <form action={% url 'product_search' %} method="POST">
     {% csrf_token %}
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="sortbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Sort by
       </button>
@@ -41,7 +42,7 @@
         {{ filter_form.name }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filterpricebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by price
       </button>
@@ -49,7 +50,7 @@
         {{ filter_form.price }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filtergenderbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by gender
       </button>
@@ -57,7 +58,7 @@
         {{ filter_form.gender }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filtertypebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by types
       </button>
@@ -65,7 +66,7 @@
         {{ filter_form.types }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filterusebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by uses
       </button>
@@ -74,7 +75,7 @@
       </div>
     </div>
     <input type = "hidden" id = "filter_searched_form" name = "searched" value = "">
-    <input type="submit" style= "margin-left: 2vw" value="Save filter settings">
+    <button type="submit" style= "margin-left: 2vw; margin-top: 1vh;" class = "button">Save settings</button>
   </form>
   <br>
   <hr>

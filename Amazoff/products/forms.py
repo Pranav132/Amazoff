@@ -14,15 +14,15 @@ class FilterForm(forms.Form):
 
     RANGES = [
         ('zero', 'No price filter'),
-        ('five', 'Below $500'),
-        ('ten', 'Below $1000'),
-        ('twenty', 'Below $2000'),
-        ('thirty', 'Below $3000'),
-        ('fourty', 'Below $4000'),
-        ('fifty', 'Below $5000'),
-        ('sixty', 'Below $6000'),
-        ('seventy', 'Below $7000'),
-        ('eighty', 'Below $8000'),
+        ('five', 'Below ₹500'),
+        ('ten', 'Below ₹1000'),
+        ('twenty', 'Below ₹2000'),
+        ('thirty', 'Below ₹3000'),
+        ('fourty', 'Below ₹4000'),
+        ('fifty', 'Below ₹5000'),
+        ('sixty', 'Below ₹6000'),
+        ('seventy', 'Below ₹7000'),
+        ('eighty', 'Below ₹8000'),
     ]
 
     GENDERS = [
@@ -64,12 +64,24 @@ class FilterForm(forms.Form):
 
 
 class newAddressForm (forms.Form):
-    name = forms.CharField(max_length=100, required=True)
-    addressLine1 = forms.CharField(max_length=100)
-    addressLine2 = forms.CharField(max_length=100, required=False)
-    city = forms.CharField(max_length=100)
-    state = forms.CharField(max_length=100)
-    country = forms.CharField(max_length=100)
+    name = forms.CharField(max_length=100, required=True, label="Name", widget=forms.TextInput(
+        attrs={'placeholder': 'Name of Address',
+               'class': 'form-control'}))
+    addressLine1 = forms.CharField(max_length=100, label="Address Line 1", required=True, widget=forms.TextInput(
+        attrs={'placeholder': 'Address Line 1',
+               'class': 'form-control'}))
+    addressLine2 = forms.CharField(max_length=100, required=False, label='Address Line 2', widget=forms.TextInput(
+        attrs={'placeholder': 'Address Line 2',
+               'class': 'form-control'}))
+    city = forms.CharField(max_length=100, label='City', widget=forms.TextInput(
+        attrs={'placeholder': 'City',
+               'class': 'form-control'}))
+    state = forms.CharField(max_length=100, label='State', widget=forms.TextInput(
+        attrs={'placeholder': 'Tell us what you think!',
+               'class': 'form-control'}))
+    country = forms.CharField(max_length=100, label='Country', widget=forms.TextInput(
+        attrs={'placeholder': 'Tell us what you think!',
+               'class': 'form-control'}))
 
 
 class ReviewForm(forms.Form):

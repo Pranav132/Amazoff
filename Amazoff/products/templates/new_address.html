@@ -1,15 +1,53 @@
-{% extends "layout.html" %} {% block title %}Add new address - {{ user_name }}{% endblock %} 
+{% extends "layout.html" %} {% block title %}Add new address - {{ user.first_name }}{% endblock %} 
 {% load static %}
 {% block scripts %}
+<style>
+  .form-group{
+    width: 100%;
+    padding-left: 5vw;
+    padding-right: 5vw;
+   }
+
+   .title {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vmax;
+  font-family: "Poppins", sans-serif;
+  background-color: #dad6d6;
+  color: #000;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.wrapform{
+    display: grid;
+    place-items: center;
+    min-height: 50vh;
+    padding: 5vh 0;
+}
+
+label{
+  padding: 1vh 0;
+}
+</style>
 {% endblock %}
 {% block content %}
 
-<form action="" method="post">
+<div class="title">
+  Add a new address
+</div>
+
+<div class="wrapform">
+<form action="" method="post" class ="form-group">
     {% csrf_token %}
     {{ form }}
     <label for="zipCode">Zip Code</label>
-    <input type = "number" name="zipCode" default = "00000" min= "00000" max= "999999" style = "width: 5vw;">
-    <input type="submit" value="Add address" onclick="alert('Your address has been added, redirecting to user page');">
+    <input type = "number" name="zipCode" default = "00000" min= "00000" max= "999999" style = "width: 5vw;" class = "form-control">
+    <input type="submit" value="Add address" class="btn btn-primary mb-2" style = "margin-top:2vh;">
   </form>
+</div>
 
 {% endblock %}

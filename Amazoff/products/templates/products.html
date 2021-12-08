@@ -3,6 +3,12 @@
 {% block title %}Products{% endblock %}
 {% block styles %}
 <link rel='stylesheet' href="{% static 'css/style-products.css' %}">
+<style>
+  .dropdown1{
+    padding-left: 2vw;
+    margin: 0.5vh 0vh;
+  }
+    </style>
 {% endblock %}
 
 {% block scripts %}
@@ -18,9 +24,11 @@
 </div>
 
 <main>
+  <h1 style = "padding-left: 2vw; padding-bottom: 1vh; color: #fff; font-family: 'Poppins', sans-serif; text-decoration: underline;">Sort and Filter</h1>
+  <hr>
   <form action={% url 'products' %} method="POST">
     {% csrf_token %}
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="sortbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Sort by
       </button>
@@ -28,7 +36,7 @@
         {{ filter_form.name }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filterpricebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by price
       </button>
@@ -36,7 +44,7 @@
         {{ filter_form.price }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filtergenderbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by gender
       </button>
@@ -44,7 +52,7 @@
         {{ filter_form.gender }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filtertypebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by types
       </button>
@@ -52,7 +60,7 @@
         {{ filter_form.types }}
       </div>
     </div>
-    <div class="dropdown">
+    <div class="dropdown1">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="filterusebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Filter by uses
       </button>
@@ -60,8 +68,11 @@
         {{ filter_form.use }}
       </div>
     </div>
-    <input type="submit" style= "margin-left: 2vw" value="Save filter settings">
+    <button type="submit" style= "margin-left: 2vw; margin-top: 1vh;" class = "button">Save settings</button>
   </form>
+
+  <br>
+  <hr>
   <section class = "cards">
     <!-- Rendering every product and data -->
     {% for product in products %}
