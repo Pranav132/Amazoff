@@ -77,10 +77,10 @@ class newAddressForm (forms.Form):
         attrs={'placeholder': 'City',
                'class': 'form-control'}))
     state = forms.CharField(max_length=100, label='State', widget=forms.TextInput(
-        attrs={'placeholder': 'Tell us what you think!',
+        attrs={'placeholder': 'State',
                'class': 'form-control'}))
     country = forms.CharField(max_length=100, label='Country', widget=forms.TextInput(
-        attrs={'placeholder': 'Tell us what you think!',
+        attrs={'placeholder': 'Country',
                'class': 'form-control'}))
 
 
