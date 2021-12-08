@@ -2,6 +2,7 @@
 {%load static %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/style-user.css' %}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 {% endblock %}
 {%block content%}
 <div class="hello">Hello,&nbsp;{{user.first_name}}
@@ -13,24 +14,60 @@
 <div class="addresses"></div>
 <div class="orders"></div>
 <div class="reviews"></div>
-{% for address in addresses %}
-    <h3>{{ address.name }}</h3>
-{% endfor %}
-{% for order in orderHistory %}
-{% for eachorder in order %}
-{% if forloop.counter0 == 0 %}
-    <h3>{{ eachorder }}</h3>
-{% else %}
-    {% for item in eachorder %}
-        <h5>{{ item.product }}</h5>
-        <h5>{{ item.quant }}</h5>
-    {% endfor %}
-{% endif %}
-{% endfor %}
-{% endfor %}
-{% for review in reviews %}
-    <h3>{{ review.review }}</h3>
-{% endfor %}
-<a href="{% url 'cart' %}">Your cart</a>
-<a href="{% url 'orderHistory' %}">Your orders</a>
+
+<div class="w3-container">
+
+  
+    <button onclick="myFunction('Demo1')">Address</button>
+    <div id="Demo1" class="w3-container w3-hide">
+        <h2>Your saved addresses are:</h2>
+        {% for address in addresses %}
+            <ul>
+            <li>{{ address.name }}</li>
+            </ul>
+        {% endfor %}
+        <a href="{% url 'newAddress' %}"><button type="button">Add a new address</button></a>
+    </div>
+    <br>
+    <button onclick="myFunction('Demo2')" >Order History</button>
+    <div id="Demo2" class="w3-container w3-hide">
+      {% for order in orderHistory %}
+      {% for eachorder in order %}
+      {% if forloop.counter0 == 0 %}
+        <h3>{{ eachorder }}</h3>
+      {% else %}
+          {% for item in eachorder %}
+            <h5>{{ item.product }}</h5>
+            <h5>{{ item.quant }}</h5>
+          {% endfor %}
+      {% endif %}
+        <h5> {{ eachorder.cartValue }}</h5>
+      {% endfor %}
+      {% endfor %}
+    </div>
+    <br>
+    
+    <button onclick="myFunction('Demo3')" >Reviews</button>
+    <div id="Demo3" class="w3-container w3-hide">
+        {% if reviews %}
+            {% for review in reviews %}
+                <h3>{{ review.review }}</h3>
+            {% endfor %}
+        {% else %}
+            <p>You have not written any reviews yet!</p>
+        {% endif %}
+        
+    </div>
+    </div>
+    
+    <script>
+    function myFunction(id) {
+      var x = document.getElementById(id);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else { 
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+    </script>
 {% endblock %}
