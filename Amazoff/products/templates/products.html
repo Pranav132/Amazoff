@@ -18,6 +18,50 @@
 </div>
 
 <main>
+  <form action={% url 'products' %} method="POST">
+    {% csrf_token %}
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort by
+      </button>
+      <div class="dropdown-menu" aria-labelledby="sortbutton">
+        {{ filter_form.name }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filterpricebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by price
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filterpricebutton">
+        {{ filter_form.price }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filtergenderbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by gender
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filtergenderbutton">
+        {{ filter_form.gender }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filtertypebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by types
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filtertypesbutton">
+        {{ filter_form.types }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filterusebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by uses
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filterusebutton">
+        {{ filter_form.use }}
+      </div>
+    </div>
+    <input type="submit" style= "margin-left: 2vw" value="Save filter settings">
+  </form>
   <section class = "cards">
     <!-- Rendering every product and data -->
     {% for product in products %}

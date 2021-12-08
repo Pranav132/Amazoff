@@ -50,13 +50,192 @@ def wishlist(request):
 
 
 def products(request):
-    # rendering every required product
 
-    # in this case, rendering all products
-    products = Product.objects.order_by('-inventory').all()
+    if request.method == 'POST':
+
+        print("+++++++READ FROM HERE++++++")
+
+        choice = request.POST.get('name')
+        price = request.POST.get('price')
+        gender = request.POST.get('gender')
+        types = request.POST.get('types')
+        use = request.POST.get('use')
+
+        filter_form = FilterForm(initial={
+                                 'name': choice, 'price': price, 'gender': gender, 'types': types, 'use': use})
+
+        unsorted_product = Product.objects.all()
+
+        print("THE CHOICE IS")
+        print(choice)
+        print("THE PRICE IS")
+        print(price)
+        print("THE GENDER IS")
+        print(gender)
+        print("THE TYPE IS")
+        print(types)
+        print("THE USE IS")
+        print(use)
+
+        genderList = []
+        typesList = []
+        useList = []
+
+        min_price = 0.00
+        max_price = 10000.00
+
+        if price == 'zero':
+            max_price = 10000.00
+        elif price == 'five':
+            max_price = 500.00
+        elif price == 'ten':
+            max_price = 1000.00
+        elif price == 'twenty':
+            max_price = 2000.00
+        elif price == 'thirty':
+            max_price = 3000.00
+        elif price == 'fourty':
+            max_price = 4000.00
+        elif price == 'fifty':
+            max_price = 5000.00
+        elif price == 'sixty':
+            max_price = 6000.00
+        elif price == 'seventy':
+            max_price = 7000.00
+        elif price == 'eighty':
+            max_price = 8000.00
+
+        print("MAX PRICE IS:", max_price)
+
+        # print(priceList)
+
+        if gender == 'none':
+            for pp in Tags.objects.all():
+                genderList.append(pp)
+        else:
+            if gender == 'men':
+                gender_name = 'Men'
+                genderList = [gender_name]
+            if gender == 'women':
+                gender_name = 'Women'
+                genderList = [gender_name]
+
+        print(genderList)
+
+        if types == 'nothing':
+            for pp in Product_Categories.objects.all():
+                typesList.append(pp)
+        else:
+            if types == 'misc':
+                types_name = 'misc'
+                typesList = [types_name]
+            if types == 'toilette':
+                types_name = 'Eau De Toilette'
+                typesList = [types_name]
+            if types == 'parfum':
+                types_name = 'Eau De Parfum'
+                typesList = [types_name]
+
+        print(typesList)
+
+        if use == 'useless':
+            for pp in subcategories.objects.all():
+                useList.append(pp)
+        else:
+            if use == 'everyday':
+                use_name = 'Everyday'
+                useList = [use_name]
+            if use == 'nightlife':
+                use_name = 'Nightlife'
+                useList = [use_name]
+            if use == 'sporty':
+                use_name = 'Sporty'
+                useList = [use_name]
+
+        print(useList)
+        print("PRODUCTS BEFORE", unsorted_product)
+
+        # Now to filter everything based on the choices and then put it into product
+
+        unsorted_product = unsorted_product.filter(
+            Q(price__gte=min_price),
+            Q(price__lte=max_price),
+            Q(tags__name__in=genderList),
+            Q(category__name__in=typesList),
+            Q(sub_categories__name__in=useList)
+        )
+
+        print(unsorted_product)
+
+        if choice == 'relevance':
+            unsorted_product = unsorted_product.order_by('-inventory')
+
+        if choice == 'popularity':
+            unsorted_product = unsorted_product.order_by(
+                '-popularity').order_by('-inventory')
+
+        if choice == 'low2high':
+            unsorted_product = unsorted_product.order_by(
+                'price').order_by('-inventory')
+
+        if choice == 'high2low':
+            unsorted_product = unsorted_product.order_by(
+                '-price').order_by('-inventory')
+
+        product = []
+
+        for val in unsorted_product:
+            if val in product:
+                continue
+            else:
+                product.append(val)
+
+        return render(request, 'products.html', {"products": product, "filter_form": filter_form})
+    # rendering every required product
+    else:
+        params = request.GET
+        print(params)
+        unsorted_product = Product.objects.all()
+        if params:
+            print(params['gender'])
+            if params['gender'] == 'men':
+                gender_name = 'Men'
+                genderList = [gender_name]
+            elif params['gender'] == 'women':
+                gender_name = 'Women'
+                genderList = [gender_name]
+            else:
+                genderList = []
+
+            print("PRE", unsorted_product)
+
+            if len(genderList) > 0:
+                unsorted_product = unsorted_product.filter(
+                    Q(tags__name__in=genderList)
+                )
+
+            unsorted_product = unsorted_product.order_by('-inventory')
+
+            print("POST", unsorted_product)
+            product = []
+
+            for val in unsorted_product:
+                if val in product:
+                    continue
+                else:
+                    product.append(val)
+
+            filter_form = FilterForm(
+                initial={'name': 'relevance', 'price': 'zero', 'gender': params['gender'], 'types': 'nothing', 'use': 'useless'})
+
+        else:
+            filter_form = FilterForm(
+                initial={'name': 'relevance', 'price': 'zero', 'gender': 'none', 'types': 'nothing', 'use': 'useless'})
+            product = Product.objects.order_by('-inventory').all()
+
+        return render(request, "products.html", {"products": product, "filter_form": filter_form})
 
     # sending to products.html file
-    return render(request, "products.html", {"products": products})
 
 
 def product(request, product_id):
@@ -350,24 +529,48 @@ def search(request):
         print("THE USE IS")
         print(use)
 
-        priceList = []
         genderList = []
         typesList = []
         useList = []
 
-        if price == 'zero':
-            for pp in Product.objects.all():
-                priceList.append(pp.price)
-        else:
-            priceList = [price]
+        min_price = 0.00
+        max_price = 10000.00
 
-        print(priceList)
+        if price == 'zero':
+            max_price = 10000.00
+        elif price == 'five':
+            max_price = 500.00
+        elif price == 'ten':
+            max_price = 1000.00
+        elif price == 'twenty':
+            max_price = 2000.00
+        elif price == 'thirty':
+            max_price = 3000.00
+        elif price == 'fourty':
+            max_price = 4000.00
+        elif price == 'fifty':
+            max_price = 5000.00
+        elif price == 'sixty':
+            max_price = 6000.00
+        elif price == 'seventy':
+            max_price = 7000.00
+        elif price == 'eighty':
+            max_price = 8000.00
+
+        print("MAX PRICE IS:", max_price)
+
+        # print(priceList)
 
         if gender == 'none':
             for pp in Tags.objects.all():
                 genderList.append(pp)
         else:
-            genderList = [gender]
+            if gender == 'men':
+                gender_name = 'Men'
+                genderList = [gender_name]
+            if gender == 'women':
+                gender_name = 'Women'
+                genderList = [gender_name]
 
         print(genderList)
 
@@ -375,7 +578,15 @@ def search(request):
             for pp in Product_Categories.objects.all():
                 typesList.append(pp)
         else:
-            typesList = [types]
+            if types == 'misc':
+                types_name = 'misc'
+                typesList = [types_name]
+            if types == 'toilette':
+                types_name = 'Eau De Toilette'
+                typesList = [types_name]
+            if types == 'parfum':
+                types_name = 'Eau De Parfum'
+                typesList = [types_name]
 
         print(typesList)
 
@@ -383,14 +594,23 @@ def search(request):
             for pp in subcategories.objects.all():
                 useList.append(pp)
         else:
-            useList = [use]
+            if use == 'everyday':
+                use_name = 'Everyday'
+                useList = [use_name]
+            if use == 'nightlife':
+                use_name = 'Nightlife'
+                useList = [use_name]
+            if use == 'sporty':
+                use_name = 'Sporty'
+                useList = [use_name]
 
         print(useList)
 
         # Now to filter everything based on the choices and then put it into product
 
         product = product.filter(
-            Q(price__in=priceList),
+            Q(price__gte=min_price),
+            Q(price__lte=max_price),
             Q(tags__name__in=genderList),
             Q(category__name__in=typesList),
             Q(sub_categories__name__in=useList)
@@ -533,7 +753,7 @@ def orderConfirmed(request):
     current_cart.save()
     cart_items = CartItem.objects.filter(cart=current_cart.id)
     for product in cart_items:
-        product.product.inventory=product.product.inventory-1
+        product.product.inventory = product.product.inventory-1
         product.product.save()
     shippingaddress = request.POST.get('shippingaddress')
     paymentmethod = request.POST.get('paymentmethod')
