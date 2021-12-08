@@ -44,8 +44,8 @@ label{
 <form action="" method="post" class ="form-group">
     {% csrf_token %}
     {{ form }}
-    <label for="zipCode">Zip Code</label>
-    <input type = "number" name="zipCode" default = "00000" min= "00000" max= "999999" style = "width: 5vw;" class = "form-control">
+    <label for="zipCode">Zip Code:</label>
+    <input type = "number" name="zipCode" default = "00000" min= "00000" max= "999999" class = "form-control" placeholder = "Zip Code" id="zipCode">
     <input type="submit" value="Add address" class="btn btn-primary mb-2" style = "margin-top:2vh;">
   </form>
 </div>
