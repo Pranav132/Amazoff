@@ -25,6 +25,19 @@
   gap: 2rem;
 }
 
+.update-cart{
+  position: absolute;
+  right: 5em;
+  bottom: 1em;
+  padding: 0.5em 0.75em;
+  font-size: 0.75em;
+}
+
+.card_button{
+  padding: 0.5em 0.75em;
+  font-size: 0.75em;
+}
+
 </style>
 {% endblock %}
 {% block content %}
@@ -66,10 +79,9 @@
             {% endif %}
                   <p class = "text--medium">₹{{ product.product.price }}</p>
                   {% if product.product.inventory > 0 %}
-                <button data-product="{{product.product.id}}" data-action="add" class="update-cart card_button text-medium">ADD TO CART</button>
-                  {% else %}
+                <button data-product="{{product.product.id}}" data-action="add" class="update-cart card_button text-medium">add to CART</button>
+                {% endif %}
                 <a href = "{% url 'product_page' product_id=product.product.id %}"><button class = "card_button text-medium">View</button></a>
-                  {% endif %}
         
               </div>
           </div>
