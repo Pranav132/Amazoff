@@ -532,6 +532,9 @@ def orderConfirmed(request):
     current_cart.orderExecuted = True
     current_cart.save()
     cart_items = CartItem.objects.filter(cart=current_cart.id)
+    for product in cart_items:
+        product.product.inventory=product.product.inventory-1
+        product.product.save()
     shippingaddress = request.POST.get('shippingaddress')
     paymentmethod = request.POST.get('paymentmethod')
     print(shippingaddress)

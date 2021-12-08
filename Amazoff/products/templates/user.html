@@ -51,7 +51,12 @@
     <div id="Demo3" class="w3-container w3-hide">
         {% if reviews %}
             {% for review in reviews %}
-                <h3>{{ review.review }}</h3>
+            <ul>
+                <li>
+                    <h3>{{ review.product.name}}</h3>
+                    <h4>{{ review.review }}</h4>
+                </li>
+                </ul>
             {% endfor %}
         {% else %}
             <p>You have not written any reviews yet!</p>

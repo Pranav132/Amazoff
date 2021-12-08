@@ -16,9 +16,16 @@
   font-weight: 800;
 }
 
-.form-group{
-    padding-top: 5vh;
+.wrapform{
+    display: grid;
+    place-items: center;
     min-height: 50vh;
+}
+
+.form-group{
+    width: 100%;
+    padding-left: 5vw;
+    padding-right: 5vw;
    }
 </style>
 {% endblock %}
@@ -28,10 +35,12 @@
     Submit your new review!
 </div>
 
+<div class="wrapform">
 <form action="" method="post" class="form-group">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit review!" class="btn btn-primary mb-2" style = "margin-top:2vh;">
 </form>
+</div>
 
 {% endblock %}
