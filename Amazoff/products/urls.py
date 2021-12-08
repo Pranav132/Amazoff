@@ -18,6 +18,8 @@ urlpatterns = [
     path("wishlist/", views.wishlist, name="wishlist"),
     path("checkout/", views.checkout, name="checkout"),
     path("search/", views.search, name="product_search"),
+    path("searchfilter/", views.searchfilter, name="search_filter"),
+    path("productfilter/", views.productfilter, name="product_filter"),
     path("update_item/", views.UpdateItem, name='update_item'),
     path("update_wishlist/", views.UpdateWishlist, name='update_wishlist'),
     path('accounts/', include('allauth.urls')),

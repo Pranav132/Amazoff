@@ -5,9 +5,18 @@
 {% endblock %}
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.js" integrity="sha512-5RPueBRwDHxZ362heK/fya6Azw6ayHtn7nTqZnIoGFjiXdGAEvAjKco/FvzpTEIbfJI2Qxirl0/g21qizV/a/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script>document.addEventListener("DOMContentLoaded", function(){
+  var searched = document.getElementById('searched').innerText;
+  document.getElementById("sort_searched_form").value = searched;});</script> -->
 <script>document.addEventListener("DOMContentLoaded", function(){
   var searched = document.getElementById('searched').innerText;
-  document.getElementById("searched_form").value = searched;});</script>
+  document.getElementById("filter_searched_form").value = searched;});</script>
+<style>
+.dropdown{
+  padding-left: 2vw;
+  margin: 0.5vh 0vh;
+}
+  </style>
 {% endblock %}
 {% block content %} 
 
@@ -24,9 +33,48 @@
 
   <form action={% url 'product_search' %} method="POST">
     {% csrf_token %}
-    {{ form }}
-    <input type = "hidden" id = "searched_form" name = "searched" value = "">
-    <input type="submit" value="Save filter and sort settings">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort by
+      </button>
+      <div class="dropdown-menu" aria-labelledby="sortbutton">
+        {{ filter_form.name }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filterpricebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by price
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filterpricebutton">
+        {{ filter_form.price }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filtergenderbutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by gender
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filtergenderbutton">
+        {{ filter_form.gender }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filtertypebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by types
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filtertypesbutton">
+        {{ filter_form.types }}
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filterusebutton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by uses
+      </button>
+      <div class="dropdown-menu" aria-labelledby="filterusebutton">
+        {{ filter_form.use }}
+      </div>
+    </div>
+    <input type = "hidden" id = "filter_searched_form" name = "searched" value = "">
+    <input type="submit" style= "margin-left: 2vw" value="Save filter settings">
   </form>
   <br>
   <hr>

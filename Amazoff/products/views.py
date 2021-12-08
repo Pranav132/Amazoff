@@ -5,6 +5,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 import json
 from django.contrib.postgres.search import SearchQuery
+from django.db.models import Q
 # from fuzzywuzzy import fuzz
 # from fuzzywuzzy import process
 
@@ -300,15 +301,34 @@ def search(request):
             sub_categories__name__icontains=search)
         product_tags = Product.objects.filter(
             tags__name__icontains=search)
-        product = main_product | product_categories | product_subcategories | product_tags
+        unsorted_product = main_product | product_categories | product_subcategories | product_tags
+
+        product = []
+
+        for val in unsorted_product:
+            if val in product:
+                continue
+            else:
+                product.append(val)
 
         # initializing the form and setting the default value to be relevance
-        form = SortingForm(initial={'name': 'relevance'})
-        return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
+        filter_form = FilterForm(
+            initial={'name': 'relevance', 'price': 'zero', 'gender': 'none', 'types': 'nothing', 'use': 'useless'})
+        return render(request, 'product_search.html', {"product": product, "search": search, "filter_form": filter_form})
 
     if request.method == 'POST':
-        form = SortingForm(request.POST)
+
+        print("+++++++READ FROM HERE++++++")
+
         search = request.POST.get('searched')
+        choice = request.POST.get('name')
+        price = request.POST.get('price')
+        gender = request.POST.get('gender')
+        types = request.POST.get('types')
+        use = request.POST.get('use')
+
+        filter_form = FilterForm(initial={
+                                 'name': choice, 'price': price, 'gender': gender, 'types': types, 'use': use})
 
         main_product = Product.objects.filter(name__icontains=search)
         product_categories = Product.objects.filter(
@@ -319,40 +339,89 @@ def search(request):
             tags__name__icontains=search)
         product = main_product | product_categories | product_subcategories | product_tags
 
-        if form.is_valid():
-            choice = request.POST.get('name')
-            print("THE CHOICE IS")
-            print(choice)
-            # brand = request.POST.get('brand')
-            price = request.POST.get('price')
-            print("THE PRICE IS")
-            print(price)
-            gender = request.POST.get('gender')
-            print("THE GENDER IS")
-            print(gender)
-            types = request.POST.get('types')
-            print("THE TYPE IS")
-            print(types)
-            use = request.POST.get('use')
-            print("THE USE IS")
-            print(use)
+        print("THE CHOICE IS")
+        print(choice)
+        print("THE PRICE IS")
+        print(price)
+        print("THE GENDER IS")
+        print(gender)
+        print("THE TYPE IS")
+        print(types)
+        print("THE USE IS")
+        print(use)
 
-            if choice == 'relevance':
-                product = product
+        priceList = []
+        genderList = []
+        typesList = []
+        useList = []
 
-            if choice == 'popularity':
-                product = product.order_by('-popularity')
-
-            if choice == 'low2high':
-                product = product.order_by('price')
-
-            if choice == 'high2low':
-                product = product.order_by('-price')
-
+        if price == 'zero':
+            for pp in Product.objects.all():
+                priceList.append(pp.price)
         else:
-            print("SOMETHING IS WRONG")
+            priceList = [price]
 
-        return render(request, 'product_search.html', {"product": product, "search": search, "form": form})
+        print(priceList)
+
+        if gender == 'none':
+            for pp in Tags.objects.all():
+                genderList.append(pp)
+        else:
+            genderList = [gender]
+
+        print(genderList)
+
+        if types == 'nothing':
+            for pp in Product_Categories.objects.all():
+                typesList.append(pp)
+        else:
+            typesList = [types]
+
+        print(typesList)
+
+        if use == 'useless':
+            for pp in subcategories.objects.all():
+                useList.append(pp)
+        else:
+            useList = [use]
+
+        print(useList)
+
+        # Now to filter everything based on the choices and then put it into product
+
+        product = product.filter(
+            Q(price__in=priceList),
+            Q(tags__name__in=genderList),
+            Q(category__name__in=typesList),
+            Q(sub_categories__name__in=useList)
+        )
+
+        if choice == 'relevance':
+            product = product
+
+        if choice == 'popularity':
+            product = product.order_by('-popularity')
+
+        if choice == 'low2high':
+            product = product.order_by('price')
+
+        if choice == 'high2low':
+            product = product.order_by('-price')
+
+        return render(request, 'product_search.html', {"product": product, "search": search, "filter_form": filter_form})
+
+
+def searchfilter(request):
+
+    # if request.method == 'POST'
+
+    pass
+    # return render(request, 'product_search.html', {"product": product, "search": search, "form": form, "filter_form": filter_form})
+
+
+def productfilter(request):
+    pass
+    # return render(request, 'product_search.html', {"product": product, "search": search, "form": form, "filter_form": filter_form})
 
 
 def contact(request):

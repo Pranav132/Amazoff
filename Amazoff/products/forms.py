@@ -2,21 +2,15 @@ from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-class SortingForm(forms.Form):
+class FilterForm(forms.Form):
 
-    # setting the choices users will have to filter search
+    # Setting choices
     CHOICES = [
         ('relevance', 'Relevance'),
         ('popularity', 'Popularity'),
         ('low2high', 'Price: Low to High'),
         ('high2low', 'Price: High to Low')
     ]
-
-    # BRANDS = [
-    #     ('ck', 'CK'),
-    #     ('creed', 'Creed'),
-    #     ('burberry', 'Burberry')
-    # ]
 
     RANGES = [
         ('zero', 'No price filter'),
@@ -52,22 +46,21 @@ class SortingForm(forms.Form):
     ]
 
     name = forms.ChoiceField(
-        choices=CHOICES, widget=forms.RadioSelect)
-
-    # brand = forms.MultipleChoiceField(
-    #     required=False, widget=forms.CheckboxSelectMultiple, choices=BRANDS)
+        choices=CHOICES, widget=forms.RadioSelect(
+            attrs={'class': 'dropdown-item'}
+        ))
 
     price = forms.MultipleChoiceField(
-        required=False, widget=forms.RadioSelect, choices=RANGES)
+        required=False, widget=forms.RadioSelect(attrs={'class': 'dropdown-item'}), choices=RANGES)
 
     gender = forms.MultipleChoiceField(
-        required=False, widget=forms.RadioSelect, choices=GENDERS)
+        required=False, widget=forms.RadioSelect(attrs={'class': 'dropdown-item'}), choices=GENDERS)
 
     types = forms.MultipleChoiceField(
-        required=False, widget=forms.RadioSelect, choices=TYPES)
+        required=False, widget=forms.RadioSelect(attrs={'class': 'dropdown-item'}), choices=TYPES)
 
     use = forms.MultipleChoiceField(
-        required=False, widget=forms.RadioSelect, choices=USES)
+        required=False, widget=forms.RadioSelect(attrs={'class': 'dropdown-item'}), choices=USES)
 
 
 class newAddressForm (forms.Form):
