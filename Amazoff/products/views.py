@@ -447,7 +447,7 @@ def newAddress(request):
         user_addresses = Addresses.objects.create(customer=customer, name=name, addressLine1=addressLine1,
                                                   addressLine2=addressLine2, city=city, state=state, country=country, zipCode=zipCode)
         print(user_addresses)
-        return HttpResponse("<h1>Yes</h1>")
+        return redirect('user')
 
 
 @login_required
