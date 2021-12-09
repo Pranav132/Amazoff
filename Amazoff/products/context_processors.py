@@ -3,21 +3,11 @@ from .models import Product, Product_Categories, Tags, subcategories, Wishlist, 
 
 def autocomplete_processor(request):
 
-    if request.user:
-        print(request.user)
-
-        cart = Cart.objects.filter(user=request.user, orderExecuted=False).first()
-        if cart:
-            cart_items = cart.calcCartQuant
-        else:
-            cart_items = 0
-
     products = Product.objects.all()
     categories = Product_Categories.objects.all()
     sub_categories = subcategories.objects.all()
     product_tags = Tags.objects.all()
     return {
-        "cart_len":cart_items,
         "template_products": products,
         "template_categories": categories,
         "template_subcategories": sub_categories,
