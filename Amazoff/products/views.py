@@ -370,7 +370,8 @@ def user(request):
     print(orderHistory)
     reviews = ReviewsRatings.objects.filter(user=user).all()
     print(reviews)
-    return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "reviews": reviews})
+    checker = [-1, -1, -1, -1, -1]
+    return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "reviews": reviews, "checker": checker})
 
 
 @login_required
@@ -758,7 +759,7 @@ def orderConfirmed(request):
     paymentmethod = request.POST.get('paymentmethod')
     print(shippingaddress)
     print(paymentmethod)
-    addy = Addresses.objects.get(name=shippingaddress, customer=customer)
-    print(addy)
+    addy = Addresses.objects.filter(
+        name=shippingaddress, customer=customer)[0]
     completedOrders.objects.create(order=current_cart, address=addy)
     return render(request, "orderconfirmed.html", {"user": user, "cart_items": cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})

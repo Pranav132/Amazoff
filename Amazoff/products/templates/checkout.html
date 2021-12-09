@@ -32,6 +32,10 @@
           font-family: 'Poppins', sans-serif;
           font-weight: 600;
           padding-bottom: 5vh;
+          display: flex; 
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
       }
       .button {
       display: inline-block;
@@ -135,7 +139,7 @@
 {% block content %}
 
 <div class="title">
-     <span style="text-transform: capitalize;">Hello {{ user.first_name }},&nbsp; </span><span style="text-transform: lowercase;">    confirm your order</span>
+     <span style="text-transform: capitalize;">Hello {{ user.first_name }},&nbsp; </span><span style="text-transform: lowercase;">  confirm your order</span>
     <a class="btn btn-outline-dark" href="{% url 'cart' %}" style = "position: absolute; top: 0; left: 0; font-weight: 800;"> &#x2190; Back to Cart</a>
 </div>
 
@@ -188,23 +192,25 @@
 
 
 <!-- Add section which deals with addresses -->
-<div>
-    <form id="checkoutform" action= "/orderconfirmed/" method="POST">
+<div style = "padding-top: 5vh; background-color:#dad6d6;">
+    <form id="checkoutform" action= "/orderconfirmed/" method="POST" class = "form-check" style="background-color:#dad6d6;">
         {% csrf_token %}
 
+        <div class="wrapper" style = "display: flex; width: 100%; align-items: center;justify-content: space-around; background-color: #dad6d6;">
     <div class="quant">
         {% if user_addresses %}
             <!-- add addresses to choose from -->
             <p class="addytitle">Select an Address</p>
-            <div style="display: flex; flex-direction: row;">
                 {% for address in user_addresses %}
-                <input style="padding: 0vh 5vh 5vh 5vh;" type="radio" name="shippingaddress" value="{{address}}" required>{{address}}<br>
-                {% endfor %}
-            </div>          
-            <a href="{% url 'newAddress' %}"><button type="button">Add new address</button></a>
+                <div style = "display: flex; flex-direction: row;">
+                <input id = "{{ forloop.counter }}" type="radio" name="shippingaddress" value="{{address}}" required >
+                <label for="{{ forloop.counter }}" style = "padding: 0vw 0.2vw; padding-bottom: 1vh;">{{ address }}</label>
+            </div>
+                {% endfor %}     
+            <a href="{% url 'newAddress' %}"><button type="button" class="btn btn-primary">Add new address</button></a>
         {% else %}
             <h3>No saved addresses...</h3>
-            <a href="{% url 'newAddress' %}"><button type="button">Add new address</button></a>
+            <a href="{% url 'newAddress' %}"><button type="button" class = "btn btn-primary">Add new address</button></a>
         {% endif %}
     
         {% else %}
@@ -215,11 +221,14 @@
         
     </div>
 
-    <div class ="quant">
+    <div class ="quant" style = "padding-left: 5vw;">
         <p class="addytitle">Select payment method</p>
-        <input type="radio" name="paymentmethod" value="On delivery through cash/card/UPI" required>On delivery through cash/card/UPI <br>
+        <div style = "display: flex; flex-direction: row;">
+        <input type="radio" name="paymentmethod" value="On delivery through cash/card/UPI"  id = "paymentmethod" required>
+        <label for="paymentmethod">On delivery through cash/card/UPI</label>
     </div>
-
+    </div>
+</div>  
 
 </div>
 <div class="quant">

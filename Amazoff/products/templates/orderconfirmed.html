@@ -144,22 +144,22 @@
 <h4>Your shipment consisting of: </h4>
 <ol>
     {% for product in cart_items %}
-    <li>{{ product.product.name }} - {{product.quant}} pcs</li>
+    <li style = "padding: 0.5vh 0;"><strong>{{ product.product.name }}</strong> - {{product.quant}} pcs</li>
     {% endfor %}
 </ol> 
 
 
-<p>Will be delivered at your selected address, {{shippingaddress}}, in <a id="days"></a> days </p>
+<p>Will be delivered at your selected address, <strong>{{shippingaddress}}</strong>, in <strong><span id="days"></span> days</strong> </p>
 <script>
     document.getElementById("days").innerHTML = 3 + Math.floor(Math.random() * 4);
 </script>
 
-<p>Selected payment method: {{paymentmethod}}.</p>
+<p>Selected payment method: <strong>{{paymentmethod}}.</strong></p>
 </div>
 
 <div class="quant">
-    <button class ="button" href="{% url 'user' %}">View Order History</button>
-    <button style="margin-top: 2vh;" class ="button" href="{% url 'products' %}">Continue Shopping</button>
+    <a href="{% url 'user' %}"><button class ="button">View Order History</button></a>
+    <a href="{% url 'products' %}"><button style="margin-top: 2vh;" class ="button">Continue Shopping</button></a>
 </div>
 
 <!-- <a  class="btn btn-outline-dark" href="{% url 'user' %}"> &#x2190; View Order History</a>

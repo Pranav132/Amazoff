@@ -2,6 +2,7 @@
 {%load static %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/style-user.css' %}">
+<link rel="stylesheet" href="{% static 'css/style-rating.css' %}">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 {% endblock %}
 {%block content%}
@@ -11,14 +12,10 @@
     <a href="{% url 'wishlist' %}"><i class="bi bi-heart-fill" style = "color: red;"></i>&nbsp;&nbsp; View Your Wishlist</a>
 </div>
 </div>
-<div class="addresses"></div>
-<div class="orders"></div>
-<div class="reviews"></div>
-
-<div class="w3-container">
+<div class="allratings">
 
   
-    <button onclick="myFunction('Demo1')">Address</button>
+    <!-- <button onclick="myFunction('Demo1')">Address</button>
     <div id="Demo1" class="w3-container w3-hide">
         <h2>Your saved addresses are:</h2>
         {% for address in addresses %}
@@ -27,9 +24,47 @@
             </ul>
         {% endfor %}
         <a href="{% url 'newAddress' %}"><button type="button">Add a new address</button></a>
+    </div> -->
+
+    <h3 style="text-align:left; padding-top:5vh;
+    font-size: 3vmax;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;">Your saved addresses are:</h3>
+    {% for address in addresses %}
+    <div class="rates">
+      <div class="username" style="font-size:2em;">{{address}}</div>
+      <div class = "review" style="font-size:1em;">{{address.addressLine1}}</div>
     </div>
     <br>
-    <button onclick="myFunction('Demo2')" >Order History</button>
+    {% endfor %}
+    <a href="{% url 'newAddress' %}"><button type="button" class="btn btn-primary">Add new address</button></a>
+    <br><br><br>
+    <h3 style="text-align:left; padding-top:5vh;
+    font-size: 3vmax;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;">Your past orders are:</h3>
+    {% for order in orderHistory %}
+    <div class="rates">
+      {% for eachorder in order %}
+      {% if forloop.counter0 == 0 %}
+      <div class="username" style="font-size:2em;">{{ eachorder.orderTime }}</div>
+      <div class = "review" style="font-size:1.25em;">Ordered to - {{eachorder.address}}</div>
+      <hr>
+      <div class = "review" style="font-size:1.25em;"><strong>₹{{eachorder.order.calcCartTotal}}</strong></div>
+      <div class = "review" style="font-size:1.25em;">Items in order - <strong>{{eachorder.order.calcCartQuant}}</strong></div>
+      <hr>
+      {% else %}
+      <div class = "review" style="font-size:1em; text-decoration: underline; padding: 0.75vh 0;"><strong>Ordered Items</strong></div>
+      {% for item in eachorder %}
+      <div class = "review" style="font-size:1em;"><strong>{{ item.product }}</strong> - {{ item.quant }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    <br>
+    {% endfor %}
+  
+    <!-- <button onclick="myFunction('Demo2')" >Order History</button>
     <div id="Demo2" class="w3-container w3-hide">
       {% for order in orderHistory %}
       {% for eachorder in order %}
@@ -45,9 +80,9 @@
       {% endfor %}
       {% endfor %}
     </div>
-    <br>
+    <br> -->
     
-    <button onclick="myFunction('Demo3')" >Reviews</button>
+    <!-- <button onclick="myFunction('Demo3')" >Reviews</button>
     <div id="Demo3" class="w3-container w3-hide">
         {% if reviews %}
             {% for review in reviews %}
@@ -62,10 +97,34 @@
             <p>You have not written any reviews yet!</p>
         {% endif %}
         
+    </div> -->
+
+    <h3 style="text-align:left; padding-top:5vh;
+    font-size: 3vmax;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;">Your past reviews are:</h3>
+    {% if reviews %}
+    {% for review in reviews %}
+    <div class="rates">
+      <div class="username" style="font-size:2em;">{{review.product.name}}</div>
+      <div class = "review" style="font-size:1em;">{{review.review}}</div>
+      <div class="stars">
+        {% for i in checker %}
+            {% if forloop.counter0 < review.rating %}
+            <span class="fa fa-star" style="color: orange; font-size:0.5em;"></span>
+        {% else %}
+            <span class="fa fa-star" style = 'font-size:0.5em;'></span>
+        {% endif %}
+        {% endfor %}
+        </div>
     </div>
+    <br>
+    {% endfor %}
+    {% endif %}
+    <hr>
     </div>
     
-    <script>
+    <!-- <script>
     function myFunction(id) {
       var x = document.getElementById(id);
       if (x.className.indexOf("w3-show") == -1) {
@@ -74,5 +133,5 @@
         x.className = x.className.replace(" w3-show", "");
       }
     }
-    </script>
+    </script> -->
 {% endblock %}
