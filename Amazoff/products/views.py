@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from django.contrib.postgres.search import SearchQuery
 from django.db.models import Q
-# from fuzzywuzzy import fuzz
-# from fuzzywuzzy import process
+
 
 # Create your views here.
 
@@ -16,6 +15,10 @@ def index(request):
     # to make every user a customer
     users = User.objects.all()
     for user in users:
+
+        # This all checks if the users in the database have a customer, cart and wishlist associated with them
+        # If they don't, this creates one and assigns it to them
+
         checkCustomer = Customer.objects.filter(user=user).first()
         if not checkCustomer:
             Customer.objects.create(user=user)
@@ -51,18 +54,25 @@ def wishlist(request):
 
 def products(request):
 
+    # The products page has a form for sorting and filtering. If that form has been submitted, then the following code is executed
+
     if request.method == 'POST':
 
         print("+++++++READ FROM HERE++++++")
 
+        # Getting all the submitted values from the form
         choice = request.POST.get('name')
         price = request.POST.get('price')
         gender = request.POST.get('gender')
         types = request.POST.get('types')
         use = request.POST.get('use')
 
+        # Returning the form with the chosen values once the form has been submitted
+
         filter_form = FilterForm(initial={
                                  'name': choice, 'price': price, 'gender': gender, 'types': types, 'use': use})
+
+        # Creating a QuerySet of all products in order to sort and filter them according to the choices
 
         unsorted_product = Product.objects.all()
 
@@ -77,12 +87,19 @@ def products(request):
         print("THE USE IS")
         print(use)
 
+        # Using lists to filter, explained in detail below
         genderList = []
         typesList = []
         useList = []
 
+        # Initializing min and max price in order to set default values for filtering if no price filters are wanted
+
         min_price = 0.00
         max_price = 10000.00
+
+        # Assigning values to max price on the basis of chosen price filter values. We assuming that the min price will
+        # always be zero as if someone if willing to buy perfumes up to 5000 rupees, they will also be willing to buy
+        # perfumes cheaper than that.
 
         if price == 'zero':
             max_price = 10000.00
@@ -107,12 +124,19 @@ def products(request):
 
         print("MAX PRICE IS:", max_price)
 
-        # print(priceList)
+        # In the following code, we accommodate for the case where the user does not want any filter of any particular kind.
+        # In order to do this and also use one filter command, we use lists. In case the user chooses to have no filter, the list
+        # will be populated by all possible values of that particular parameter. For instance, if no gender filter is chosen,
+        # genderList will be populated by all genders - 'men' and 'women' and the filter will filter products that contain either
+        # of them, effectively giving us all products with any gender property (all products). In case a value is chosen, the genderList
+        # list will contain only that value and the filter command will filter products with only that gender.
 
+        # Setting default genderlist value
         if gender == 'none':
             for pp in Tags.objects.all():
                 genderList.append(pp)
         else:
+            # Setting specific values and assigning to genderList
             if gender == 'men':
                 gender_name = 'Men'
                 genderList = [gender_name]
@@ -121,6 +145,8 @@ def products(request):
                 genderList = [gender_name]
 
         print(genderList)
+
+        # Repeating the same process for types and uses below
 
         if types == 'nothing':
             for pp in Product_Categories.objects.all():
@@ -155,7 +181,8 @@ def products(request):
         print(useList)
         print("PRODUCTS BEFORE", unsorted_product)
 
-        # Now to filter everything based on the choices and then put it into product
+        # Now to filter everything based on the choices and then put it into product. Using multiple filters and 'and' operators
+        # in between in order to get a QuerySet with all filter conditions.
 
         unsorted_product = unsorted_product.filter(
             Q(price__gte=min_price),
@@ -166,6 +193,8 @@ def products(request):
         )
 
         print(unsorted_product)
+
+        # Once we have the filtered products, we can implement the sorting logic by using simple .order_by() commands.
 
         if choice == 'relevance':
             unsorted_product = unsorted_product.order_by('-inventory')
@@ -182,6 +211,9 @@ def products(request):
             unsorted_product = unsorted_product.order_by(
                 '-price')
 
+        # Finally, to avoid duplicates in the final variable passed to the template, we put all products in a list
+        # after checking if they already exist in the said list.
+
         product = []
 
         for val in unsorted_product:
@@ -194,13 +226,27 @@ def products(request):
         #     print(item.price)
 
         return render(request, 'products.html', {"products": product, "filter_form": filter_form})
-    # rendering every required product
+
+    # If the form has not been submitted and request method is GET, we execute the following code.
     else:
+
+        # In order to link to the 'shop for men' and 'shop for women' section on the front page, we use the following code
+
+        # This gets the parameters passed through the url as a search query
         params = request.GET
         print(params)
+
+        # initializig initial QuerySet with all products
         unsorted_product = Product.objects.all()
+
+        # checking if there is any parameter passed into the url.
         if params:
+            # params is a dictionary with a key of gender and value of whatever is passed into the query
             print(params['gender'])
+
+            # We use the same filtering system as above, using lists to filter and assigning values to the genderList
+            # according to the value of params['gender'].
+
             if params['gender'] == 'men':
                 gender_name = 'Men'
                 genderList = [gender_name]
@@ -208,18 +254,23 @@ def products(request):
                 gender_name = 'Women'
                 genderList = [gender_name]
             else:
+                # To safeguard against manual changing of the url to make the value anything other than 'men' or 'women'
                 genderList = []
 
             print("PRE", unsorted_product)
 
+            # This makes sure that there is only a filter if genderList is populated, i.e. the correct query is passed in the url
             if len(genderList) > 0:
                 unsorted_product = unsorted_product.filter(
                     Q(tags__name__in=genderList)
                 )
 
+            # Sorting the queryset on the basis of inventory to put the out of stock items at the bottom.
             unsorted_product = unsorted_product.order_by('-inventory')
 
             print("POST", unsorted_product)
+
+            # To avoid duplicate products as done above
             product = []
 
             for val in unsorted_product:
@@ -228,10 +279,14 @@ def products(request):
                 else:
                     product.append(val)
 
+            # Setting filter form with all default values other than the gender value, which will be determined by what is chosen
+            # on the home page ('Shop for Men' or 'Shop for Women')
             filter_form = FilterForm(
                 initial={'name': 'relevance', 'price': 'zero', 'gender': params['gender'], 'types': 'nothing', 'use': 'useless'})
 
+        # This case will be reached if the product page is reached without any filters or queries passed through urls
         else:
+            # Setting all default filter and sort settings.
             filter_form = FilterForm(
                 initial={'name': 'relevance', 'price': 'zero', 'gender': 'none', 'types': 'nothing', 'use': 'useless'})
             product = Product.objects.order_by('-inventory').all()

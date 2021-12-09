@@ -1,10 +1,14 @@
+# This file contains all forms used in the web app
+
 from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+# Form for all the sorting and filtering options on product page and search page
 class FilterForm(forms.Form):
 
-    # Setting choices
+    # Setting choices for users to choose from for each kind of input
+
     CHOICES = [
         ('relevance', 'Relevance'),
         ('popularity', 'Popularity'),
@@ -45,6 +49,8 @@ class FilterForm(forms.Form):
         ('sporty', 'Sporty'),
     ]
 
+    # Setting inputs and types of inputs
+
     name = forms.ChoiceField(
         choices=CHOICES, widget=forms.RadioSelect(
             attrs={'class': 'dropdown-item'}
@@ -63,6 +69,7 @@ class FilterForm(forms.Form):
         required=False, widget=forms.RadioSelect(attrs={'class': 'dropdown-item'}), choices=USES)
 
 
+# Form for collecting new addresses from users
 class newAddressForm (forms.Form):
     name = forms.CharField(max_length=100, required=True, label="Name", widget=forms.TextInput(
         attrs={'placeholder': 'Name of Address',
@@ -84,6 +91,7 @@ class newAddressForm (forms.Form):
                'class': 'form-control'}))
 
 
+# Form for collecting reviews from users
 class ReviewForm(forms.Form):
     rating = forms.IntegerField(label='Rating', widget=forms.NumberInput(
         attrs={'min': 1, 'max': '5', 'type': 'number',

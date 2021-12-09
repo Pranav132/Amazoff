@@ -33,8 +33,7 @@ class Tags(models.Model):
 class Product(models.Model):
 
     # will include a name field, title field, price, description field, inventory value
-    # tags for searching (not displayed), popularity for filtering purposes and a maximum of 6 images
-    # using JSONs as we can easily parse through them in javascript files
+    # tags for searching (not displayed), popularity for filtering purposes and a maximum of 6 images with one required image
 
     name = models.CharField("Name", max_length=120)
     price = models.DecimalField(
@@ -101,16 +100,17 @@ class Customer(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, blank=True)
 
-    # wishlist is diff model
-    # cart is diff model
-    # addresses is diff model
+    # wishlist is a different model
+    # cart is a different model
+    # addresses is different model
     # order history is a database query
-    # preferences done after category model is done
 
     def __str__(self):
         return self.user.username
 
 
+# Each user is assigned carts with their orders. At any point, a user can have only one cart with orderExecuted = False
+# but can have multiple with orderExecuted = True.
 class Cart(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     orderExecuted = models.BooleanField(default=False, null=True, blank=True)
@@ -133,6 +133,9 @@ class Cart(models.Model):
         quantity = sum([item.quant for item in cartitems])
         return quantity
 
+# Each product in the CartItem model has a cart ID associated with it, which tells us which user's particular cart the item
+# is in.
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
@@ -144,6 +147,8 @@ class CartItem(models.Model):
     def calcTotal(self):
         total = self.product.price * self.quant
         return total
+
+# Wishlist and WishlistItem work the same way as Cart and CartItem
 
 
 class Wishlist(models.Model):
@@ -177,8 +182,6 @@ class Addresses(models.Model):
     def __str__(self):
         return self.name
 
-# reviews and ratings database
-
 
 class ReviewsRatings(models.Model):
 
@@ -199,28 +202,3 @@ class completedOrders(models.Model):
     address = models.ForeignKey(
         Addresses, on_delete=models.SET_NULL, null=True)
     orderTime = models.DateTimeField(auto_now_add=True)
-
-
-'''
-class User(models.Model):
-
-    # includes phone number, email, username, saved addresses, password, wishlist
-
-    phone_number = models.CharField(
-        "Number", max_length=10, null=False)
-    email = models.EmailField("Email", max_length=254,
-                              null=False)
-    username = models.CharField(
-        "Username", max_length=50, null=False)
-
-    # Have to figure out password validator, google said we should use forms to store passwords
-
-    # password = models.CharField(
-    #     "Password", max_length=20, null=False)
-
-    # Wishlist will link to multiple products in the Product database instead of having the names.
-    # I THINK this is how we do it, please correct if I am wrong.
-
-    wishlist = models.ManyToManyField(
-        Product)
-'''

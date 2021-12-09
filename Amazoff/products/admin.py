@@ -3,6 +3,7 @@ from .models import Tags, Customer, Product, ReviewsRatings, User, Product_Categ
 
 
 # Register your models here.
+# This page is to make the models appear on the admin page so that the database can be viewed and edited as needed
 admin.site.register(Product)
 admin.site.register(ReviewsRatings)
 admin.site.register(Product_Categories)

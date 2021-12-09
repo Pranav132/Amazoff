@@ -1,29 +1,23 @@
-from .models import Product, Product_Categories, Tags, subcategories, Wishlist, WishlistItem, Cart
+# In order to pass databse items to the base layout HTML file, we use this file and pass the required variables
+# These functions are added to the settings.py file in order to make them accessible on the HTML template
 
+from .models import Wishlist, WishlistItem
 
-def autocomplete_processor(request):
-
-    products = Product.objects.all()
-    categories = Product_Categories.objects.all()
-    sub_categories = subcategories.objects.all()
-    product_tags = Tags.objects.all()
-    return {
-        "template_products": products,
-        "template_categories": categories,
-        "template_subcategories": sub_categories,
-        "template_tags": product_tags
-    }
+# This passes all the items in the wishlist to all pages. This is order to check whether or not a product is
+# in a user's wishlist and accordingly change the kind of wishlist icon.
 
 
 def wishlist_checker(request):
+
+    # initializing dictionary
     wishlistItems = {}
-    # print(request.user)
+
+    # we only want the items if the user is logged in, otherwise there is no wishlist to search through
     if request.user.is_authenticated:
         wishlist = Wishlist.objects.filter(user=request.user).first()
-        # print(wishlist.user)
-        # print(wishlist.id)
         wishlist_Items = WishlistItem.objects.filter(wishlist=wishlist)
-        # print(wishlist_Items)
+
+        # Setting a key-value pair for all items in the user's wishlist
         for item in wishlist_Items:
             wishlistItems[item.product.name] = True
 
