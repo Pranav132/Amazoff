@@ -17,6 +17,8 @@ for (var i = 0; i < updateBtns.length; i++) {
 		else{
 			updateUserOrder(productId, action)
 		}
+
+
 		
 	})
 }
@@ -46,6 +48,8 @@ function updateUserOrder(productId, action){
 			text: 'Cart has been updated successfully!',
 			footer: '<a href="/cart">Go to cart</a>'
 		  })
+		
 	});
 }
+
 

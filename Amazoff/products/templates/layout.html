@@ -91,7 +91,7 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'cart' %}" style="font-size:1.3em;"><i style="font-size:24px" class="fa">&#xf07a;</i></a>
+                  <a class="nav-link" href="{% url 'cart' %}" style="font-size:1.3em;"><i style="font-size:24px" class="fa">&#xf07a;</i>&nbsp;<span id="cart_len">{{cart_len}}</span></a>
                 </li>
                 {% else %}
                  <li class = "nav-item"><a class = "nav-link" href="{% provider_login_url 'google' %}" style="font-size:1.3em; color: #0099ff; text-decoration: underline;">Login With Google</a></li>
