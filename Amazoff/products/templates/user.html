@@ -26,6 +26,8 @@
         <a href="{% url 'newAddress' %}"><button type="button">Add a new address</button></a>
     </div> -->
 
+
+{% if addresses %}
     <h3 style="text-align:left; padding-top:5vh;
     font-size: 3vmax;
     text-transform: uppercase;
@@ -39,6 +41,17 @@
     {% endfor %}
     <a href="{% url 'newAddress' %}"><button type="button" class="btn btn-primary">Add new address</button></a>
     <br><br><br>
+    {% else %}
+    <h3 style="text-align:left; padding-top:5vh;
+    font-size: 3vmax;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;">No saved addresses</h3>
+     <a href="{% url 'newAddress' %}"><button type="button" class="btn btn-primary">Add new address</button></a>
+     <br><br><br>
+    {% endif %}
+
+
+    {% if orderHistory %}
     <h3 style="text-align:left; padding-top:5vh;
     font-size: 3vmax;
     text-transform: uppercase;
@@ -63,6 +76,13 @@
     </div>
     <br>
     {% endfor %}
+    {% else %}
+    <h3 style="text-align:left; padding-top:5vh;
+    font-size: 3vmax;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;">No Past Orders</h3>
+    <br>
+    {% endif %}
   
     <!-- <button onclick="myFunction('Demo2')" >Order History</button>
     <div id="Demo2" class="w3-container w3-hide">
@@ -99,11 +119,12 @@
         
     </div> -->
 
+
+    {% if reviews %}
     <h3 style="text-align:left; padding-top:5vh;
     font-size: 3vmax;
     text-transform: uppercase;
     font-family: 'Bebas Neue', sans-serif;">Your past reviews are:</h3>
-    {% if reviews %}
     {% for review in reviews %}
     <div class="rates">
       <div class="username" style="font-size:2em;">{{review.product.name}}</div>
@@ -120,7 +141,12 @@
     </div>
     <br>
     {% endfor %}
-    {% endif %}
+    {% else %}
+    <h3 style="text-align:left; padding-top:5vh;
+    font-size: 3vmax;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;">No Past Reviews</h3>
+  {% endif %}
     <hr>
     </div>
     
