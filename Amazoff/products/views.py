@@ -314,11 +314,18 @@ def product(request, product_id):
         avg = round(avg)
         for i in range(avg):
             stars[i] = 0
+
+    # This would print out the stars in -1 and 0 format and it would be reflected in the visibility of the stars
     print(stars)
 
+    # RECOMMENDATION ENGINE
+    # Declaring an empty list and a count variable to check the number of recommendations
     recommended_list = []
     count = 0
 
+    # First, we get all products with the same subcategory (which reflects the use case of the perfume: Everyday, Nightlife
+    # and Sporty) and couple that with the same tag as the viewed product (which reflects gender). Putting the recommendations
+    # in a list also removes the possibility of there being duplicates
     for sub in product.sub_categories.all():
         sub_id = subcategories.objects.get(id=sub.id)
         tag_id = Tags.objects.get(id=product.tags.first().id)
@@ -332,6 +339,9 @@ def product(request, product_id):
         print(count)
         print(recommended_list)
 
+    # In case the above parameters do not give us 6 reccommendations, the engine then tries to get recommendations on
+    # the basis of the category of the perfume (which referes to the type of the perfume: Eau de Toilette, Eau de Parfum and misc)
+    # and does the same thing as above.
     if count < 6:
         for cat in product.category.all():
             cat_id = Product_Categories.objects.get(id=cat.id)
@@ -353,12 +363,17 @@ def product(request, product_id):
 
 @login_required
 def UpdateItem(request):
+    # Using fetch, we send json data to the update item url. When the data reaches that url, this code parses that data
+    # to give us the information we need. This information comes from cart.js
     data = json.loads(request.body)
+
+    # Getting product ID and the action for that product
     productId = data['productId']
     action = data['action']
     print('Action:', action)
     print('Product:', productId)
 
+    # Mapping that action and that product to a particular customer in order to add to their cart
     customer = request.user
     print(customer)
     product = Product.objects.get(id=productId)
@@ -370,6 +385,7 @@ def UpdateItem(request):
         cart=order, product=product)[0]
     print(orderItem)
 
+    # Execution of action. Either adding or removing item from the cart
     if action == 'add':
         orderItem.quant = (orderItem.quant + 1)
         orderItem.save()
@@ -380,6 +396,7 @@ def UpdateItem(request):
     return JsonResponse('Item was added', safe=False)
 
 
+# The following wishlist code works the same way as the above update item code. The data comes from wishlist.js
 @login_required
 def UpdateWishlist(request):
     data = json.loads(request.body)
@@ -407,6 +424,7 @@ def UpdateWishlist(request):
     return JsonResponse('Item was added', safe=False)
 
 
+# The following code gets all data about a user from the databse and passes it to the user page html template.
 @login_required
 def user(request):
     user = request.user
