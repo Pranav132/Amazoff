@@ -222,9 +222,6 @@ def products(request):
             else:
                 product.append(val)
 
-        # for item in product:
-        #     print(item.price)
-
         return render(request, 'products.html', {"products": product, "filter_form": filter_form})
 
     # If the form has not been submitted and request method is GET, we execute the following code.
@@ -447,32 +444,32 @@ def user(request):
     return render(request, "user.html", {"user": user, "addresses": addresses, "orderHistory": orderHistory, "reviews": reviews, "checker": checker})
 
 
-@login_required
-def order(request, cart_id):
-    pass
-
-
+# review page
 def review(request, product_id):
     user = request.user
     ratings = ReviewsRatings.objects.filter(product=product_id).all()
     product = Product.objects.filter(id=product_id)[0]
     prod_id = product_id
+    # checker is used just to run a loop 5 times
     checker = [0, 0, 0, 0, 0]
     return render(request, "reviews.html", {"ratings": ratings, "checker": checker, "product_id": prod_id, "user": user, "product": product})
 
 
 @login_required
+# to delete a review
 def deleteReview(request, reviewsRatings_id):
     review = ReviewsRatings.objects.filter(id=reviewsRatings_id)
     print(review)
+    # if delete button posted
     if request.method == "POST":
         product_id = request.POST.get("product_id")
-        product = Product.objects.filter(id=product_id)
         review.delete()
+        # deleting review
         return redirect('review', product_id=product_id)
 
 
 @login_required
+# removing item from wishlist
 def deleteWishlistItem(request, wishlistItem_id):
     wishlist_id = Wishlist.objects.filter(user=request.user)[0]
     if request.method == "POST":
@@ -485,10 +482,10 @@ def deleteWishlistItem(request, wishlistItem_id):
 
 
 @login_required
+# removing item from cart
 def deleteCartItem(request, cartItem_id):
     cartitem_id = Cart.objects.filter(user=request.user)[0]
     if request.method == "POST":
-        print("hi")
         # Getting the user who is making the request
         product_id = request.POST.get("product_id")
         print("product_id")
@@ -500,15 +497,7 @@ def deleteCartItem(request, cartItem_id):
 
 
 @login_required
-def orderHistory(request):
-    user = request.user
-    orders = completedOrders.objects.filter(user=request.user).all()
-    return render(request, "orderhistory.html")
-
-    # prints the order history of the current customer
-
-
-@login_required
+# to make a new review
 def newReview(request, product_id):
     # importing all existing reviews and ratings
     # review form
@@ -517,6 +506,7 @@ def newReview(request, product_id):
         return render(request, "new_review.html", {"form": form, "product_id": product_id})
 
     if request.method == 'POST':
+        # cleaning data and adding to database
         user = request.user
         product = Product.objects.get(id=product_id)
         new_review = ReviewsRatings.objects.create(user=user, product=product)
@@ -704,19 +694,6 @@ def search(request):
         return render(request, 'product_search.html', {"product": product, "search": search, "filter_form": filter_form})
 
 
-def searchfilter(request):
-
-    # if request.method == 'POST'
-
-    pass
-    # return render(request, 'product_search.html', {"product": product, "search": search, "form": form, "filter_form": filter_form})
-
-
-def productfilter(request):
-    pass
-    # return render(request, 'product_search.html', {"product": product, "search": search, "form": form, "filter_form": filter_form})
-
-
 def contact(request):
     # to render the contact page
     return render(request, "contact.html")
@@ -757,9 +734,6 @@ def checkout(request):
                     product.save()
                     price_quant_totals.append(
                         [product.product.name, product.product.price * product.quant, product.quant])
-                    # price_totals[product.product.name] = (
-                    #     product.quant * product.product.price)
-                    # quant_totals.append([product.product.name, product.quant])
                 else:
                     # if not enough stock left, send an alert about stock and fix quant to max available
                     print('Not enough products, setting quantity to max avaiable')
@@ -768,10 +742,6 @@ def checkout(request):
                     product.save()
                     price_quant_totals.append(
                         [product.product.name, product.product.price * product.quant, product.quant])
-                    # price_totals[product.product.name] = (
-                    #     product.quant * product.product.price)
-                    # quant_totals.append([product.product.name, product.quant])
-                    # quant_totals[product.product.name] = product.quant
 
         # calculate the value and send to html page
         total_price = 0
@@ -787,17 +757,16 @@ def checkout(request):
 
     return render(request, "checkout.html", {"user": user, "price_quant_totals": price_quant_totals, "total_price": total_price, "total_quant": total_quant, "outofstock": outofstock, "user_addresses": user_addresses})
 
-    return HttpResponse("There seems to have been an error. Didn't account for you being an absolute moron")
-
 
 @login_required
 def newAddress(request):
-
+    # to add a new Address
     if request.method == 'GET':
         form = newAddressForm()
         return render(request, 'new_address.html', {"form": form})
 
     if request.method == 'POST':
+        # cleaning data and adding to database
         customer = Customer.objects.get(user=request.user)
         name = request.POST.get('name')
         addressLine1 = request.POST.get('addressLine1')
@@ -813,21 +782,25 @@ def newAddress(request):
 
 
 @login_required
+# to logout user
 def logoutuser(request):
     return render(request, "logoutuser.html")
 
 
 @login_required
+# confirming order
 def orderConfirmed(request):
     user = request.user
     customer = Customer.objects.get(user=user)
     current_cart = Cart.objects.get(user=user, orderExecuted=False)
     current_cart.orderExecuted = True
     current_cart.save()
+    # making current cart's order boolean true to signify that cart has been bought
     cart_items = CartItem.objects.filter(cart=current_cart.id)
     for product in cart_items:
         product.product.inventory = product.product.inventory-product.quant
         product.product.save()
+        # reducing inventory
     shippingaddress = request.POST.get('shippingaddress')
     paymentmethod = request.POST.get('paymentmethod')
     print(shippingaddress)
@@ -835,4 +808,5 @@ def orderConfirmed(request):
     addy = Addresses.objects.filter(
         name=shippingaddress, customer=customer)[0]
     completedOrders.objects.create(order=current_cart, address=addy)
+    # getting address and making a new item in completed orders
     return render(request, "orderconfirmed.html", {"user": user, "cart_items": cart_items, "shippingaddress": shippingaddress, "paymentmethod": paymentmethod, "current_cart": current_cart})

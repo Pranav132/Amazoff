@@ -14,19 +14,6 @@
 </div>
 <div class="allratings">
 
-  
-    <!-- <button onclick="myFunction('Demo1')">Address</button>
-    <div id="Demo1" class="w3-container w3-hide">
-        <h2>Your saved addresses are:</h2>
-        {% for address in addresses %}
-            <ul>
-            <li>{{ address.name }}</li>
-            </ul>
-        {% endfor %}
-        <a href="{% url 'newAddress' %}"><button type="button">Add a new address</button></a>
-    </div> -->
-
-
 {% if addresses %}
     <h3 style="text-align:left; padding-top:5vh;
     font-size: 3vmax;
@@ -83,42 +70,6 @@
     font-family: 'Bebas Neue', sans-serif;">No Past Orders</h3>
     <br>
     {% endif %}
-  
-    <!-- <button onclick="myFunction('Demo2')" >Order History</button>
-    <div id="Demo2" class="w3-container w3-hide">
-      {% for order in orderHistory %}
-      {% for eachorder in order %}
-      {% if forloop.counter0 == 0 %}
-        <h3>{{ eachorder }}</h3>
-      {% else %}
-          {% for item in eachorder %}
-            <h5>{{ item.product }}</h5>
-            <h5>{{ item.quant }}</h5>
-          {% endfor %}
-      {% endif %}
-        <h5> {{ eachorder.cartValue }}</h5>
-      {% endfor %}
-      {% endfor %}
-    </div>
-    <br> -->
-    
-    <!-- <button onclick="myFunction('Demo3')" >Reviews</button>
-    <div id="Demo3" class="w3-container w3-hide">
-        {% if reviews %}
-            {% for review in reviews %}
-            <ul>
-                <li>
-                    <h3>{{ review.product.name}}</h3>
-                    <h4>{{ review.review }}</h4>
-                </li>
-                </ul>
-            {% endfor %}
-        {% else %}
-            <p>You have not written any reviews yet!</p>
-        {% endif %}
-        
-    </div> -->
-
 
     {% if reviews %}
     <h3 style="text-align:left; padding-top:5vh;
@@ -149,15 +100,5 @@
   {% endif %}
     <hr>
     </div>
-    
-    <!-- <script>
-    function myFunction(id) {
-      var x = document.getElementById(id);
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-      } else { 
-        x.className = x.className.replace(" w3-show", "");
-      }
-    }
-    </script> -->
+
 {% endblock %}

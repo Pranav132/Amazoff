@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django.contrib.sites',
+    # google auth
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
                 # Adding new context processor for autocomplete functionality
                 # 'products.context_processors.autocomplete_processor',
                 'products.context_processors.wishlist_checker',
+                # context processor
             ],
         },
     },
@@ -144,6 +146,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
+# allauth access to link google
+
 SOCIALACCOUNT_PROVIDERS = \
     {
         'google': {
@@ -157,13 +161,11 @@ SOCIALACCOUNT_PROVIDERS = \
         },
     }
 
+# linking google for login and logout
+
 LOGIN_URL = '/accounts/google/login'
 
 SITE_ID = 3
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-# facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '316650733325218'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = '9346ca936feb181baedab1ecbaae776a'  # app key

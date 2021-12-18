@@ -1,3 +1,5 @@
+// javascript page for wishlist functions. Sends data from frontend to backend
+
 var updateBtns = document.getElementsByClassName('wishlist')
 
 for (var i = 0; i < updateBtns.length; i++) {

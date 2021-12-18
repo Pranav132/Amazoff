@@ -1,3 +1,5 @@
+// lightslider javascript
+
 (function ($, undefined) {
     'use strict';
     var defaults = {

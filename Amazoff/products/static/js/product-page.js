@@ -1,3 +1,5 @@
+// to start lightslider on product page
+
 // JavaScript Document
 $(document).ready(function() {
     $('#autoWidth').lightSlider({

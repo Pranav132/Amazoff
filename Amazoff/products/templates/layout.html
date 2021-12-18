@@ -72,11 +72,6 @@
           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
-                <!-- {% if user.is_authenticated %}
-                <li class="nav-item mr-auto"><a class="nav-link" href= "{% url 'user' %}" style = "font-size:1.5em;"><i class="bi bi-person-circle"></i></a></li>  
-                {% else %}
-                  <li class="nav-item mr-auto" style = "font-size:1.3em;"><a href="{% provider_login_url 'google' %}">Login</a></li> 
-                {% endif %} -->
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown" style = "font-size:1.3em;">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -111,7 +106,6 @@
               </form>
               {% if template_products %}
               {% for template_product in template_products %}
-              <!-- <h1>{{template_product.name}}</h1> -->
               {% endfor %}
               {% endif %}
             </div>
@@ -130,7 +124,6 @@
                   <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
               </ul>
               <p style= "color: #778da9ff; text-align: center; padding-top: 20px; text-decoration: underline;">Made by Angad, Aditya and Pranav</p>
-              <!-- <p class="copyright">Company Name © 2018</p> -->
           </footer>
         </div>
         {% endblock %}

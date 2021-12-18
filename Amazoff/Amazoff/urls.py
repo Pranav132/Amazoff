@@ -20,3 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('products.urls')),
 ]
+
+# including url for onlysmells app
